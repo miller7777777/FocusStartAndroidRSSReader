@@ -1,5 +1,9 @@
 package com.focusstart.miller777.focusstartandroidrssreader.net;
 
+import android.content.Context;
+import android.content.Intent;
+
+import com.focusstart.miller777.focusstartandroidrssreader.MainActivity;
 import com.focusstart.miller777.focusstartandroidrssreader.model.ItemModel;
 
 import java.util.ArrayList;
@@ -9,14 +13,25 @@ import java.util.List;
 public class NetHelper {
     //Объект класса загружает RSS ленту
 
+    private String baseRssUrl;
+    private Context context;
 
-    public NetHelper(String baseRssUrl) {
+
+    public NetHelper(String baseRssUrl, Context context) {
+
+        this.baseRssUrl = baseRssUrl;
+        this.context = context;
+
 
     }
 
 
     public String getRss() {
         //пока замокаем вывод
+
+        Intent intentDownloadService = new Intent(context, DownloadService.class);
+        intentDownloadService.putExtra("baseUrl", baseRssUrl);
+        context.startService(intentDownloadService);
 
         return "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n" +
                 "<rss version=\"2.0\">\n" +

@@ -1,8 +1,10 @@
 package com.focusstart.miller777.focusstartandroidrssreader;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,6 +12,7 @@ import android.widget.TextView;
 
 import com.focusstart.miller777.focusstartandroidrssreader.DAO.DBHelper;
 import com.focusstart.miller777.focusstartandroidrssreader.model.ItemModel;
+import com.focusstart.miller777.focusstartandroidrssreader.net.DownloadService;
 import com.focusstart.miller777.focusstartandroidrssreader.net.NetHelper;
 import com.focusstart.miller777.focusstartandroidrssreader.parsers.RssParser;
 
@@ -38,28 +41,38 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 baseRssUrl = etRSSUrl.getText().toString();
+                Log.d("TAG", "Кнопка нажата");
+                fetchData();
+
             }
         });
 
+
+
+    }
+
+    private void fetchData() {
         rssItems = new ArrayList<ItemModel>();
 
         //запрашиваем из сети список ItemModel
-        NetHelper netHelper = new NetHelper(baseRssUrl);
+        NetHelper netHelper = new NetHelper(baseRssUrl, this);
+        Log.d("TAG", "netHelper создан");
+        Log.d("TAG", "baseUrl = " + baseRssUrl);
+
         String rss = netHelper.getRss();
-
-        //парсим результат
-        RssParser parser = new RssParser(rss);
-        rssItems = parser.getRssItems();
-
-        //Записываем данные в базу
-        DBHelper dbHelper = new DBHelper();
-        dbHelper.write(rssItems);
-
-        //показывам данные
-        showData(rssItems);
+        Log.d("TAG", "Какие-то данные от netHelper получены");
 
 
-
+//        //парсим результат
+//        RssParser parser = new RssParser(rss);
+//        rssItems = parser.getRssItems();
+//
+//        //Записываем данные в базу
+//        DBHelper dbHelper = new DBHelper();
+//        dbHelper.write(rssItems);
+//
+//        //показывам данные
+//        showData(rssItems);
     }
 
     private void showData(List rssItems) {
