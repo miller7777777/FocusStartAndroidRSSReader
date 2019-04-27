@@ -1,5 +1,6 @@
 package com.focusstart.miller777.focusstartandroidrssreader;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,11 +28,15 @@ public class MainActivity extends AppCompatActivity {
     TextView label;
     String baseRssUrl;
     List rssItems;
+    Context appContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        appContext = getApplicationContext();
+
 
         recyclerView = findViewById(R.id.recyclerview);
         etRSSUrl = findViewById(R.id.et_rssURL);
@@ -55,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         rssItems = new ArrayList<ItemModel>();
 
         //запрашиваем из сети список ItemModel
-        NetHelper netHelper = new NetHelper(baseRssUrl, this);
+        NetHelper netHelper = new NetHelper(baseRssUrl, appContext);
         Log.d("TAG", "netHelper создан");
         Log.d("TAG", "baseUrl = " + baseRssUrl);
 
