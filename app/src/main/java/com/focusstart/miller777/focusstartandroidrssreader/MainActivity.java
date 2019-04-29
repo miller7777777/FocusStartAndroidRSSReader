@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     String baseRssUrl;
     List rssItems;
     DownloadServiceReceiver receiver;
+    String text;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +83,9 @@ public class MainActivity extends AppCompatActivity {
         Log.d("TAG", "netHelper создан");
         Log.d("TAG", "baseUrl = " + baseRssUrl);
         netHelper.processRss();
+        Toast.makeText(MainActivity.this, text, Toast.LENGTH_LONG).show();
+
+
 
 
 
@@ -111,7 +115,8 @@ public class MainActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             result = intent.getStringExtra(DownloadService.EXTRA_KEY_OUT);
             Log.d("TAG", "NetHelper: result = " + result);
-            Toast.makeText(MainActivity.this, result, Toast.LENGTH_LONG).show();
+//            Toast.makeText(MainActivity.this, result, Toast.LENGTH_LONG).show();
+            text = result;
         }
     }
 }
