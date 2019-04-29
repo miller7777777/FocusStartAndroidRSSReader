@@ -67,7 +67,7 @@ public class DownloadService extends IntentService {
             Intent responseIntent = new Intent();
             responseIntent.setAction(ACTION_DOWNLOADSERVICE);
             responseIntent.addCategory(Intent.CATEGORY_DEFAULT);
-            responseIntent.putExtra(EXTRA_KEY_OUT, extraOut);
+            responseIntent.putExtra(EXTRA_KEY_OUT, answer);
             sendBroadcast(responseIntent);
 
             reader.close();

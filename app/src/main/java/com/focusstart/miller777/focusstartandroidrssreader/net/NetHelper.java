@@ -6,60 +6,38 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.util.Log;
 
+import com.focusstart.miller777.focusstartandroidrssreader.App;
+
 
 public class NetHelper {
     //Объект класса загружает RSS ленту
 
     private String baseRssUrl;
-    private Context context;
 
 
 
 
-    public NetHelper(String baseRssUrl, Context context) {
+    public NetHelper(String baseRssUrl) {
 
         this.baseRssUrl = baseRssUrl;
-        this.context = context;
+
 
 
     }
 
 
-    public String getRss() {
+    public void processRss() {
         //пока замокаем вывод
 
 
 
 
-        Intent intentDownloadService = new Intent(context, DownloadService.class);
+        Intent intentDownloadService = new Intent(App.getContext(), DownloadService.class);
         intentDownloadService.putExtra("baseUrl", baseRssUrl);
-        context.startService(intentDownloadService);
+        App.getContext().startService(intentDownloadService);
 
 
-        DownloadServiceReceiver receiver = new DownloadServiceReceiver();
-
-        IntentFilter intentFilter = new IntentFilter(
-                DownloadService.ACTION_DOWNLOADSERVICE
-        );
-        intentFilter.addCategory(Intent.CATEGORY_DEFAULT);
-        context.registerReceiver(receiver, intentFilter);
-
-
-
-
-
-
-        return null;
     }
 
-    private class DownloadServiceReceiver extends BroadcastReceiver{
 
-        public String result;
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            result = intent.getStringExtra(DownloadService.EXTRA_KEY_OUT);
-            Log.d("TAG", "NetHelper: result = " + result);
-        }
-    }
 }

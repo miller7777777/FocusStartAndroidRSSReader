@@ -1,7 +1,9 @@
 package com.focusstart.miller777.focusstartandroidrssreader;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.focusstart.miller777.focusstartandroidrssreader.DAO.DBHelper;
 import com.focusstart.miller777.focusstartandroidrssreader.model.ItemModel;
@@ -28,14 +31,13 @@ public class MainActivity extends AppCompatActivity {
     TextView label;
     String baseRssUrl;
     List rssItems;
-    Context appContext;
+    DownloadServiceReceiver receiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        appContext = getApplicationContext();
 
 
         recyclerView = findViewById(R.id.recyclerview);
@@ -52,21 +54,37 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        receiver = new DownloadServiceReceiver();
+
+        IntentFilter intentFilter = new IntentFilter(
+                DownloadService.ACTION_DOWNLOADSERVICE
+        );
+        intentFilter.addCategory(Intent.CATEGORY_DEFAULT);
+        registerReceiver(receiver, intentFilter);
 
 
 
+
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(receiver);
     }
 
     private void fetchData() {
         rssItems = new ArrayList<ItemModel>();
 
         //запрашиваем из сети список ItemModel
-        NetHelper netHelper = new NetHelper(baseRssUrl, appContext);
+        NetHelper netHelper = new NetHelper(baseRssUrl);
         Log.d("TAG", "netHelper создан");
         Log.d("TAG", "baseUrl = " + baseRssUrl);
+        netHelper.processRss();
 
-        String rss = netHelper.getRss();
-        Log.d("TAG", "Какие-то данные от netHelper получены");
+
+
 
 
 //        //парсим результат
@@ -83,5 +101,17 @@ public class MainActivity extends AppCompatActivity {
 
     private void showData(List rssItems) {
         //вывод данных из базы в RecyclerView
+    }
+
+    private class DownloadServiceReceiver extends BroadcastReceiver {
+
+        public String result;
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            result = intent.getStringExtra(DownloadService.EXTRA_KEY_OUT);
+            Log.d("TAG", "NetHelper: result = " + result);
+            Toast.makeText(MainActivity.this, result, Toast.LENGTH_LONG).show();
+        }
     }
 }
