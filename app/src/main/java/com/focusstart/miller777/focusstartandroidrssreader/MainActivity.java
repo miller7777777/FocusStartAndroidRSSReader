@@ -14,7 +14,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.focusstart.miller777.focusstartandroidrssreader.DAO.DBHelper;
 import com.focusstart.miller777.focusstartandroidrssreader.model.ItemModel;
 import com.focusstart.miller777.focusstartandroidrssreader.net.DownloadService;
 import com.focusstart.miller777.focusstartandroidrssreader.net.NetHelper;
@@ -32,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     String baseRssUrl;
     List rssItems;
     DownloadServiceReceiver receiver;
-    String text;
+    String rssText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
     }
 
     @Override
@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d("TAG", "netHelper создан");
         Log.d("TAG", "baseUrl = " + baseRssUrl);
         netHelper.processRss();
-        Toast.makeText(MainActivity.this, text, Toast.LENGTH_LONG).show();
+        Toast.makeText(MainActivity.this, rssText, Toast.LENGTH_LONG).show(); //Для отладки
 
 
 
@@ -91,9 +91,9 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-//        //парсим результат
-//        RssParser parser = new RssParser(rss);
-//        rssItems = parser.getRssItems();
+
+
+
 //
 //        //Записываем данные в базу
 //        DBHelper dbHelper = new DBHelper();
@@ -116,7 +116,11 @@ public class MainActivity extends AppCompatActivity {
             result = intent.getStringExtra(DownloadService.EXTRA_KEY_OUT);
             Log.d("TAG", "NetHelper: result = " + result);
 //            Toast.makeText(MainActivity.this, result, Toast.LENGTH_LONG).show();
-            text = result;
+            rssText = result;
+
+            //парсим результат
+            RssParser parser = new RssParser(rssText);
+            rssItems = parser.getRssItems();
         }
     }
 }
