@@ -80,8 +80,8 @@ public class MainActivity extends AppCompatActivity {
 
         //запрашиваем из сети список ItemModel
         NetHelper netHelper = new NetHelper(baseRssUrl);
-        Log.d("TAG", "netHelper создан");
-        Log.d("TAG", "baseUrl = " + baseRssUrl);
+//        Log.d("TAG", "netHelper создан");
+//        Log.d("TAG", "baseUrl = " + baseRssUrl);
         netHelper.processRss();
         Toast.makeText(MainActivity.this, rssText, Toast.LENGTH_LONG).show(); //Для отладки
 
@@ -110,17 +110,33 @@ public class MainActivity extends AppCompatActivity {
     private class DownloadServiceReceiver extends BroadcastReceiver {
 
         public String result;
+        public List <ItemModel> rssItems;
 
         @Override
         public void onReceive(Context context, Intent intent) {
             result = intent.getStringExtra(DownloadService.EXTRA_KEY_OUT);
-            Log.d("TAG", "NetHelper: result = " + result);
+//            Log.d("TAG", "NetHelper: result = " + result);
 //            Toast.makeText(MainActivity.this, result, Toast.LENGTH_LONG).show();
             rssText = result;
 
             //парсим результат
             RssParser parser = new RssParser(rssText);
             rssItems = parser.getRssItems();
+
+            Log.d("TAG777", "Numbers of item: " + rssItems.size() + "");
+            Log.d("TAG777", "");
+            Log.d("TAG777", "");
+            Log.d("TAG777", "");
+
+//            for (int i = 0; i < rssItems.size(); i++) {
+//
+//                Log.d("TAG777", " ");
+//                Log.d("TAG777", "Item: " + i);
+//                Log.d("TAG777", "Title " + rssItems.get(i).toString());
+//                Log.d("TAG777", " ");
+//
+//
+//            }
         }
     }
 }

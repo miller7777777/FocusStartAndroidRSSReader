@@ -62,7 +62,7 @@ public class DownloadService extends IntentService {
             }
 
             String answer = buf.toString();
-            Log.d("TAG", "Данные = " + answer);
+//            Log.d("TAG", "Данные = " + answer);
 
             Intent responseIntent = new Intent();
             responseIntent.setAction(ACTION_DOWNLOADSERVICE);
