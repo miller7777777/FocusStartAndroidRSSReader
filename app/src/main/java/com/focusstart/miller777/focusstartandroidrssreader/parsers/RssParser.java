@@ -50,6 +50,7 @@ public class RssParser {
                 if(eventType == XmlPullParser.START_TAG){
 
                     ItemModel itemModel = new ItemModel();
+                    Log.d("TAG777", "Создан пустой item");
 
                     if(xpp.getName().equalsIgnoreCase("item")){
 
@@ -102,6 +103,7 @@ public class RssParser {
                     }
 
                     items.add(itemModel);
+                    Log.d("TAG777", "добавили item в List");
 
                 }
 
