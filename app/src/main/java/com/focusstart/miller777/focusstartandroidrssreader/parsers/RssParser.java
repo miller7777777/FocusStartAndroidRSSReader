@@ -43,18 +43,19 @@ public class RssParser {
             xpp.setInput(new StringReader(rss));
 
             boolean insideItem = false;
+            ItemModel itemModel = null;
 
             int eventType = xpp.getEventType();
 
             while (eventType != XmlPullParser.END_DOCUMENT){
                 if(eventType == XmlPullParser.START_TAG){
 
-                    ItemModel itemModel = new ItemModel();
-                    Log.d("TAG777", "Создан пустой item");
+                    
 
                     if(xpp.getName().equalsIgnoreCase("item")){
 
-
+                        itemModel = new ItemModel();
+                        Log.d("TAG777", "Создан пустой item");
 
                         insideItem = true;
 
@@ -102,13 +103,14 @@ public class RssParser {
                         }
                     }
 
-                    items.add(itemModel);
-                    Log.d("TAG777", "добавили item в List");
+
 
                 }
 
                 else if (eventType == XmlPullParser.END_TAG && xpp.getName().equalsIgnoreCase("item")){
                     insideItem = false;
+                    items.add(itemModel);
+                    Log.d("TAG777", "добавили item в List");
                 }
 
                 eventType = xpp.next();

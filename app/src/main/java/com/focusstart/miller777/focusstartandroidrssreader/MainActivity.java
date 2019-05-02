@@ -127,13 +127,19 @@ public class MainActivity extends AppCompatActivity {
             Log.d("TAG777", "");
             Log.d("TAG777", "");
             Log.d("TAG777", "");
+            Log.d("TAG777", "Item: " + rssItems.get(0).toString());
+//            Log.d("TAG777", "Item:"
+//                    + " " + rssItems.get(0).getTitle()
+//                    + " " + rssItems.get(0).getLink()
+//                    + " " + rssItems.get(0).getDescription()
+//                    + " " + rssItems.get(0).getPubDate());
 
 //            for (int i = 0; i < rssItems.size(); i++) {
 //
-//                Log.d("TAG777", " ");
-//                Log.d("TAG777", "Item: " + i);
-//                Log.d("TAG777", "Title " + rssItems.get(i).toString());
-//                Log.d("TAG777", " ");
+//                Log.d("TAG888", " ");
+//                Log.d("TAG888", "Item: " + i);
+//                Log.d("TAG888", "Title " + rssItems.get(i).toString());
+//                Log.d("TAG888", " ");
 //
 //
 //            }
