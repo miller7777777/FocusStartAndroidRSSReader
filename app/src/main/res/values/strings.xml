@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">FocusStartAndroidRSSReader</string>
+    <string name="subscribe_invitation">Enter the channel for subscribe:</string>
 </resources>

@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        recyclerView = findViewById(R.id.recyclerview);
+        recyclerView = findViewById(R.id.channelListRecyclerView);
         etRSSUrl = findViewById(R.id.et_rssURL);
         label = findViewById(R.id.label);
         btnFetchRss = findViewById(R.id.btn_fetchRss);
@@ -115,34 +115,15 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             result = intent.getStringExtra(DownloadService.EXTRA_KEY_OUT);
-//            Log.d("TAG", "NetHelper: result = " + result);
-//            Toast.makeText(MainActivity.this, result, Toast.LENGTH_LONG).show();
+
             rssText = result;
 
             //парсим результат
             RssParser parser = new RssParser(rssText);
             rssItems = parser.getRssItems();
 
-            Log.d("TAG777", "Numbers of item: " + rssItems.size() + "");
-            Log.d("TAG777", "");
-            Log.d("TAG777", "");
-            Log.d("TAG777", "");
-            Log.d("TAG777", "Item: " + rssItems.get(0).toString());
-//            Log.d("TAG777", "Item:"
-//                    + " " + rssItems.get(0).getTitle()
-//                    + " " + rssItems.get(0).getLink()
-//                    + " " + rssItems.get(0).getDescription()
-//                    + " " + rssItems.get(0).getPubDate());
 
-//            for (int i = 0; i < rssItems.size(); i++) {
-//
-//                Log.d("TAG888", " ");
-//                Log.d("TAG888", "Item: " + i);
-//                Log.d("TAG888", "Title " + rssItems.get(i).toString());
-//                Log.d("TAG888", " ");
-//
-//
-//            }
+
         }
     }
 }
