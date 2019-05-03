@@ -3,11 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/container"
+    android:id="@+id/channel_list_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".ChannelListActivity">
 
     <!--Пока кнопка для добавления RSS здесь-->
     <!--Потом будет вынесена куда-нибудь в SnackBar или NavigationDriver-->
@@ -16,7 +16,7 @@
 
     <!--TODO: Убрать TextView, вместо него обернуть EditText в TextInputLayout-->
     <TextView
-        android:id="@+id/label"
+        android:id="@+id/channel_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Enter RSS URL:"
@@ -33,34 +33,14 @@
         android:text="https://news.yandex.ru/internet.rss"
         />
 
-    <LinearLayout
-        android:id="@+id/button_container"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:orientation="horizontal"
-        android:layout_margin="4dp"
-        >
+    <Button
+        android:id="@+id/btn_subscribe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dip"
+        android:text="Subscribe"
+        />
 
-        <!--TODO: кнопка btn_fetchRss потом отсюда уберется, пока она нужна для отладки-->
-        <Button
-            android:id="@+id/btn_fetchRss"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dip"
-            android:text="Fetch Rss"
-            android:layout_weight="1"/>
-
-        <Button
-            android:id="@+id/btn_subscribe"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dip"
-            android:text="Subscribe"
-            android:layout_gravity="end"
-            android:layout_weight="1"/>
-
-
-    </LinearLayout>
 
 
 

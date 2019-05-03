@@ -1,5 +1,6 @@
 package com.focusstart.miller777.focusstartandroidrssreader;
 
+import android.app.ListActivity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -10,8 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.focusstart.miller777.focusstartandroidrssreader.model.ItemModel;
@@ -22,51 +21,48 @@ import com.focusstart.miller777.focusstartandroidrssreader.parsers.RssParser;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class NewsListActivity extends AppCompatActivity {
 
-    RecyclerView recyclerView;
-    EditText etRSSUrl;
+    RecyclerView NewsListRecyclerView;
     Button btnFetchRss;
-    TextView label;
+    DownloadServiceReceiver receiver;
     String baseRssUrl;
     List rssItems;
-    DownloadServiceReceiver receiver;
     String rssText;
+
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_news_list);
 
+        Intent activityIntent = getIntent();
+        baseRssUrl = activityIntent.getStringExtra("CHANNEL_RSS_URL");
+        Log.d("TAG888", "baseRssUrl = " + baseRssUrl);
 
-
-        recyclerView = findViewById(R.id.channelListRecyclerView);
-        etRSSUrl = findViewById(R.id.et_rssURL);
-        label = findViewById(R.id.label);
         btnFetchRss = findViewById(R.id.btn_fetchRss);
+
         btnFetchRss.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                baseRssUrl = etRSSUrl.getText().toString();
-                Log.d("TAG", "Кнопка нажата");
+                Log.d("TAG888", "Кнопка нажата");
                 fetchData();
 
             }
         });
 
-        receiver = new DownloadServiceReceiver();
+
+        receiver = new NewsListActivity.DownloadServiceReceiver();
 
         IntentFilter intentFilter = new IntentFilter(
                 DownloadService.ACTION_DOWNLOADSERVICE
         );
         intentFilter.addCategory(Intent.CATEGORY_DEFAULT);
         registerReceiver(receiver, intentFilter);
-
-
-
-
-
-
     }
 
     @Override
@@ -83,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
 //        Log.d("TAG", "netHelper создан");
 //        Log.d("TAG", "baseUrl = " + baseRssUrl);
         netHelper.processRss();
-        Toast.makeText(MainActivity.this, rssText, Toast.LENGTH_LONG).show(); //Для отладки
+        Toast.makeText(NewsListActivity.this, rssText, Toast.LENGTH_LONG).show(); //Для отладки
 
 
 
@@ -103,14 +99,11 @@ public class MainActivity extends AppCompatActivity {
 //        showData(rssItems);
     }
 
-    private void showData(List rssItems) {
-        //вывод данных из базы в RecyclerView
-    }
-
     private class DownloadServiceReceiver extends BroadcastReceiver {
 
         public String result;
-        public List <ItemModel> rssItems;
+        public List<ItemModel> rssItems;
+        String rssText;
 
         @Override
         public void onReceive(Context context, Intent intent) {
