@@ -26,7 +26,6 @@ public class ChannelListActivity extends AppCompatActivity {
 
     RecyclerView ChannelListecyclerView;
     EditText etRSSUrl;
-    Button btnFetchRss;
     Button btnSubscribe;
     TextView label;
     String baseRssUrl;
@@ -38,22 +37,11 @@ public class ChannelListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_channel_list);
 
 
-
         ChannelListecyclerView = findViewById(R.id.channelListRecyclerView);
         etRSSUrl = findViewById(R.id.et_rssURL);
         label = findViewById(R.id.channel_label);
         baseRssUrl = etRSSUrl.getText().toString();
 
-//        btnFetchRss = findViewById(R.id.btn_fetchRss);
-//        btnFetchRss.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                baseRssUrl = etRSSUrl.getText().toString();
-//                Log.d("TAG", "Кнопка нажата");
-//                fetchData();
-//
-//            }
-//        });
 
         btnSubscribe = findViewById(R.id.btn_subscribe);
         btnSubscribe.setOnClickListener(new View.OnClickListener() {
@@ -64,67 +52,5 @@ public class ChannelListActivity extends AppCompatActivity {
                 startActivity(newsListActivityIntent);
             }
         });
-
-
-
-
-
-
-
-
     }
-
-
-
-//    private void fetchData() {
-//        rssItems = new ArrayList<ItemModel>();
-//
-//        //запрашиваем из сети список ItemModel
-//        NetHelper netHelper = new NetHelper(baseRssUrl);
-////        Log.d("TAG", "netHelper создан");
-////        Log.d("TAG", "baseUrl = " + baseRssUrl);
-//        netHelper.processRss();
-//        Toast.makeText(ChannelListActivity.this, rssText, Toast.LENGTH_LONG).show(); //Для отладки
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-////
-////        //Записываем данные в базу
-////        DBHelper dbHelper = new DBHelper();
-////        dbHelper.write(rssItems);
-////
-////        //показывам данные
-////        showData(rssItems);
-//    }
-
-//    private void showData(List rssItems) {
-//        //вывод данных из базы в RecyclerView
-//    }
-
-//    private class DownloadServiceReceiver extends BroadcastReceiver {
-//
-//        public String result;
-//        public List <ItemModel> rssItems;
-//
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-//            result = intent.getStringExtra(DownloadService.EXTRA_KEY_OUT);
-//
-//            rssText = result;
-//
-//            //парсим результат
-//            RssParser parser = new RssParser(rssText);
-//            rssItems = parser.getRssItems();
-//
-//
-//
-//        }
-//    }
 }

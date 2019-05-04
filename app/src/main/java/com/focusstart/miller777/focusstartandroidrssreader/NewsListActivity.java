@@ -31,10 +31,6 @@ public class NewsListActivity extends AppCompatActivity {
     String rssText;
 
 
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,19 +38,17 @@ public class NewsListActivity extends AppCompatActivity {
 
         Intent activityIntent = getIntent();
         baseRssUrl = activityIntent.getStringExtra("CHANNEL_RSS_URL");
-        Log.d("TAG888", "baseRssUrl = " + baseRssUrl);
+        Log.d("TAG777", "NewsListActivity (из интента): baseRssUrl = " + baseRssUrl);
 
         btnFetchRss = findViewById(R.id.btn_fetchRss);
 
         btnFetchRss.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("TAG888", "Кнопка нажата");
+                Log.d("TAG777", "NewsListActivity: Кнопка нажата");
                 fetchData();
-
             }
         });
-
 
         receiver = new NewsListActivity.DownloadServiceReceiver();
 
@@ -76,18 +70,7 @@ public class NewsListActivity extends AppCompatActivity {
 
         //запрашиваем из сети список ItemModel
         NetHelper netHelper = new NetHelper(baseRssUrl);
-//        Log.d("TAG", "netHelper создан");
-//        Log.d("TAG", "baseUrl = " + baseRssUrl);
         netHelper.processRss();
-        Toast.makeText(NewsListActivity.this, rssText, Toast.LENGTH_LONG).show(); //Для отладки
-
-
-
-
-
-
-
-
 
 
 //
@@ -114,8 +97,8 @@ public class NewsListActivity extends AppCompatActivity {
             //парсим результат
             RssParser parser = new RssParser(rssText);
             rssItems = parser.getRssItems();
-
-
+            Log.d("TAG777", "NewsListActivity: onReceive(): rssItems.size() = " + rssItems.size());
+            Toast.makeText(NewsListActivity.this, rssText, Toast.LENGTH_LONG).show(); //Для отладки
 
         }
     }

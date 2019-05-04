@@ -15,10 +15,9 @@ import java.net.URL;
 
 public class DownloadService extends IntentService {
 
-    public static final String ACTION_DOWNLOADSERVICE =  "com.focusstart.miller777.focusstartandroidrssreader.net.RESPONCE";
+    public static final String ACTION_DOWNLOADSERVICE = "com.focusstart.miller777.focusstartandroidrssreader.net.RESPONCE";
     public static final String EXTRA_KEY_OUT = "EXTRA_OUT";
     String extraOut = "данные загружены из сети";
-
 
 
     public DownloadService() {
@@ -37,12 +36,9 @@ public class DownloadService extends IntentService {
         String url = intent.getStringExtra("baseUrl");
         Log.d("TAG", "baseurl (service) = " + url);
         getData(url);
-
-
-
     }
 
-    private String getData(String path){
+    private String getData(String path) {
         BufferedReader reader = null;
         Log.d("TAG", "Получаем данные из сети");
 
@@ -92,6 +88,4 @@ public class DownloadService extends IntentService {
 
         return null;
     }
-
-
 }

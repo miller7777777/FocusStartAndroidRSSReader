@@ -34,7 +34,6 @@ public class RssParser {
     public List getRssItems() {
 
 
-
         try {
             XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
             factory.setNamespaceAware(false);
@@ -47,22 +46,20 @@ public class RssParser {
 
             int eventType = xpp.getEventType();
 
-            while (eventType != XmlPullParser.END_DOCUMENT){
-                if(eventType == XmlPullParser.START_TAG){
+            while (eventType != XmlPullParser.END_DOCUMENT) {
+                if (eventType == XmlPullParser.START_TAG) {
 
-                    
 
-                    if(xpp.getName().equalsIgnoreCase("item")){
+                    if (xpp.getName().equalsIgnoreCase("item")) {
 
                         itemModel = new ItemModel();
                         Log.d("TAG777", "Создан пустой item");
 
                         insideItem = true;
 
-                    }
-                    else if(xpp.getName().equalsIgnoreCase("title")){
+                    } else if (xpp.getName().equalsIgnoreCase("title")) {
 
-                        if(insideItem){
+                        if (insideItem) {
 
                             String title = xpp.nextText();
                             itemModel.setTitle(title);
@@ -70,27 +67,24 @@ public class RssParser {
 
 
                         }
-                    }
-                    else if(xpp.getName().equalsIgnoreCase("link")){
-                        if(insideItem){
+                    } else if (xpp.getName().equalsIgnoreCase("link")) {
+                        if (insideItem) {
 
                             String link = xpp.nextText();
                             itemModel.setLink(link);
                             Log.d("TAG777", "Link = " + link);
 
                         }
-                    }
-                    else if(xpp.getName().equalsIgnoreCase("description")){
-                        if(insideItem){
+                    } else if (xpp.getName().equalsIgnoreCase("description")) {
+                        if (insideItem) {
 
                             String description = xpp.nextText();
                             itemModel.setDescription(description);
                             Log.d("TAG777", "Description = " + description);
 
                         }
-                    }
-                    else if(xpp.getName().equalsIgnoreCase("pubDate")){
-                        if(insideItem){
+                    } else if (xpp.getName().equalsIgnoreCase("pubDate")) {
+                        if (insideItem) {
 
                             String pubDate = xpp.nextText();
                             itemModel.setPubDate(pubDate);
@@ -98,16 +92,10 @@ public class RssParser {
                             Log.d("TAG777", " ");
                             Log.d("TAG777", " ");
                             Log.d("TAG777", " ");
-
-
                         }
                     }
 
-
-
-                }
-
-                else if (eventType == XmlPullParser.END_TAG && xpp.getName().equalsIgnoreCase("item")){
+                } else if (eventType == XmlPullParser.END_TAG && xpp.getName().equalsIgnoreCase("item")) {
                     insideItem = false;
                     items.add(itemModel);
                     Log.d("TAG777", "добавили item в List");
@@ -116,13 +104,9 @@ public class RssParser {
                 eventType = xpp.next();
             }
 
-
-
         } catch (XmlPullParserException | IOException e) {
             e.printStackTrace();
         }
-
-
         return items;
     }
 }

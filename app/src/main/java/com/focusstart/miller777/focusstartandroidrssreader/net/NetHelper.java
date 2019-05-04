@@ -14,30 +14,17 @@ public class NetHelper {
 
     private String baseRssUrl;
 
-
-
-
     public NetHelper(String baseRssUrl) {
 
         this.baseRssUrl = baseRssUrl;
-
-
-
     }
 
 
     public void processRss() {
         //пока замокаем вывод
 
-
-
-
         Intent intentDownloadService = new Intent(App.getContext(), DownloadService.class);
         intentDownloadService.putExtra("baseUrl", baseRssUrl);
         App.getContext().startService(intentDownloadService);
-
-
     }
-
-
 }

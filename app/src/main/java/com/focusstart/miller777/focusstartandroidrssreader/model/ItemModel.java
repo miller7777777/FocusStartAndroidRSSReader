@@ -1,9 +1,5 @@
 package com.focusstart.miller777.focusstartandroidrssreader.model;
 
-import android.util.Log;
-
-import java.text.SimpleDateFormat;
-
 public class ItemModel {
 
     //Объект дата-класса: новость. Элемент RSS-ленты
@@ -60,13 +56,8 @@ public class ItemModel {
     @Override
     public String toString() {
 
-//        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/YYYY - hh:mm:ss");
-        //todo: учет часового пояса пользователя?
 
-//        String result = getTitle() + "  ( " + sdf.format(this.getPubDate()) + " )";
         String result = this.getTitle() + "  ( " + this.getPubDate() + " )";
-//        Log.d("TAG777", " ItemModel.toString = " + result);
-
 
         return result;
     }
