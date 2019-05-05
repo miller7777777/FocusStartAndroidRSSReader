@@ -2,6 +2,7 @@ package com.focusstart.miller777.focusstartandroidrssreader.parsers;
 
 import android.util.Log;
 
+import com.focusstart.miller777.focusstartandroidrssreader.model.ChannelModel;
 import com.focusstart.miller777.focusstartandroidrssreader.model.ItemModel;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -20,12 +21,16 @@ import java.util.List;
 public class RssParser {
     String rss;
     List<ItemModel> items;
+    ChannelModel channel;
 
     public RssParser(String rss) {
 
         this.rss = rss;
         items = new ArrayList<ItemModel>();
+//        channel = new ChannelModel("test", "test", "test", "test");
+
         Log.d("TAG777", "Создан объект парсера ");
+
 
     }
 
@@ -108,5 +113,85 @@ public class RssParser {
             e.printStackTrace();
         }
         return items;
+    }
+
+    public ChannelModel getChannel() {
+
+        try {
+            XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+            factory.setNamespaceAware(false);
+
+            XmlPullParser xpp = factory.newPullParser();
+            xpp.setInput(new StringReader(rss));
+
+            boolean insideItem = false;
+
+
+
+            int eventType = xpp.getEventType();
+
+            while (eventType != XmlPullParser.END_DOCUMENT) {
+                if (eventType == XmlPullParser.START_TAG) {
+
+
+                    if (xpp.getName().equalsIgnoreCase("channel")) {
+
+                        channel = new ChannelModel("", "", "", "");
+                        Log.d("TAG777", "Создан пустой channel");
+
+                        insideItem = true;
+
+                    } else if (xpp.getName().equalsIgnoreCase("title")) {
+
+                        if (insideItem && channel.getTitle().isEmpty()) {
+
+                            String title = xpp.nextText();
+                            channel.setTitle(title);
+                            Log.d("TAG777", "Channel Title = " + title);
+
+
+                        }
+                    } else if (xpp.getName().equalsIgnoreCase("link")) {
+                        if (insideItem && channel.getLink().isEmpty()) {
+
+                            String link = xpp.nextText();
+                            channel.setLink(link);
+                            Log.d("TAG777", "Channel Link = " + link);
+
+                        }
+                    } else if (xpp.getName().equalsIgnoreCase("description")) {
+                        if (insideItem && channel.getDescription().isEmpty()) {
+
+                            String description = xpp.nextText();
+                            channel.setDescription(description);
+                            Log.d("TAG777", "Channel Description = " + description);
+
+                        }
+                    } else if (xpp.getName().equalsIgnoreCase("lastBuildDate")) {
+                        if (insideItem && channel.getLastBuildDate().isEmpty()) {
+
+                            String lastBuildDate = xpp.nextText();
+                            channel.setLastBuildDate(lastBuildDate);
+                            Log.d("TAG777", "Channel PubDate = " + lastBuildDate);
+                            Log.d("TAG777", " ");
+                            Log.d("TAG777", " ");
+                            Log.d("TAG777", " ");
+                            Log.d("TAG777", "Создали Channel: " + channel.toString());
+                            return channel;
+                        }
+                    }
+
+                } else if (eventType == XmlPullParser.END_TAG && xpp.getName().equalsIgnoreCase("channel")) {
+                    insideItem = false;
+
+                }
+
+                eventType = xpp.next();
+            }
+
+        } catch (XmlPullParserException | IOException e) {
+            e.printStackTrace();
+        }
+        return channel;
     }
 }
