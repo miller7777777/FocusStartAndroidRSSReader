@@ -2,6 +2,7 @@ package com.focusstart.miller777.focusstartandroidrssreader.DAO;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
@@ -29,32 +30,58 @@ public class DataBase {
         DBChannelHelper dbChannelHelper = new DBChannelHelper();
         SQLiteDatabase db = dbChannelHelper.getWritableDatabase();
 
-        db.beginTransaction();
+        //Проверка: есть ли в базе канал с таким link
+        if (!checkDBContainsChannelWithLink(db, channel.getTitle(), channel)){
 
-        ContentValues cv = new ContentValues();
-        cv.put(ChannelContract.ChannelEntry.COLUMN_TITLE, channel.getTitle());
-        cv.put(ChannelContract.ChannelEntry.COLUMN_LINK, channel.getLink());
-        cv.put(ChannelContract.ChannelEntry.COLUMN_DESCRIPTION, channel.getDescription());
-        cv.put(ChannelContract.ChannelEntry.COLUMN_LASTBUILDDATE, channel.getLastBuildDate());
+            db.beginTransaction();
+
+            ContentValues cv = new ContentValues();
+            cv.put(ChannelContract.ChannelEntry.COLUMN_TITLE, channel.getTitle());
+            cv.put(ChannelContract.ChannelEntry.COLUMN_LINK, channel.getLink());
+            cv.put(ChannelContract.ChannelEntry.COLUMN_DESCRIPTION, channel.getDescription());
+            cv.put(ChannelContract.ChannelEntry.COLUMN_LASTBUILDDATE, channel.getLastBuildDate());
 
 //        int isUpdated = db.update(ChannelContract.ChannelEntry.TABLE_NAME,
-////                cv,
-////                ChannelContract.ChannelEntry.COLUMN_TITLE + " =?",
-////                new String[] {channel.getTitle()});
+//                cv,
+//                ChannelContract.ChannelEntry.COLUMN_TITLE + " =?",
+//                new String[] {channel.getTitle()});
 
-        db.insert(ChannelContract.ChannelEntry.TABLE_NAME, null, cv);
+            db.insert(ChannelContract.ChannelEntry.TABLE_NAME, null, cv);
 
 //        if (isUpdated <= 0) {
 //            long isInserted = db.insertWithOnConflict(ChannelContract.ChannelEntry.COLUMN_TITLE, null, cv,
 //                    SQLiteDatabase.CONFLICT_REPLACE);
 //        }
 
-        db.setTransactionSuccessful();
-        db.endTransaction();
+            db.setTransactionSuccessful();
+            db.endTransaction();
 
-        Log.d(TAG, "Данные записаны");
+            Log.d(TAG, "Данные записаны");
 
-        db.close();
-        dbChannelHelper.close();
+            db.close();
+            dbChannelHelper.close();
+        }
+
+
+    }
+
+    private boolean checkDBContainsChannelWithLink(SQLiteDatabase db, String title, ChannelModel channel) {
+
+        boolean result = false;
+
+//        Log.d(TAG, "Создаем курсор");
+//        Cursor cursor = db.query(ChannelContract.ChannelEntry.TABLE_NAME, new String[] {ChannelContract.ChannelEntry.COLUMN_LINK},
+//                ChannelContract.ChannelEntry.COLUMN_LINK + " = " + channel.getLink(),
+//                null,null,null,null);
+//
+//        if (cursor != null && cursor.getCount() > 0) {
+//            result = true; //в базе есть канал с таким link
+//            Log.d(TAG, "Проверка: в базе есть канал с таким link");
+//        }else {
+//            Log.d(TAG, "Проверка: в базе нет канала с таким link");
+//
+//        }
+
+        return result;
     }
 }

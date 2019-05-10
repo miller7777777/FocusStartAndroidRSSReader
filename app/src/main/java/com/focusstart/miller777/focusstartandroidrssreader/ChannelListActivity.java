@@ -51,7 +51,7 @@ public class ChannelListActivity extends AppCompatActivity {
         ChannelListecyclerView = findViewById(R.id.channelListRecyclerView);
         etRSSUrl = findViewById(R.id.et_rssURL);
         label = findViewById(R.id.channel_label);
-        baseRssUrl = etRSSUrl.getText().toString();
+
 
 
 
@@ -61,6 +61,7 @@ public class ChannelListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.d("TAG777", "кнопка нажата");
+                baseRssUrl = etRSSUrl.getText().toString();
 
 
 
