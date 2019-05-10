@@ -15,6 +15,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.focusstart.miller777.focusstartandroidrssreader.DAO.DBChannelHelper;
+import com.focusstart.miller777.focusstartandroidrssreader.DAO.DataBase;
 import com.focusstart.miller777.focusstartandroidrssreader.model.ChannelModel;
 import com.focusstart.miller777.focusstartandroidrssreader.model.ItemModel;
 import com.focusstart.miller777.focusstartandroidrssreader.net.DownloadService;
@@ -66,7 +68,7 @@ public class ChannelListActivity extends AppCompatActivity {
                 NetHelper netHelper = new NetHelper(baseRssUrl);
                 netHelper.processRss();
 
-                //Здесь добавляем канал в БД
+               
 
 
 //                  Здесь код пока закомментирован, он будет перенесен в oNItemClickListener()
@@ -116,10 +118,19 @@ public class ChannelListActivity extends AppCompatActivity {
             RssParser parser = new RssParser(rssText);
             channel = parser.getChannel();
             channels.add(channel);
+            
+//            writeToDb(channel);
+            DataBase dataBase = new DataBase();
+            dataBase.writeToDB(channel);
 
             Log.d("TAG777", "ChannelListActivity: onReceive(): channel = " + channel.toString());
             Toast.makeText(ChannelListActivity.this, channel.toString(), Toast.LENGTH_LONG).show(); //Для отладки
 
         }
+    }
+
+    private void writeToDb(ChannelModel channel) {
+        DataBase dataBase = new DataBase();
+        dataBase.writeToDB(channel);
     }
 }

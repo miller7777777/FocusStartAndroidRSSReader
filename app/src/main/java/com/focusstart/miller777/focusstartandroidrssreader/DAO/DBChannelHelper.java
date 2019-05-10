@@ -3,16 +3,20 @@ package com.focusstart.miller777.focusstartandroidrssreader.DAO;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.focusstart.miller777.focusstartandroidrssreader.App;
 import com.focusstart.miller777.focusstartandroidrssreader.DAO.ChannelContract;
+import com.focusstart.miller777.focusstartandroidrssreader.model.ChannelModel;
 
-public class DBHelper extends SQLiteOpenHelper {
+public class DBChannelHelper extends SQLiteOpenHelper {
 
+    private  Context context = App.getContext();
     private static final String DATABASE_NAME = "channels.db";
     private static final int DATABASE_VERSION = 1;
 
 
-    public DBHelper(Context context, String name) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    public DBChannelHelper() {
+        super(App.getContext(), DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
@@ -20,10 +24,10 @@ public class DBHelper extends SQLiteOpenHelper {
 
        String SQL_CREATE_CHANNELS_TABLE = "CREATE TABLE " + ChannelContract.ChannelEntry.TABLE_NAME + "("
                + ChannelContract.ChannelEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-               + ChannelContract.ChannelEntry.COLUMN_TITLE + " TEXT NOT NULL, "
-               + ChannelContract.ChannelEntry.COLUMN_LINK + " TEXT NOT NULL, "
-               + ChannelContract.ChannelEntry.COLUMN_DESCRIPTION + " TEXT NOT NULL, "
-               + ChannelContract.ChannelEntry.COLUMN_LASTBUILDDATE + " TEXT NOT NULL);";
+               + ChannelContract.ChannelEntry.COLUMN_TITLE + " TEXT, "
+               + ChannelContract.ChannelEntry.COLUMN_LINK + " TEXT, "
+               + ChannelContract.ChannelEntry.COLUMN_DESCRIPTION + " TEXT, "
+               + ChannelContract.ChannelEntry.COLUMN_LASTBUILDDATE + " TEXT);";
 
        db.execSQL(SQL_CREATE_CHANNELS_TABLE);
     }

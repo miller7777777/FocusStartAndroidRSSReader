@@ -75,7 +75,7 @@ public class NewsListActivity extends AppCompatActivity {
 
 //
 //        //Записываем данные в базу
-//        DBHelper dbHelper = new DBHelper();
+//        DBChannelHelper dbHelper = new DBChannelHelper();
 //        dbHelper.write(rssItems);
 //
 //        //показывам данные
