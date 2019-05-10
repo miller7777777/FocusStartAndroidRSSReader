@@ -84,6 +84,8 @@ public class DownloadService extends IntentService {
                     e.printStackTrace();
                 }
             }
+
+            stopSelf();
         }
 
         return null;
