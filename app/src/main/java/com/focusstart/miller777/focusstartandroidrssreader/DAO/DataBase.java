@@ -17,7 +17,7 @@ public class DataBase {
 
     private DBChannelHelper dbChannelHelper;
     private Context context;
-    private ChannelModel channel;
+//    private ChannelModel channel;
 
     public DataBase() {
         this.context = App.getContext();
@@ -31,7 +31,7 @@ public class DataBase {
         SQLiteDatabase db = dbChannelHelper.getWritableDatabase();
 
         //Проверка: есть ли в базе канал с таким link
-        if (!checkDBContainsChannelWithLink(db, channel.getLink(), channel)){
+        if (!checkDBContainsChannelWithLink(db, channel.getLink())){
 
             db.beginTransaction();
 
@@ -65,12 +65,12 @@ public class DataBase {
 
     }
 
-    private boolean checkDBContainsChannelWithLink(SQLiteDatabase db, String title, ChannelModel channel) {
+    private boolean checkDBContainsChannelWithLink(SQLiteDatabase db, String title) {
 
         boolean result = false;
 
         Log.d(TAG, "Создаем курсор");
-        Log.d(TAG, "channel.getLink() = " + channel.getLink());
+//        Log.d(TAG, "channel.getLink() = " + channel.getLink());
         Log.d(TAG, "title = " + title);
 
         Cursor c = db.query(ChannelContract.ChannelEntry.TABLE_NAME, null, null, null, null, null, null);

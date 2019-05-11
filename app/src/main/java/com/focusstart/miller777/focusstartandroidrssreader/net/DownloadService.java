@@ -85,7 +85,7 @@ public class DownloadService extends IntentService {
                 }
             }
 
-            stopSelf();
+//            stopSelf();
         }
 
         return null;

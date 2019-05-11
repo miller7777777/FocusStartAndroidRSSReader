@@ -38,6 +38,9 @@ public class ChannelListActivity extends AppCompatActivity {
     ChannelModel channel;
     List<ChannelModel> channels;
 
+    public static final String TAG = ChannelListActivity.class.getSimpleName();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,8 +84,17 @@ public class ChannelListActivity extends AppCompatActivity {
             }
         });
 
+
+
+
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+
         receiver = new DownloadServiceReceiver();
-                    Log.d("TAG777", "Receiver создан");
+        Log.d("TAG777", "Receiver создан");
 
 
         IntentFilter intentFilter = new IntentFilter(
@@ -90,8 +102,7 @@ public class ChannelListActivity extends AppCompatActivity {
         );
         intentFilter.addCategory(Intent.CATEGORY_DEFAULT);
         registerReceiver(receiver, intentFilter);
-        Log.d("TAG777", "Receiver зарегистрирован");
-
+        Log.d(TAG, "Receiver зарегистрирован");
 
     }
 
@@ -99,6 +110,8 @@ public class ChannelListActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         unregisterReceiver(receiver);
+        Log.d(TAG, "Receiver разрегистрирован");
+
     }
 
     private class DownloadServiceReceiver extends BroadcastReceiver {
