@@ -31,7 +31,7 @@ public class DataBase {
         SQLiteDatabase db = dbChannelHelper.getWritableDatabase();
 
         //Проверка: есть ли в базе канал с таким link
-        if (!checkDBContainsChannelWithLink(db, channel.getTitle(), channel)){
+        if (!checkDBContainsChannelWithLink(db, channel.getLink(), channel)){
 
             db.beginTransaction();
 
@@ -69,10 +69,46 @@ public class DataBase {
 
         boolean result = false;
 
-//        Log.d(TAG, "Создаем курсор");
+        Log.d(TAG, "Создаем курсор");
+        Log.d(TAG, "channel.getLink() = " + channel.getLink());
+        Log.d(TAG, "title = " + title);
+
+        Cursor c = db.query("channels", null, null, null, null, null, null);
+
+
+        int count = 0;
+
+        if(c.moveToFirst()){
+            int linkColIndex = c.getColumnIndex("link");
+            Log.d(TAG, "linkColIndex = " + linkColIndex);
+
+            do{
+                if(c.getString(linkColIndex).equalsIgnoreCase(title)){
+                    count++;
+                }
+                Log.d(TAG, "c.getString(linkColIndex) = " + c.getString(linkColIndex));
+
+
+            } while (c.moveToNext());
+        }
+
+        c.close();
+
+        if (count > 0){
+            result = true;
+        }
+
+        Log.d(TAG, "Count = : " + count);
+        Log.d(TAG, "Канал с таким link есть в базе: " + result);
+
+
+
 //        Cursor cursor = db.query(ChannelContract.ChannelEntry.TABLE_NAME, new String[] {ChannelContract.ChannelEntry.COLUMN_LINK},
 //                ChannelContract.ChannelEntry.COLUMN_LINK + " = " + channel.getLink(),
 //                null,null,null,null);
+//
+//
+//
 //
 //        if (cursor != null && cursor.getCount() > 0) {
 //            result = true; //в базе есть канал с таким link
