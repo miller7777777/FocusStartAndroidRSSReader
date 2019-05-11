@@ -73,13 +73,13 @@ public class DataBase {
         Log.d(TAG, "channel.getLink() = " + channel.getLink());
         Log.d(TAG, "title = " + title);
 
-        Cursor c = db.query("channels", null, null, null, null, null, null);
+        Cursor c = db.query(ChannelContract.ChannelEntry.TABLE_NAME, null, null, null, null, null, null);
 
 
         int count = 0;
 
         if(c.moveToFirst()){
-            int linkColIndex = c.getColumnIndex("link");
+            int linkColIndex = c.getColumnIndex(ChannelContract.ChannelEntry.COLUMN_LINK);
             Log.d(TAG, "linkColIndex = " + linkColIndex);
 
             do{
