@@ -1,6 +1,8 @@
 package com.focusstart.miller777.focusstartandroidrssreader.model;
 
-public class ChannelModel {
+import java.io.Serializable;
+
+public class ChannelModel implements Serializable {
 
     private String title;
     private String lastBuildDate;

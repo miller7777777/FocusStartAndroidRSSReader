@@ -2,6 +2,7 @@ package com.focusstart.miller777.focusstartandroidrssreader.DAO;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
@@ -24,6 +25,15 @@ public class DataBase {
     }
 
     public void writeToDB(ChannelModel channel) {
+
+        Log.d(TAG, "Создаем интент для запуска сервиса");
+
+        Intent intentWriteToDB = new Intent(App.getContext(), DataBaseService.class);
+        intentWriteToDB.putExtra("channel", channel);
+        App.getContext().startService(intentWriteToDB);
+        Log.d(TAG, "Попытка стартовать сервис интентом");
+
+
 
         Log.d(TAG, "Попытка записи в базу");
 
