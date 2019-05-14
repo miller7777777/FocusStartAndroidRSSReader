@@ -1,6 +1,8 @@
 package com.focusstart.miller777.focusstartandroidrssreader.model;
 
-public class ItemModel {
+import java.io.Serializable;
+
+public class ItemModel implements Serializable {
 
     //Объект дата-класса: новость. Элемент RSS-ленты
 

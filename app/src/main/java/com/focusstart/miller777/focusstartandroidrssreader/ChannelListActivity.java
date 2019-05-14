@@ -56,6 +56,7 @@ public class ChannelListActivity extends AppCompatActivity {
         label = findViewById(R.id.channel_label);
 
 
+        //TODO: получаем из базы список каналов, заполняем RecyclerView.
 
 
 
@@ -65,6 +66,8 @@ public class ChannelListActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Log.d("TAG777", "кнопка нажата");
                 baseRssUrl = etRSSUrl.getText().toString();
+
+                //TODO: Проверка на валидность RSS ленты
 
 
 
