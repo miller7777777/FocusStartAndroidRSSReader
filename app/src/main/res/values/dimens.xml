@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="recycler_view_item_height">144dp</dimen>
+    <dimen name="recycler_view_top_bottom_padding">4dp</dimen>
+    <dimen name="recycler_view_start_end_padding">8dp</dimen>
+</resources>
