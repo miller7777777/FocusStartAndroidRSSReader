@@ -2,8 +2,6 @@ package com.focusstart.miller777.focusstartandroidrssreader.net;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.content.Context;
-import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -27,20 +25,17 @@ public class DownloadService extends IntentService {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.d("TAG", "DownloadService created.");
     }
 
     @Override
     protected void onHandleIntent(Intent intent) {
 
         String url = intent.getStringExtra("baseUrl");
-        Log.d("TAG", "baseurl (service) = " + url);
         getData(url);
     }
 
     private String getData(String path) {
         BufferedReader reader = null;
-        Log.d("TAG", "Получаем данные из сети");
 
         try {
             URL url = new URL(path);
@@ -58,7 +53,6 @@ public class DownloadService extends IntentService {
             }
 
             String answer = buf.toString();
-//            Log.d("TAG", "Данные = " + answer);
 
             Intent responseIntent = new Intent();
             responseIntent.setAction(ACTION_DOWNLOADSERVICE);
@@ -84,10 +78,7 @@ public class DownloadService extends IntentService {
                     e.printStackTrace();
                 }
             }
-
-//            stopSelf();
         }
-
         return null;
     }
 }

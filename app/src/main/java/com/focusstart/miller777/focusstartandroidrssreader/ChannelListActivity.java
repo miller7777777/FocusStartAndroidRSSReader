@@ -45,15 +45,10 @@ public class ChannelListActivity extends AppCompatActivity {
     public static final String EXTRA_KEY_OUT_SEND = "EXTRA_OUT_SEND";
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_channel_list);
-
-        Log.d("TAG777", "Создана ChannelListActivity");
-
 
         channels = new ArrayList<ChannelModel>();
 
@@ -61,28 +56,20 @@ public class ChannelListActivity extends AppCompatActivity {
         etRSSUrl = findViewById(R.id.et_rssURL);
         label = findViewById(R.id.channel_label);
 
-
         //TODO: получаем из базы список каналов, заполняем RecyclerView.
-
-
 
         btnSubscribe = findViewById(R.id.btn_subscribe);
         btnReadFromDB = findViewById(R.id.btn_read_from_db);
         btnSubscribe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("TAG777", "кнопка нажата");
                 baseRssUrl = etRSSUrl.getText().toString();
 
                 //TODO: Проверка на валидность RSS ленты
 
-
-
                 //Здесь получаем информацию о канале;
                 NetHelper netHelper = new NetHelper(baseRssUrl);
                 netHelper.processRss();
-
-               
 
 
 //                  Здесь код пока закомментирован, он будет перенесен в oNItemClickListener()
@@ -97,20 +84,11 @@ public class ChannelListActivity extends AppCompatActivity {
         btnReadFromDB.setOnClickListener(
                 v -> readFromDB()
         );
-
-
-
-
     }
 
     private void readFromDB() {
-        Toast.makeText(this, "Button clicked!", Toast.LENGTH_LONG).show();
         DataBase dataBase = new DataBase();
-        Log.d("TAG777", "Создан объект DataBase");
-
         dataBase.readChannelsFromDB();
-        Log.d("TAG777", "Вызван метод dataBase.readChannelsFromDB()");
-
     }
 
     @Override
@@ -118,39 +96,27 @@ public class ChannelListActivity extends AppCompatActivity {
         super.onPostResume();
 
         downloadServiceReceiver = new DownloadServiceReceiver();
-        Log.d(TAG, "DownloadReceiver создан");
-
 
         IntentFilter intentFilter = new IntentFilter(
                 DownloadService.ACTION_DOWNLOADSERVICE
         );
         intentFilter.addCategory(Intent.CATEGORY_DEFAULT);
         registerReceiver(downloadServiceReceiver, intentFilter);
-        Log.d(TAG, "DownloadReceiver зарегистрирован");
 
         dataBaseReceiver = new DataBaseReceiver();
-        Log.d(TAG, "DataBaseReceiver создан");
 
         IntentFilter dataBaseSendIntentFilter = new IntentFilter(
                 DataBaseService.ACTION_SEND_LIST_OF_CHANNELS
         );
         dataBaseSendIntentFilter.addCategory(Intent.CATEGORY_DEFAULT);
         registerReceiver(dataBaseReceiver, dataBaseSendIntentFilter);
-        Log.d(TAG, "DataBaseReceiver зарегистрирован");
-
-
-
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         unregisterReceiver(downloadServiceReceiver);
-        Log.d(TAG, "DownloadReceiver разрегистрирован");
-
         unregisterReceiver(dataBaseReceiver);
-        Log.d(TAG, "DataBaseReceiver разрегистрирован");
-
     }
 
     private class DownloadServiceReceiver extends BroadcastReceiver {
@@ -171,21 +137,15 @@ public class ChannelListActivity extends AppCompatActivity {
             RssParser parser = new RssParser(rssText);
             channel = parser.getChannel();
             channels.add(channel);
-            
-//            writeToDb(channel);
+
             DataBase dataBase = new DataBase();
             dataBase.writeToDB(channel);
 
-
-//            dataBase.readChannelsFromDB();
-
-            Log.d("TAG777", "ChannelListActivity: onReceive(): channel = " + channel.toString());
             Toast.makeText(ChannelListActivity.this, channel.toString(), Toast.LENGTH_LONG).show(); //Для отладки
-
         }
     }
 
-    private class DataBaseReceiver extends BroadcastReceiver{
+    private class DataBaseReceiver extends BroadcastReceiver {
 
         ChannelListModel model;
         List<ChannelModel> channels;
@@ -194,26 +154,9 @@ public class ChannelListActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
 
             model = (ChannelListModel) intent.getSerializableExtra(EXTRA_KEY_OUT_SEND);
-            if(model == null){
-                Log.d(TAG, "model из BroadCastReceiver == null");
-            }else {
-                Log.d(TAG, "model из BroadCastReceiver получили");
-
+            if (model != null) {
                 channels = model.getChannels();
-
-                if (channels == null){
-                    Log.d(TAG, "model.channels из BroadCastReceiver == null");
-
-                }else {
-                    Log.d(TAG, "model.channels из BroadCastReceiver.size: " + channels.size());
-
-                    for (int i = 0; i < channels.size(); i++) {
-                        Log.d(TAG, "Канал: " + channels.get(i).toString() + "\n");
-
-                    }
-                }
-
-
+                Toast.makeText(ChannelListActivity.this, "Получено " + channels.size() + " каналов", Toast.LENGTH_LONG).show(); //Для отладки
             }
         }
     }

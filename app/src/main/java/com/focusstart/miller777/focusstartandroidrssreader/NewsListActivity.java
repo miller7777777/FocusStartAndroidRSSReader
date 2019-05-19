@@ -1,6 +1,5 @@
 package com.focusstart.miller777.focusstartandroidrssreader;
 
-import android.app.ListActivity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -38,10 +37,7 @@ public class NewsListActivity extends AppCompatActivity {
 
         Intent activityIntent = getIntent();
         baseRssUrl = activityIntent.getStringExtra("CHANNEL_RSS_URL");
-        Log.d("TAG777", "NewsListActivity (из интента): baseRssUrl = " + baseRssUrl);
-
         btnFetchRss = findViewById(R.id.btn_fetchRss);
-
         btnFetchRss.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,15 +67,6 @@ public class NewsListActivity extends AppCompatActivity {
         //запрашиваем из сети список ItemModel
         NetHelper netHelper = new NetHelper(baseRssUrl);
         netHelper.processRss();
-
-
-//
-//        //Записываем данные в базу
-//        DBChannelHelper dbHelper = new DBChannelHelper();
-//        dbHelper.write(rssItems);
-//
-//        //показывам данные
-//        showData(rssItems);
     }
 
     private class DownloadServiceReceiver extends BroadcastReceiver {

@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.focusstart.miller777.focusstartandroidrssreader.App;
 import com.focusstart.miller777.focusstartandroidrssreader.model.ChannelListModel;
@@ -38,66 +37,39 @@ public class DataBaseService extends IntentService {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.d(TAG, "DataBaseService создан");
-
     }
 
     @Override
     protected void onHandleIntent(Intent intent) {
         if (intent != null) {
-            
+
             String action = intent.getStringExtra("ACTION");
-            Log.d(TAG, "Пришел Intent с action = " + action);
 
-
-
-            switch (action){
+            switch (action) {
 
                 case (ACTION_WRITETODB):
                     writeToDB(intent);
                     break;
-                    
-                case (ACTION_READ_CHANNELS_FROM_DB):
-//                    channelList = new ArrayList<ChannelModel>();
-                    channelList = readChannelsFromDB();
-                    Log.d(TAG, "Попытка получить список каналов из базы");
-                    Log.d(TAG, "Число записей в базе: " + channelList.size());
-                    for (int i = 0; i < channelList.size(); i++) {
-                        Log.d(TAG, "Канал: " + channelList.get(i).toString() + "\n");
 
-                    }
+                case (ACTION_READ_CHANNELS_FROM_DB):
+                    channelList = readChannelsFromDB();
 
                     //Посылаем BroadCast
-
                     Intent readFronDBIntent = new Intent();
                     readFronDBIntent.setAction(ACTION_SEND_LIST_OF_CHANNELS);
                     readFronDBIntent.addCategory(Intent.CATEGORY_DEFAULT);
 
                     ChannelListModel model = new ChannelListModel(channelList);
                     ArrayList<ChannelModel> testList = (ArrayList<ChannelModel>) model.getChannels();
-
-                    Log.d(TAG, "testList: " + testList.size());
-                    for (int i = 0; i < testList.size(); i++) {
-                        Log.d(TAG, "Канал: " + testList.get(i).toString() + "\n");
-
-                    }
-
-
-
                     readFronDBIntent.putExtra(EXTRA_KEY_OUT_SEND, model);
                     sendBroadcast(readFronDBIntent);
-
                     break;
             }
-           
-
 
         }
     }
 
     private List<ChannelModel> readChannelsFromDB() {
-
-        Log.d(TAG, "Попытка чтения каналов из базы");
 
         DBChannelHelper dbChannelHelper = new DBChannelHelper();
         SQLiteDatabase db = dbChannelHelper.getWritableDatabase();
@@ -105,15 +77,13 @@ public class DataBaseService extends IntentService {
 
         Cursor cursor = db.query(ChannelContract.ChannelEntry.TABLE_NAME, null, null, null, null, null, null);
 
-        ///////////
-        if (cursor.moveToFirst()){
+        if (cursor.moveToFirst()) {
             int idColTitle = cursor.getColumnIndex(ChannelContract.ChannelEntry.COLUMN_TITLE);
             int idColLink = cursor.getColumnIndex(ChannelContract.ChannelEntry.COLUMN_LINK);
             int idColDescription = cursor.getColumnIndex(ChannelContract.ChannelEntry.COLUMN_DESCRIPTION);
             int idColLastBuildDate = cursor.getColumnIndex(ChannelContract.ChannelEntry.COLUMN_LASTBUILDDATE);
 
-
-            do{
+            do {
                 String title = cursor.getString(idColTitle);
                 String link = cursor.getString(idColLink);
                 String description = cursor.getString(idColDescription);
@@ -122,29 +92,23 @@ public class DataBaseService extends IntentService {
                 ChannelModel channel = new ChannelModel(title, lastBuildDate, link, description);
                 channelList.add(channel);
 
-            }while (cursor.moveToNext());
+            } while (cursor.moveToNext());
         }
 
         cursor.close();
 
         return channelList;
-        ///////////
-
     }
 
     private void writeToDB(Intent intent) {
-        
+
         ChannelModel channel = (ChannelModel) intent.getSerializableExtra("channel");
-        Log.d(TAG, "Попытка получить из интента объект ChannelModel: " + channel.toString());
-
-
-        Log.d(TAG, "Попытка записи в базу");
 
         DBChannelHelper dbChannelHelper = new DBChannelHelper();
         SQLiteDatabase db = dbChannelHelper.getWritableDatabase();
 
         //Проверка: есть ли в базе канал с таким link
-        if (!checkDBContainsChannelWithLink(db, channel.getLink())){
+        if (!checkDBContainsChannelWithLink(db, channel.getLink())) {
 
             db.beginTransaction();
 
@@ -154,14 +118,10 @@ public class DataBaseService extends IntentService {
             cv.put(ChannelContract.ChannelEntry.COLUMN_DESCRIPTION, channel.getDescription());
             cv.put(ChannelContract.ChannelEntry.COLUMN_LASTBUILDDATE, channel.getLastBuildDate());
 
-
             db.insert(ChannelContract.ChannelEntry.TABLE_NAME, null, cv);
-
 
             db.setTransactionSuccessful();
             db.endTransaction();
-
-            Log.d(TAG, "Данные записаны");
 
             db.close();
             dbChannelHelper.close();
@@ -172,40 +132,24 @@ public class DataBaseService extends IntentService {
 
         boolean result = false;
 
-        Log.d(TAG, "Создаем курсор");
-//        Log.d(TAG, "channel.getLink() = " + channel.getLink());
-        Log.d(TAG, "title = " + title);
-
         Cursor c = db.query(ChannelContract.ChannelEntry.TABLE_NAME, null, null, null, null, null, null);
-
 
         int count = 0;
 
-        if(c.moveToFirst()){
+        if (c.moveToFirst()) {
             int linkColIndex = c.getColumnIndex(ChannelContract.ChannelEntry.COLUMN_LINK);
-            Log.d(TAG, "linkColIndex = " + linkColIndex);
 
-            do{
-                if(c.getString(linkColIndex).equalsIgnoreCase(title)){
+            do {
+                if (c.getString(linkColIndex).equalsIgnoreCase(title)) {
                     count++;
                 }
-                Log.d(TAG, "c.getString(linkColIndex) = " + c.getString(linkColIndex));
-
-
             } while (c.moveToNext());
         }
-
         c.close();
 
-        if (count > 0){
+        if (count > 0) {
             result = true;
         }
-
-        Log.d(TAG, "Count = : " + count);
-        Log.d(TAG, "Канал с таким link есть в базе: " + result);
-
-
         return result;
     }
-
 }

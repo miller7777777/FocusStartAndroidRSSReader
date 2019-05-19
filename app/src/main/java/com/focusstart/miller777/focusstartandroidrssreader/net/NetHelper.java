@@ -1,10 +1,6 @@
 package com.focusstart.miller777.focusstartandroidrssreader.net;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.util.Log;
 
 import com.focusstart.miller777.focusstartandroidrssreader.App;
 
