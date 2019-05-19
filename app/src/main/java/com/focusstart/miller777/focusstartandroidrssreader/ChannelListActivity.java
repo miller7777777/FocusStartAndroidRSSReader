@@ -1,6 +1,5 @@
 package com.focusstart.miller777.focusstartandroidrssreader;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -15,10 +14,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.focusstart.miller777.focusstartandroidrssreader.DAO.DBChannelHelper;
 import com.focusstart.miller777.focusstartandroidrssreader.DAO.DataBase;
 import com.focusstart.miller777.focusstartandroidrssreader.model.ChannelModel;
-import com.focusstart.miller777.focusstartandroidrssreader.model.ItemModel;
 import com.focusstart.miller777.focusstartandroidrssreader.net.DownloadService;
 import com.focusstart.miller777.focusstartandroidrssreader.net.NetHelper;
 import com.focusstart.miller777.focusstartandroidrssreader.parsers.RssParser;
@@ -35,12 +32,16 @@ public class ChannelListActivity extends AppCompatActivity {
     TextView label;
     String baseRssUrl;
     String rssText;
-    ChannelListActivity.DownloadServiceReceiver receiver;
+    ChannelListActivity.DownloadServiceReceiver downloadServiceReceiver;
     ChannelModel channel;
     List<ChannelModel> channels;
 
 
     public static final String TAG = ChannelListActivity.class.getSimpleName();
+    public static final String ACTION_SEND_LIST_OF_CHANNELS = "com.focusstart.miller777.focusstartandroidrssreader.DAO.SEND_LIST_OF_CHANNELS";
+    public static final String EXTRA_KEY_OUT_SEND = "EXTRA_OUT_SEND";
+
+
 
 
     @Override
@@ -113,7 +114,7 @@ public class ChannelListActivity extends AppCompatActivity {
     protected void onPostResume() {
         super.onPostResume();
 
-        receiver = new DownloadServiceReceiver();
+        downloadServiceReceiver = new DownloadServiceReceiver();
         Log.d("TAG777", "Receiver создан");
 
 
@@ -121,7 +122,7 @@ public class ChannelListActivity extends AppCompatActivity {
                 DownloadService.ACTION_DOWNLOADSERVICE
         );
         intentFilter.addCategory(Intent.CATEGORY_DEFAULT);
-        registerReceiver(receiver, intentFilter);
+        registerReceiver(downloadServiceReceiver, intentFilter);
         Log.d(TAG, "Receiver зарегистрирован");
 
     }
@@ -129,7 +130,7 @@ public class ChannelListActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        unregisterReceiver(receiver);
+        unregisterReceiver(downloadServiceReceiver);
         Log.d(TAG, "Receiver разрегистрирован");
 
     }

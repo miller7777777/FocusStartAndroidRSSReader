@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.focusstart.miller777.focusstartandroidrssreader.App;
+import com.focusstart.miller777.focusstartandroidrssreader.model.ChannelListModel;
 import com.focusstart.miller777.focusstartandroidrssreader.model.ChannelModel;
 
 import java.util.ArrayList;
@@ -18,7 +19,9 @@ public class DataBaseService extends IntentService {
 
     public static final String ACTION_WRITETODB = "com.focusstart.miller777.focusstartandroidrssreader.DAO.writeToDB";
     public static final String ACTION_READ_CHANNELS_FROM_DB = "com.focusstart.miller777.focusstartandroidrssreader.DAO.readChannelsFromDB";
+    public static final String ACTION_SEND_LIST_OF_CHANNELS = "com.focusstart.miller777.focusstartandroidrssreader.DAO.SEND_LIST_OF_CHANNELS";
     public static final String EXTRA_KEY_OUT = "EXTRA_OUT";
+    public static final String EXTRA_KEY_OUT_SEND = "EXTRA_OUT_SEND";
     String extraOut = "данные записаны в базу";
     private Context context;
 
@@ -63,6 +66,26 @@ public class DataBaseService extends IntentService {
                         Log.d(TAG, "Канал: " + channelList.get(i).toString() + "\n");
 
                     }
+
+                    //Посылаем BroadCast
+
+                    Intent readFronDBIntent = new Intent();
+                    readFronDBIntent.setAction(ACTION_SEND_LIST_OF_CHANNELS);
+                    readFronDBIntent.addCategory(Intent.CATEGORY_DEFAULT);
+
+                    ChannelListModel model = new ChannelListModel(channelList);
+                    ArrayList<ChannelModel> testList = (ArrayList<ChannelModel>) model.getChannels();
+
+                    Log.d(TAG, "testList: " + testList.size());
+                    for (int i = 0; i < testList.size(); i++) {
+                        Log.d(TAG, "Канал: " + testList.get(i).toString() + "\n");
+
+                    }
+
+
+
+                    readFronDBIntent.putExtra(EXTRA_KEY_OUT_SEND, model);
+                    sendBroadcast(readFronDBIntent);
 
                     break;
             }
