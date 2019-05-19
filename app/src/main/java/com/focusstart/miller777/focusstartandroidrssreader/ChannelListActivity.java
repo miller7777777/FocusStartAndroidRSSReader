@@ -15,6 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.focusstart.miller777.focusstartandroidrssreader.DAO.DataBase;
+import com.focusstart.miller777.focusstartandroidrssreader.DAO.DataBaseService;
+import com.focusstart.miller777.focusstartandroidrssreader.model.ChannelListModel;
 import com.focusstart.miller777.focusstartandroidrssreader.model.ChannelModel;
 import com.focusstart.miller777.focusstartandroidrssreader.net.DownloadService;
 import com.focusstart.miller777.focusstartandroidrssreader.net.NetHelper;
@@ -33,6 +35,7 @@ public class ChannelListActivity extends AppCompatActivity {
     String baseRssUrl;
     String rssText;
     ChannelListActivity.DownloadServiceReceiver downloadServiceReceiver;
+    DataBaseReceiver dataBaseReceiver;
     ChannelModel channel;
     List<ChannelModel> channels;
 
@@ -115,7 +118,7 @@ public class ChannelListActivity extends AppCompatActivity {
         super.onPostResume();
 
         downloadServiceReceiver = new DownloadServiceReceiver();
-        Log.d("TAG777", "Receiver создан");
+        Log.d(TAG, "DownloadReceiver создан");
 
 
         IntentFilter intentFilter = new IntentFilter(
@@ -123,7 +126,19 @@ public class ChannelListActivity extends AppCompatActivity {
         );
         intentFilter.addCategory(Intent.CATEGORY_DEFAULT);
         registerReceiver(downloadServiceReceiver, intentFilter);
-        Log.d(TAG, "Receiver зарегистрирован");
+        Log.d(TAG, "DownloadReceiver зарегистрирован");
+
+        dataBaseReceiver = new DataBaseReceiver();
+        Log.d(TAG, "DataBaseReceiver создан");
+
+        IntentFilter dataBaseSendIntentFilter = new IntentFilter(
+                DataBaseService.ACTION_SEND_LIST_OF_CHANNELS
+        );
+        dataBaseSendIntentFilter.addCategory(Intent.CATEGORY_DEFAULT);
+        registerReceiver(dataBaseReceiver, dataBaseSendIntentFilter);
+        Log.d(TAG, "DataBaseReceiver зарегистрирован");
+
+
 
     }
 
@@ -131,7 +146,10 @@ public class ChannelListActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         unregisterReceiver(downloadServiceReceiver);
-        Log.d(TAG, "Receiver разрегистрирован");
+        Log.d(TAG, "DownloadReceiver разрегистрирован");
+
+        unregisterReceiver(dataBaseReceiver);
+        Log.d(TAG, "DataBaseReceiver разрегистрирован");
 
     }
 
@@ -164,6 +182,39 @@ public class ChannelListActivity extends AppCompatActivity {
             Log.d("TAG777", "ChannelListActivity: onReceive(): channel = " + channel.toString());
             Toast.makeText(ChannelListActivity.this, channel.toString(), Toast.LENGTH_LONG).show(); //Для отладки
 
+        }
+    }
+
+    private class DataBaseReceiver extends BroadcastReceiver{
+
+        ChannelListModel model;
+        List<ChannelModel> channels;
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            model = (ChannelListModel) intent.getSerializableExtra(EXTRA_KEY_OUT_SEND);
+            if(model == null){
+                Log.d(TAG, "model из BroadCastReceiver == null");
+            }else {
+                Log.d(TAG, "model из BroadCastReceiver получили");
+
+                channels = model.getChannels();
+
+                if (channels == null){
+                    Log.d(TAG, "model.channels из BroadCastReceiver == null");
+
+                }else {
+                    Log.d(TAG, "model.channels из BroadCastReceiver.size: " + channels.size());
+
+                    for (int i = 0; i < channels.size(); i++) {
+                        Log.d(TAG, "Канал: " + channels.get(i).toString() + "\n");
+
+                    }
+                }
+
+
+            }
         }
     }
 
