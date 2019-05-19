@@ -31,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:lines="2"
+            android:lines="3"
             android:ellipsize="end"
             android:requiresFadingEdge="horizontal"
             tools:text="Разработка под Android – Пишем под самую популярную мобильную ОС"/>
@@ -39,7 +39,7 @@
         <TextView
             android:id="@+id/channel_list_item_date"
             android:layout_below="@id/channel_list_item_description"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"

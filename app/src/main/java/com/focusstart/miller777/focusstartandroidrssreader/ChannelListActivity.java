@@ -31,12 +31,14 @@ public class ChannelListActivity extends AppCompatActivity {
     RecyclerView ChannelListecyclerView;
     EditText etRSSUrl;
     Button btnSubscribe;
+    Button btnReadFromDB;
     TextView label;
     String baseRssUrl;
     String rssText;
     ChannelListActivity.DownloadServiceReceiver receiver;
     ChannelModel channel;
     List<ChannelModel> channels;
+
 
     public static final String TAG = ChannelListActivity.class.getSimpleName();
 
@@ -61,6 +63,7 @@ public class ChannelListActivity extends AppCompatActivity {
 
 
         btnSubscribe = findViewById(R.id.btn_subscribe);
+        btnReadFromDB = findViewById(R.id.btn_read_from_db);
         btnSubscribe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,8 +90,22 @@ public class ChannelListActivity extends AppCompatActivity {
             }
         });
 
+        btnReadFromDB.setOnClickListener(
+                v -> readFromDB()
+        );
 
 
+
+
+    }
+
+    private void readFromDB() {
+        Toast.makeText(this, "Button clicked!", Toast.LENGTH_LONG).show();
+        DataBase dataBase = new DataBase();
+        Log.d("TAG777", "Создан объект DataBase");
+
+        dataBase.readChannelsFromDB();
+        Log.d("TAG777", "Вызван метод dataBase.readChannelsFromDB()");
 
     }
 
@@ -139,6 +156,9 @@ public class ChannelListActivity extends AppCompatActivity {
 //            writeToDb(channel);
             DataBase dataBase = new DataBase();
             dataBase.writeToDB(channel);
+
+
+//            dataBase.readChannelsFromDB();
 
             Log.d("TAG777", "ChannelListActivity: onReceive(): channel = " + channel.toString());
             Toast.makeText(ChannelListActivity.this, channel.toString(), Toast.LENGTH_LONG).show(); //Для отладки
