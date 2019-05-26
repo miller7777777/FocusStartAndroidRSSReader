@@ -1,4 +1,4 @@
-package com.focusstart.miller777.focusstartandroidrssreader;
+package com.focusstart.miller777.focusstartandroidrssreader.activities;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -17,6 +16,7 @@ import android.widget.Toast;
 
 import com.focusstart.miller777.focusstartandroidrssreader.DAO.DataBase;
 import com.focusstart.miller777.focusstartandroidrssreader.DAO.DataBaseService;
+import com.focusstart.miller777.focusstartandroidrssreader.R;
 import com.focusstart.miller777.focusstartandroidrssreader.adapters.ChannelListAdapter;
 import com.focusstart.miller777.focusstartandroidrssreader.model.ChannelListModel;
 import com.focusstart.miller777.focusstartandroidrssreader.model.ChannelModel;

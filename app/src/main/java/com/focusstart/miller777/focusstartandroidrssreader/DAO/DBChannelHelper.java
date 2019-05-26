@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.focusstart.miller777.focusstartandroidrssreader.App;
+import com.focusstart.miller777.focusstartandroidrssreader.apps.App;
 
 public class DBChannelHelper extends SQLiteOpenHelper {
 

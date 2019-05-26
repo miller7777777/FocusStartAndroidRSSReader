@@ -2,7 +2,7 @@ package com.focusstart.miller777.focusstartandroidrssreader.net;
 
 import android.content.Intent;
 
-import com.focusstart.miller777.focusstartandroidrssreader.App;
+import com.focusstart.miller777.focusstartandroidrssreader.apps.App;
 
 
 public class NetHelper {

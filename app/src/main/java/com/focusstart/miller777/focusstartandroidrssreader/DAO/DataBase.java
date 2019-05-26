@@ -2,7 +2,7 @@ package com.focusstart.miller777.focusstartandroidrssreader.DAO;
 
 import android.content.Context;
 import android.content.Intent;
-import com.focusstart.miller777.focusstartandroidrssreader.App;
+import com.focusstart.miller777.focusstartandroidrssreader.apps.App;
 import com.focusstart.miller777.focusstartandroidrssreader.model.ChannelModel;
 
 

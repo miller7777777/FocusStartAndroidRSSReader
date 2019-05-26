@@ -1,4 +1,4 @@
-package com.focusstart.miller777.focusstartandroidrssreader;
+package com.focusstart.miller777.focusstartandroidrssreader.apps;
 
 import android.app.Application;
 import android.content.Context;

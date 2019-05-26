@@ -9,13 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.focusstart.miller777.focusstartandroidrssreader.ChannelListActivity;
-import com.focusstart.miller777.focusstartandroidrssreader.NewsListActivity;
+import com.focusstart.miller777.focusstartandroidrssreader.activities.NewsListActivity;
 import com.focusstart.miller777.focusstartandroidrssreader.R;
-import com.focusstart.miller777.focusstartandroidrssreader.model.ChannelListModel;
 import com.focusstart.miller777.focusstartandroidrssreader.model.ChannelModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ChannelListAdapter extends RecyclerView.Adapter<ChannelListAdapter.ChannelListViewHolder> {
