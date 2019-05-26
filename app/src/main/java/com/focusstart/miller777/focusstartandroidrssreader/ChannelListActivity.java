@@ -6,8 +6,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import com.focusstart.miller777.focusstartandroidrssreader.DAO.DataBase;
 import com.focusstart.miller777.focusstartandroidrssreader.DAO.DataBaseService;
+import com.focusstart.miller777.focusstartandroidrssreader.adapters.ChannelListAdapter;
 import com.focusstart.miller777.focusstartandroidrssreader.model.ChannelListModel;
 import com.focusstart.miller777.focusstartandroidrssreader.model.ChannelModel;
 import com.focusstart.miller777.focusstartandroidrssreader.net.DownloadService;
@@ -27,7 +29,7 @@ import java.util.List;
 
 public class ChannelListActivity extends AppCompatActivity {
 
-    RecyclerView ChannelListecyclerView;
+    RecyclerView ChannelListRecyclerView;
     EditText etRSSUrl;
     Button btnSubscribe;
     Button btnReadFromDB;
@@ -38,6 +40,7 @@ public class ChannelListActivity extends AppCompatActivity {
     DataBaseReceiver dataBaseReceiver;
     ChannelModel channel;
     List<ChannelModel> channels;
+    private ChannelListAdapter channelListAdapter;
 
 
     public static final String TAG = ChannelListActivity.class.getSimpleName();
@@ -52,11 +55,12 @@ public class ChannelListActivity extends AppCompatActivity {
 
         channels = new ArrayList<ChannelModel>();
 
-        ChannelListecyclerView = findViewById(R.id.channelListRecyclerView);
+        ChannelListRecyclerView = findViewById(R.id.channelListRecyclerView);
         etRSSUrl = findViewById(R.id.et_rssURL);
         label = findViewById(R.id.channel_label);
 
         //TODO: получаем из базы список каналов, заполняем RecyclerView.
+        initView(ChannelListRecyclerView, channels);
 
         btnSubscribe = findViewById(R.id.btn_subscribe);
         btnReadFromDB = findViewById(R.id.btn_read_from_db);
@@ -84,6 +88,21 @@ public class ChannelListActivity extends AppCompatActivity {
         btnReadFromDB.setOnClickListener(
                 v -> readFromDB()
         );
+    }
+
+    private void initView(RecyclerView channelListRecyclerView, List<ChannelModel> channels) {
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        channelListRecyclerView.setLayoutManager(layoutManager);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(channelListRecyclerView.getContext(),
+                layoutManager.getOrientation());
+
+        channelListRecyclerView.addItemDecoration(dividerItemDecoration);
+
+
+        channelListAdapter = new ChannelListAdapter(this, channels);
+        channelListRecyclerView.setAdapter(channelListAdapter);
+
     }
 
     private void readFromDB() {
@@ -156,6 +175,7 @@ public class ChannelListActivity extends AppCompatActivity {
             model = (ChannelListModel) intent.getSerializableExtra(EXTRA_KEY_OUT_SEND);
             if (model != null) {
                 channels = model.getChannels();
+                initView(ChannelListRecyclerView, channels);
                 Toast.makeText(ChannelListActivity.this, "Получено " + channels.size() + " каналов", Toast.LENGTH_LONG).show(); //Для отладки
             }
         }
