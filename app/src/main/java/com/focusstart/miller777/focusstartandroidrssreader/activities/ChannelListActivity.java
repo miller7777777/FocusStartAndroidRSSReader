@@ -30,12 +30,12 @@ import java.util.List;
 public class ChannelListActivity extends AppCompatActivity {
 
     RecyclerView ChannelListRecyclerView;
-    EditText etRSSUrl;
-    Button btnSubscribe;
-    Button btnReadFromDB;
-    TextView label;
+//    EditText etRSSUrl;
+//    Button btnSubscribe;
+//    Button btnReadFromDB;
+//    TextView label;
     String baseRssUrl;
-    String rssText;
+//    String rssText;
     ChannelListActivity.DownloadServiceReceiver downloadServiceReceiver;
     DataBaseReceiver dataBaseReceiver;
     ChannelModel channel;
@@ -56,30 +56,31 @@ public class ChannelListActivity extends AppCompatActivity {
         channels = new ArrayList<ChannelModel>();
 
         ChannelListRecyclerView = findViewById(R.id.channelListRecyclerView);
-        etRSSUrl = findViewById(R.id.et_rssURL);
-        label = findViewById(R.id.channel_label);
+//        etRSSUrl = findViewById(R.id.et_rssURL);
+//        label = findViewById(R.id.channel_label);
 
         //TODO: получаем из базы список каналов, заполняем RecyclerView.
+        readFromDB();
         initView(ChannelListRecyclerView, channels);
 
-        btnSubscribe = findViewById(R.id.btn_subscribe);
-        btnReadFromDB = findViewById(R.id.btn_read_from_db);
-        btnSubscribe.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                baseRssUrl = etRSSUrl.getText().toString();
+//        btnSubscribe = findViewById(R.id.btn_subscribe);
+//        btnReadFromDB = findViewById(R.id.btn_read_from_db);
+//        btnSubscribe.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                baseRssUrl = etRSSUrl.getText().toString();
+//
+//                //TODO: Проверка на валидность RSS ленты
+//
+//                //Здесь получаем информацию о канале;
+//                NetHelper netHelper = new NetHelper(baseRssUrl);
+//                netHelper.processRss();
+//            }
+//        });
 
-                //TODO: Проверка на валидность RSS ленты
-
-                //Здесь получаем информацию о канале;
-                NetHelper netHelper = new NetHelper(baseRssUrl);
-                netHelper.processRss();
-            }
-        });
-
-        btnReadFromDB.setOnClickListener(
-                v -> readFromDB()
-        );
+//        btnReadFromDB.setOnClickListener(
+//                v -> readFromDB()
+//        );
     }
 
     private void initView(RecyclerView channelListRecyclerView, List<ChannelModel> channels) {

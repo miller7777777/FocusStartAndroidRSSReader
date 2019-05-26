@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.AdChannelActivity"
+    android:orientation="vertical">
+
+    <!--Пока кнопка для добавления RSS здесь-->
+    <!--Потом будет вынесена куда-нибудь в SnackBar или NavigationDriver-->
+    <!--А поле ввода будет выводиться в новой активити-->
+
+
+    <!--TODO: Убрать TextView, вместо него обернуть EditText в TextInputLayout-->
+    <TextView
+        android:id="@+id/channel_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Enter RSS URL:"
+        />
+
+    <!--здесь пока захардкодим-->
+
+    <EditText
+        android:id="@+id/et_rssURL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/editbox_background"
+        android:hint="@string/subscribe_invitation"
+        android:text="https://news.yandex.ru/internet.rss"
+        />
+
+    <Button
+        android:id="@+id/btn_subscribe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dip"
+        android:text="Subscribe"
+        />
+
+</LinearLayout>
