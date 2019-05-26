@@ -1,54 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/relative_layout"
-              android:layout_width="match_parent"
-              android:layout_height="@dimen/recycler_view_item_height"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:paddingStart="@dimen/recycler_view_start_end_padding"
-              android:paddingEnd="@dimen/recycler_view_start_end_padding">
+
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                                    android:id="@+id/channel_list_item_card_view"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="152dp"
+                                    android:layout_margin="4dp"
+                                    app:cardCornerRadius="4dp">
+
+
+    <RelativeLayout
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/relative_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/recycler_view_item_height"
+        android:paddingStart="@dimen/recycler_view_start_end_padding"
+        android:paddingEnd="@dimen/recycler_view_start_end_padding">
 
 
         <TextView
             android:id="@+id/channel_list_item_title"
-            android:layout_alignParentLeft="true"
-            android:layout_marginTop="12dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="12dp"
+            android:ellipsize="end"
             android:gravity="center_vertical"
             android:lines="1"
-            android:ellipsize="end"
             android:requiresFadingEdge="horizontal"
             tools:text="Разработка под Android – Пишем под самую популярную мобильную ОС"/>
-
-
 
 
         <TextView
             android:id="@+id/channel_list_item_description"
-            android:layout_below="@id/channel_list_item_title"
-            android:layout_marginTop="12dp"
-            android:textSize="20sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/channel_list_item_title"
+            android:layout_marginTop="12dp"
+            android:ellipsize="end"
             android:gravity="center_vertical"
             android:lines="3"
-            android:ellipsize="end"
             android:requiresFadingEdge="horizontal"
+            android:textSize="20sp"
             tools:text="Разработка под Android – Пишем под самую популярную мобильную ОС"/>
 
         <TextView
             android:id="@+id/channel_list_item_date"
-            android:layout_below="@id/channel_list_item_description"
-            android:layout_marginTop="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/channel_list_item_description"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
             android:gravity="center_vertical"
             android:lines="1"
-            android:ellipsize="end"
             android:requiresFadingEdge="horizontal"
             tools:text="13 May 2019 23:29:50 +0000"/>
 
 
+    </RelativeLayout>
 
-
-</RelativeLayout>
+</android.support.v7.widget.CardView>

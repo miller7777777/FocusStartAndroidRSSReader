@@ -74,14 +74,6 @@ public class ChannelListActivity extends AppCompatActivity {
                 //Здесь получаем информацию о канале;
                 NetHelper netHelper = new NetHelper(baseRssUrl);
                 netHelper.processRss();
-
-
-//                  Здесь код пока закомментирован, он будет перенесен в oNItemClickListener()
-                //TODO: Перенести интент в onItemClickListener
-
-//                Intent newsListActivityIntent = new Intent(ChannelListActivity.this, NewsListActivity.class);
-//                newsListActivityIntent.putExtra("CHANNEL_RSS_URL", baseRssUrl);
-//                startActivity(newsListActivityIntent);
             }
         });
 
@@ -94,10 +86,10 @@ public class ChannelListActivity extends AppCompatActivity {
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         channelListRecyclerView.setLayoutManager(layoutManager);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(channelListRecyclerView.getContext(),
-                layoutManager.getOrientation());
-
-        channelListRecyclerView.addItemDecoration(dividerItemDecoration);
+//        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(channelListRecyclerView.getContext(),
+//                layoutManager.getOrientation());
+//
+//        channelListRecyclerView.addItemDecoration(dividerItemDecoration);
 
 
         channelListAdapter = new ChannelListAdapter(this, channels);
