@@ -110,6 +110,8 @@ public class ChannelListActivity extends AppCompatActivity {
         dataBase.readChannelsFromDB();
     }
 
+
+
     @Override
     protected void onPostResume() {
         super.onPostResume();
@@ -159,6 +161,8 @@ public class ChannelListActivity extends AppCompatActivity {
 
             DataBase dataBase = new DataBase();
             dataBase.writeToDB(channel);
+            initView(ChannelListRecyclerView, channels);
+
 
             Toast.makeText(ChannelListActivity.this, channel.toString(), Toast.LENGTH_LONG).show(); //Для отладки
         }

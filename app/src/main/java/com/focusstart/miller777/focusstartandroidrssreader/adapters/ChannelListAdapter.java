@@ -1,6 +1,7 @@
 package com.focusstart.miller777.focusstartandroidrssreader.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.focusstart.miller777.focusstartandroidrssreader.ChannelListActivity;
+import com.focusstart.miller777.focusstartandroidrssreader.NewsListActivity;
 import com.focusstart.miller777.focusstartandroidrssreader.R;
 import com.focusstart.miller777.focusstartandroidrssreader.model.ChannelListModel;
 import com.focusstart.miller777.focusstartandroidrssreader.model.ChannelModel;
@@ -53,6 +56,7 @@ public class ChannelListAdapter extends RecyclerView.Adapter<ChannelListAdapter.
         TextView itemTitle;
         TextView itemDescription;
         TextView itemDate;
+        String itemLink;
 
 
         public ChannelListViewHolder(View itemView) {
@@ -61,6 +65,16 @@ public class ChannelListAdapter extends RecyclerView.Adapter<ChannelListAdapter.
             itemTitle = itemView.findViewById(R.id.channel_list_item_title);
             itemDescription = itemView.findViewById(R.id.channel_list_item_description);
             itemDate = itemView.findViewById(R.id.channel_list_item_date);
+
+            itemView.setOnClickListener(view -> onClick());
+        }
+
+        private void onClick() {
+
+
+                Intent newsListActivityIntent = new Intent(context, NewsListActivity.class);
+                newsListActivityIntent.putExtra("CHANNEL_RSS_URL", itemLink);
+                context.startActivity(newsListActivityIntent);
         }
 
         public void bind(ChannelModel channel){
@@ -68,6 +82,7 @@ public class ChannelListAdapter extends RecyclerView.Adapter<ChannelListAdapter.
             itemTitle.setText(channel.getTitle());
             itemDescription.setText(channel.getDescription());
             itemDate.setText(channel.getLastBuildDate());
+            itemLink = channel.getLink();
         }
     }
 }
