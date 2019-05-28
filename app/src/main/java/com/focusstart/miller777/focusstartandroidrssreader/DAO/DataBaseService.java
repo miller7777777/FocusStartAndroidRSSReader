@@ -55,14 +55,14 @@ public class DataBaseService extends IntentService {
                     channelList = readChannelsFromDB();
 
                     //Посылаем BroadCast
-                    Intent readFronDBIntent = new Intent();
-                    readFronDBIntent.setAction(ACTION_SEND_LIST_OF_CHANNELS);
-                    readFronDBIntent.addCategory(Intent.CATEGORY_DEFAULT);
+                    Intent readFromDBIntent = new Intent();
+                    readFromDBIntent.setAction(ACTION_SEND_LIST_OF_CHANNELS);
+                    readFromDBIntent.addCategory(Intent.CATEGORY_DEFAULT);
 
                     ChannelListModel model = new ChannelListModel(channelList);
                     ArrayList<ChannelModel> testList = (ArrayList<ChannelModel>) model.getChannels();
-                    readFronDBIntent.putExtra(EXTRA_KEY_OUT_SEND, model);
-                    sendBroadcast(readFronDBIntent);
+                    readFromDBIntent.putExtra(EXTRA_KEY_OUT_SEND, model);
+                    sendBroadcast(readFromDBIntent);
                     break;
             }
 

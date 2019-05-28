@@ -71,6 +71,8 @@ public class ChannelListActivity extends AppCompatActivity {
 
     private void initView(RecyclerView channelListRecyclerView, List<ChannelModel> channels) {
 
+//        readFromDB();
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         channelListRecyclerView.setLayoutManager(layoutManager);
 //        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(channelListRecyclerView.getContext(),
@@ -142,6 +144,14 @@ public class ChannelListActivity extends AppCompatActivity {
         super.onPause();
         unregisterReceiver(downloadServiceReceiver);
         unregisterReceiver(dataBaseReceiver);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        readFromDB();
+        initView(ChannelListRecyclerView, channels);
+
     }
 
     private class DownloadServiceReceiver extends BroadcastReceiver {
