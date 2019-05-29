@@ -16,4 +16,20 @@ public final class ChannelContract {
         public static final String COLUMN_DESCRIPTION = "description";
         public static final String COLUMN_LASTBUILDDATE = "lastBuildDate";
     }
+
+    public static final class ItemEntry implements BaseColumns {
+
+        public static final String TABLE_NAME = "news";
+
+        public static final String _ID = BaseColumns._ID;
+        public static final String COLUMN_TITLE = "title";
+        public static final String COLUMN_LINK = "link";
+        public static final String COLUMN_DESCRIPTION = "description";
+        public static final String COLUMN_PUBDATE = "pubDate";
+        public static final String COLUMN_DOWNLOAD_DATE = "downloadDate";
+        public static final String COLUMN_CHANNEL_LINK = "channelLink";
+
+
+
+    }
 }

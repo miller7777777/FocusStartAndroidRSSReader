@@ -10,12 +10,23 @@ public class ItemModel implements Serializable {
     private String pubDate;
     private String link;
     private String description;
+    private String downloadDate;
+    private String channelLink;
 
     public ItemModel(String title, String pubDate, String link, String description) {
         this.title = title;
         this.pubDate = pubDate;
         this.link = link;
         this.description = description;
+    }
+
+    public ItemModel(String title, String pubDate, String link, String description, String downloadDate, String channelLink) {
+        this.title = title;
+        this.pubDate = pubDate;
+        this.link = link;
+        this.description = description;
+        this.downloadDate = downloadDate;
+        this.channelLink = channelLink;
     }
 
     public ItemModel() {
@@ -54,6 +65,21 @@ public class ItemModel implements Serializable {
         this.description = description;
     }
 
+    public String getDownloadDate() {
+        return downloadDate;
+    }
+
+    public void setDownloadDate(String downloadDate) {
+        this.downloadDate = downloadDate;
+    }
+
+    public String getChannelLink() {
+        return channelLink;
+    }
+
+    public void setChannelLink(String channelLink) {
+        this.channelLink = channelLink;
+    }
 
     @Override
     public String toString() {

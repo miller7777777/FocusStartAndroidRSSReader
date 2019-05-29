@@ -10,7 +10,7 @@ public class DBChannelHelper extends SQLiteOpenHelper {
 
     private Context context = App.getContext();
     private static final String DATABASE_NAME = "channels.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
 
     public DBChannelHelper() {
@@ -27,11 +27,34 @@ public class DBChannelHelper extends SQLiteOpenHelper {
                 + ChannelContract.ChannelEntry.COLUMN_DESCRIPTION + " TEXT, "
                 + ChannelContract.ChannelEntry.COLUMN_LASTBUILDDATE + " TEXT);";
 
+        String SQL_CREATE_NEWS_TABLE = "CREATE TABLE " + ChannelContract.ItemEntry.TABLE_NAME + "("
+                + ChannelContract.ItemEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + ChannelContract.ItemEntry.COLUMN_TITLE + " TEXT, "
+                + ChannelContract.ItemEntry.COLUMN_LINK + " TEXT, "
+                + ChannelContract.ItemEntry.COLUMN_DESCRIPTION + " TEXT, "
+                + ChannelContract.ItemEntry.COLUMN_PUBDATE + " TEXT, "
+                + ChannelContract.ItemEntry.COLUMN_DOWNLOAD_DATE + " TEXT, "
+                + ChannelContract.ItemEntry.COLUMN_CHANNEL_LINK + " TEXT);";
+
+
         db.execSQL(SQL_CREATE_CHANNELS_TABLE);
+        db.execSQL(SQL_CREATE_NEWS_TABLE);
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
+        if (oldVersion == 1 && newVersion == 2){
+            String SQL_CREATE_NEWS_TABLE = "CREATE TABLE " + ChannelContract.ItemEntry.TABLE_NAME + "("
+                    + ChannelContract.ItemEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + ChannelContract.ItemEntry.COLUMN_TITLE + " TEXT, "
+                    + ChannelContract.ItemEntry.COLUMN_LINK + " TEXT, "
+                    + ChannelContract.ItemEntry.COLUMN_DESCRIPTION + " TEXT, "
+                    + ChannelContract.ItemEntry.COLUMN_PUBDATE + " TEXT, "
+                    + ChannelContract.ItemEntry.COLUMN_DOWNLOAD_DATE + " TEXT, "
+                    + ChannelContract.ItemEntry.COLUMN_CHANNEL_LINK + " TEXT);";
+
+            db.execSQL(SQL_CREATE_NEWS_TABLE);
+        }
     }
 }
