@@ -6,14 +6,12 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.focusstart.miller777.focusstartandroidrssreader.activities.ChannelListActivity;
 import com.focusstart.miller777.focusstartandroidrssreader.activities.NewsListActivity;
 import com.focusstart.miller777.focusstartandroidrssreader.R;
 import com.focusstart.miller777.focusstartandroidrssreader.model.ChannelModel;
@@ -46,7 +44,6 @@ public class ChannelListAdapter extends RecyclerView.Adapter<ChannelListAdapter.
     public void onBindViewHolder(@NonNull ChannelListViewHolder holder, int position) {
 
         holder.bind(channels.get(position));
-//        holder.itemView.setOnLongClickListener(h -> onLongClick());
     }
 
 
@@ -71,7 +68,6 @@ public class ChannelListAdapter extends RecyclerView.Adapter<ChannelListAdapter.
             itemDate = itemView.findViewById(R.id.channel_list_item_date);
 
             itemView.setOnClickListener(view -> onClick());
-//            itemView.setOnCreateContextMenuListener(this);
             itemView.setOnLongClickListener(view -> onLongClick());
         }
 
@@ -84,7 +80,6 @@ public class ChannelListAdapter extends RecyclerView.Adapter<ChannelListAdapter.
         }
 
         private boolean onLongClick() {
-//            Toast.makeText(context, "Deleted! " + getItemCount(), Toast.LENGTH_LONG).show();
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setTitle("Delete channel?")
                     .setMessage(itemTitle.getText())
