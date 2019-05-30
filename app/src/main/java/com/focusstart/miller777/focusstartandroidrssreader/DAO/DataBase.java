@@ -32,4 +32,15 @@ public class DataBase {
         readFromDBIntent.putExtra("ACTION", ACTION_READ_CHANNELS_FROM_DB);
         App.getContext().startService(readFromDBIntent);
     }
+
+    public void deleteChannelByLink(String itemLink) {
+
+        deleteAllNewsAtChannelByChannelLink(itemLink);
+        //TODO: сделать реализацию удаления канала из таблицы каналов
+    }
+
+    private void deleteAllNewsAtChannelByChannelLink(String itemLink) {
+        //TODO: сделать реализацию удаления всех новостей канала из таблицы новостей
+
+    }
 }

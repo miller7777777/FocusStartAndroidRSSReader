@@ -6,12 +6,14 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.focusstart.miller777.focusstartandroidrssreader.DAO.DataBase;
 import com.focusstart.miller777.focusstartandroidrssreader.activities.NewsListActivity;
 import com.focusstart.miller777.focusstartandroidrssreader.R;
 import com.focusstart.miller777.focusstartandroidrssreader.model.ChannelModel;
@@ -22,6 +24,7 @@ public class ChannelListAdapter extends RecyclerView.Adapter<ChannelListAdapter.
 
     private Context context;
     private List<ChannelModel> channels;
+    private static final String TAG = ChannelListAdapter.class.getSimpleName();
 
     public ChannelListAdapter(Context context, List<ChannelModel> channels) {
         this.context = context;
@@ -92,11 +95,18 @@ public class ChannelListAdapter extends RecyclerView.Adapter<ChannelListAdapter.
                                     dialogInterface.cancel();
                                     Toast.makeText(context, "Deleted! " + itemTitle.getText(), Toast.LENGTH_LONG).show();
 
+                                    deleteChannel(itemLink);
                                 }
                             });
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
             return false;
+        }
+
+        private void deleteChannel(String itemLink) {
+            Log.d(TAG, "Удалить канал: " + itemLink);
+            DataBase db = new DataBase();
+            db.deleteChannelByLink(itemLink);
         }
 
         public void bind(ChannelModel channel) {
