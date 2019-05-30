@@ -10,6 +10,7 @@ public class DataBase {
     //объект класса служит для записи и чтения данных в базу данных.
     public static final String ACTION_WRITETODB = "com.focusstart.miller777.focusstartandroidrssreader.DAO.writeToDB";
     public static final String ACTION_READ_CHANNELS_FROM_DB = "com.focusstart.miller777.focusstartandroidrssreader.DAO.readChannelsFromDB";
+    public static final String ACTION_DELETE_CHANNELS_FROM_DB_BY_LINK = "com.focusstart.miller777.focusstartandroidrssreader.DAO.deleteChannelsFromDBByLink";
 
     private Context context;
     private ChannelModel channel;
@@ -37,6 +38,11 @@ public class DataBase {
 
         deleteAllNewsAtChannelByChannelLink(itemLink);
         //TODO: сделать реализацию удаления канала из таблицы каналов
+        Intent deleteChannelsFromDBIntent = new Intent(App.getContext(), DataBaseService.class);
+        deleteChannelsFromDBIntent.putExtra("ACTION", ACTION_DELETE_CHANNELS_FROM_DB_BY_LINK);
+        deleteChannelsFromDBIntent.putExtra("LINK", itemLink);
+        App.getContext().startService(deleteChannelsFromDBIntent);
+
     }
 
     private void deleteAllNewsAtChannelByChannelLink(String itemLink) {

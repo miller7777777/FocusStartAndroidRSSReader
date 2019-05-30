@@ -84,7 +84,11 @@ public class NewsListActivity extends AppCompatActivity {
 
             //парсим результат
             RssParser parser = new RssParser(rssText);
-            rssItems = parser.getRssItems();
+            try {
+                rssItems = parser.getRssItems();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             Log.d("TAG777", "NewsListActivity: onReceive(): rssItems.size() = " + rssItems.size());
             Toast.makeText(NewsListActivity.this, rssText, Toast.LENGTH_LONG).show(); //Для отладки
 

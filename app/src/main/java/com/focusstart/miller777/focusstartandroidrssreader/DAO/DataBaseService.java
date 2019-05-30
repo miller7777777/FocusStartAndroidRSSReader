@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.focusstart.miller777.focusstartandroidrssreader.apps.App;
 import com.focusstart.miller777.focusstartandroidrssreader.model.ChannelListModel;
@@ -19,12 +20,12 @@ public class DataBaseService extends IntentService {
     public static final String ACTION_WRITETODB = "com.focusstart.miller777.focusstartandroidrssreader.DAO.writeToDB";
     public static final String ACTION_READ_CHANNELS_FROM_DB = "com.focusstart.miller777.focusstartandroidrssreader.DAO.readChannelsFromDB";
     public static final String ACTION_SEND_LIST_OF_CHANNELS = "com.focusstart.miller777.focusstartandroidrssreader.DAO.SEND_LIST_OF_CHANNELS";
+    public static final String ACTION_DELETE_CHANNELS_FROM_DB_BY_LINK = "com.focusstart.miller777.focusstartandroidrssreader.DAO.deleteChannelsFromDBByLink";
     public static final String EXTRA_KEY_OUT = "EXTRA_OUT";
     public static final String EXTRA_KEY_OUT_SEND = "EXTRA_OUT_SEND";
     String extraOut = "данные записаны в базу";
     private Context context;
-
-    public static final String TAG = DataBaseService.class.getSimpleName();
+    private final String TAG = DataBaseService.class.getSimpleName();
     List<ChannelModel> channelList;
 
 
@@ -64,9 +65,31 @@ public class DataBaseService extends IntentService {
                     readFromDBIntent.putExtra(EXTRA_KEY_OUT_SEND, model);
                     sendBroadcast(readFromDBIntent);
                     break;
+                    
+                case (ACTION_DELETE_CHANNELS_FROM_DB_BY_LINK):
+                    deleteChannelByLink(intent);
             }
 
         }
+    }
+
+    private void deleteChannelByLink(Intent intent) {
+
+        String channelLink = intent.getStringExtra("LINK");
+        Log.d(TAG, "Получили линк канала: " + channelLink);
+
+        DBChannelHelper dbChannelHelper = new DBChannelHelper();
+        SQLiteDatabase db = dbChannelHelper.getWritableDatabase();
+
+//        String SQL_COMMAND_DELETE_CHANNEL_BY_LINK = ChannelContract.ChannelEntry.COLUMN_LINK + " = "
+//                + "\'"
+//                + channelLink
+//                + "\'";
+//        Log.d(TAG, "SQL_COMMAND_DELETE_CHANNEL_BY_LINK = " + SQL_COMMAND_DELETE_CHANNEL_BY_LINK);
+
+
+//        int delCount = db.delete(ChannelContract.ChannelEntry.TABLE_NAME, SQL_COMMAND_DELETE_CHANNEL_BY_LINK, null);
+//        Log.d(TAG, "deleted rows count = " + delCount);
     }
 
     private List<ChannelModel> readChannelsFromDB() {
