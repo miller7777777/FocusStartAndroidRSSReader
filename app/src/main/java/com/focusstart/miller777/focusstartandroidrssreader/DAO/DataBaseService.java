@@ -53,24 +53,30 @@ public class DataBaseService extends IntentService {
                     break;
 
                 case (ACTION_READ_CHANNELS_FROM_DB):
-                    channelList = readChannelsFromDB();
-
-                    //Посылаем BroadCast
-                    Intent readFromDBIntent = new Intent();
-                    readFromDBIntent.setAction(ACTION_SEND_LIST_OF_CHANNELS);
-                    readFromDBIntent.addCategory(Intent.CATEGORY_DEFAULT);
-
-                    ChannelListModel model = new ChannelListModel(channelList);
-                    ArrayList<ChannelModel> testList = (ArrayList<ChannelModel>) model.getChannels();
-                    readFromDBIntent.putExtra(EXTRA_KEY_OUT_SEND, model);
-                    sendBroadcast(readFromDBIntent);
+                    readFromDBAndSendIntent();
                     break;
                     
                 case (ACTION_DELETE_CHANNELS_FROM_DB_BY_LINK):
                     deleteChannelByLink(intent);
+
+                    readFromDBAndSendIntent();
             }
 
         }
+    }
+
+    private void readFromDBAndSendIntent() {
+        channelList = readChannelsFromDB();
+
+        //Посылаем BroadCast
+        Intent readFromDBIntent = new Intent();
+        readFromDBIntent.setAction(ACTION_SEND_LIST_OF_CHANNELS);
+        readFromDBIntent.addCategory(Intent.CATEGORY_DEFAULT);
+
+        ChannelListModel model = new ChannelListModel(channelList);
+        ArrayList<ChannelModel> testList = (ArrayList<ChannelModel>) model.getChannels(); //? Зачем?
+        readFromDBIntent.putExtra(EXTRA_KEY_OUT_SEND, model);
+        sendBroadcast(readFromDBIntent);
     }
 
     private void deleteChannelByLink(Intent intent) {
@@ -81,15 +87,18 @@ public class DataBaseService extends IntentService {
         DBChannelHelper dbChannelHelper = new DBChannelHelper();
         SQLiteDatabase db = dbChannelHelper.getWritableDatabase();
 
-//        String SQL_COMMAND_DELETE_CHANNEL_BY_LINK = ChannelContract.ChannelEntry.COLUMN_LINK + " = "
-//                + "\'"
-//                + channelLink
-//                + "\'";
-//        Log.d(TAG, "SQL_COMMAND_DELETE_CHANNEL_BY_LINK = " + SQL_COMMAND_DELETE_CHANNEL_BY_LINK);
+        String SQL_COMMAND_DELETE_CHANNEL_BY_LINK = ChannelContract.ChannelEntry.COLUMN_LINK + " = "
+                + "\'"
+                + channelLink
+                + "\'";
+        Log.d(TAG, "SQL_COMMAND_DELETE_CHANNEL_BY_LINK = " + SQL_COMMAND_DELETE_CHANNEL_BY_LINK);
 
 
-//        int delCount = db.delete(ChannelContract.ChannelEntry.TABLE_NAME, SQL_COMMAND_DELETE_CHANNEL_BY_LINK, null);
-//        Log.d(TAG, "deleted rows count = " + delCount);
+        int delCount = db.delete(ChannelContract.ChannelEntry.TABLE_NAME, SQL_COMMAND_DELETE_CHANNEL_BY_LINK, null);
+        Log.d(TAG, "deleted rows count = " + delCount);
+
+        db.close();
+        dbChannelHelper.close();
     }
 
     private List<ChannelModel> readChannelsFromDB() {
@@ -117,6 +126,9 @@ public class DataBaseService extends IntentService {
 
             } while (cursor.moveToNext());
         }
+
+        db.close();
+        dbChannelHelper.close();
 
         cursor.close();
 

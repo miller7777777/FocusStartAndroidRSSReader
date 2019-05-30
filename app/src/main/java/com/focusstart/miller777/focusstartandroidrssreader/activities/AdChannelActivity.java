@@ -108,7 +108,8 @@ public class AdChannelActivity extends AppCompatActivity {
 //            initView(ChannelListRecyclerView, channels);
 
 
-            Toast.makeText(AdChannelActivity.this, channel.toString(), Toast.LENGTH_LONG).show(); //Для отладки
+//            Toast.makeText(AdChannelActivity.this, channel.toString(), Toast.LENGTH_LONG).show(); //Для отладки
+            onBackPressed();
         }
     }
 }
