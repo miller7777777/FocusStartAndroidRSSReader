@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.focusstart.miller777.focusstartandroidrssreader.DAO.DataBase;
 import com.focusstart.miller777.focusstartandroidrssreader.R;
 import com.focusstart.miller777.focusstartandroidrssreader.model.ItemModel;
 import com.focusstart.miller777.focusstartandroidrssreader.net.DownloadService;
@@ -19,6 +20,7 @@ import com.focusstart.miller777.focusstartandroidrssreader.net.NetHelper;
 import com.focusstart.miller777.focusstartandroidrssreader.parsers.RssParser;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class NewsListActivity extends AppCompatActivity {
@@ -26,7 +28,7 @@ public class NewsListActivity extends AppCompatActivity {
     RecyclerView NewsListRecyclerView;
     Button btnFetchRss;
     DownloadServiceReceiver receiver;
-    String baseRssUrl;
+    String channelLink;
     List rssItems;
     String rssText;
 
@@ -37,7 +39,7 @@ public class NewsListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_news_list);
 
         Intent activityIntent = getIntent();
-        baseRssUrl = activityIntent.getStringExtra("CHANNEL_RSS_URL");
+        channelLink = activityIntent.getStringExtra("CHANNEL_RSS_URL");
         btnFetchRss = findViewById(R.id.btn_fetchRss);
         btnFetchRss.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,7 +68,7 @@ public class NewsListActivity extends AppCompatActivity {
         rssItems = new ArrayList<ItemModel>();
 
         //запрашиваем из сети список ItemModel
-        NetHelper netHelper = new NetHelper(baseRssUrl);
+        NetHelper netHelper = new NetHelper(channelLink);
         netHelper.processRss();
     }
 
@@ -91,6 +93,18 @@ public class NewsListActivity extends AppCompatActivity {
             }
             Log.d("TAG777", "NewsListActivity: onReceive(): rssItems.size() = " + rssItems.size());
             Toast.makeText(NewsListActivity.this, rssText, Toast.LENGTH_LONG).show(); //Для отладки
+
+            if (rssItems != null && rssItems.size() > 0) {
+                DataBase db = new DataBase();
+                Date date = new Date();
+                String downloadDate = date.toString();
+
+                for (ItemModel rssItem : rssItems) {
+                    rssItem.setChannelLink(channelLink);
+                    rssItem.setDownloadDate(downloadDate);
+                }
+                db.writeNewsOfChannelToDB(rssItems);
+            }
 
         }
     }

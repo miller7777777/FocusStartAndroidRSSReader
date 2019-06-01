@@ -2,8 +2,13 @@ package com.focusstart.miller777.focusstartandroidrssreader.DAO;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
+
 import com.focusstart.miller777.focusstartandroidrssreader.apps.App;
 import com.focusstart.miller777.focusstartandroidrssreader.model.ChannelModel;
+import com.focusstart.miller777.focusstartandroidrssreader.model.ItemModel;
+
+import java.util.List;
 
 
 public class DataBase {
@@ -14,6 +19,9 @@ public class DataBase {
 
     private Context context;
     private ChannelModel channel;
+    public List<ItemModel> newsOfChannel;
+
+    public static final String TAG = DataBase.class.getSimpleName();
 
     public DataBase() {
         this.context = App.getContext();
@@ -48,5 +56,22 @@ public class DataBase {
     private void deleteAllNewsAtChannelByChannelLink(String itemLink) {
         //TODO: сделать реализацию удаления всех новостей канала из таблицы новостей
 
+    }
+
+    public void writeNewsOfChannelToDB(List<ItemModel> rssItems) {
+        newsOfChannel = rssItems;
+
+        //////
+        for (ItemModel news : newsOfChannel) {
+            Log.d(TAG, "News " + news.getTitle() + "/n"
+                                    + news.getDescription() + "/n"
+                                    + news.getLink() + "/n"
+                                    + news.getPubDate() + "/n"
+                                    + news.getChannelLink() + "/n"
+                                    + news.getDownloadDate() + "/n"
+                                    + "/n/n/n"
+            );
+        }
+        /////
     }
 }
