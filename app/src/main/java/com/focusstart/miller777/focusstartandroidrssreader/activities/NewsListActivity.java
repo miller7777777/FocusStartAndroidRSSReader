@@ -17,7 +17,10 @@ import com.focusstart.miller777.focusstartandroidrssreader.R;
 import com.focusstart.miller777.focusstartandroidrssreader.model.ItemModel;
 import com.focusstart.miller777.focusstartandroidrssreader.net.DownloadService;
 import com.focusstart.miller777.focusstartandroidrssreader.net.NetHelper;
+import com.focusstart.miller777.focusstartandroidrssreader.parsers.NewsParser;
 import com.focusstart.miller777.focusstartandroidrssreader.parsers.RssParser;
+
+import org.xml.sax.Parser;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,7 +32,7 @@ public class NewsListActivity extends AppCompatActivity {
     Button btnFetchRss;
     DownloadServiceReceiver receiver;
     String channelLink;
-    List rssItems;
+    List newsItems;
     String rssText;
 
 
@@ -65,7 +68,7 @@ public class NewsListActivity extends AppCompatActivity {
     }
 
     private void fetchData() {
-        rssItems = new ArrayList<ItemModel>();
+        newsItems = new ArrayList<ItemModel>();
 
         //запрашиваем из сети список ItemModel
         NetHelper netHelper = new NetHelper(channelLink);
@@ -75,35 +78,35 @@ public class NewsListActivity extends AppCompatActivity {
     private class DownloadServiceReceiver extends BroadcastReceiver {
 
         public String result;
-        public List<ItemModel> rssItems;
-        String rssText;
+        public List<ItemModel> newsItems;
+        String newsText;
 
         @Override
         public void onReceive(Context context, Intent intent) {
             result = intent.getStringExtra(DownloadService.EXTRA_KEY_OUT);
 
-            rssText = result;
+            newsText = result;
 
             //парсим результат
-            RssParser parser = new RssParser(rssText);
+            NewsParser parser = new NewsParser(newsText);
             try {
-                rssItems = parser.getRssItems();
+                newsItems = parser.getNewsItems();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            Log.d("TAG777", "NewsListActivity: onReceive(): rssItems.size() = " + rssItems.size());
-            Toast.makeText(NewsListActivity.this, rssText, Toast.LENGTH_LONG).show(); //Для отладки
+            Log.d("TAG777", "NewsListActivity: onReceive(): rssItems.size() = " + newsItems.size());
+            Toast.makeText(NewsListActivity.this, newsText, Toast.LENGTH_LONG).show(); //Для отладки
 
-            if (rssItems != null && rssItems.size() > 0) {
+            if (newsItems != null && newsItems.size() > 0) {
                 DataBase db = new DataBase();
                 Date date = new Date();
                 String downloadDate = date.toString();
 
-                for (ItemModel rssItem : rssItems) {
-                    rssItem.setChannelLink(channelLink);
-                    rssItem.setDownloadDate(downloadDate);
+                for (ItemModel newsItem : newsItems) {
+                    newsItem.setChannelLink(channelLink);
+                    newsItem.setDownloadDate(downloadDate);
                 }
-                db.writeNewsOfChannelToDB(rssItems);
+                db.writeNewsOfChannelToDB(newsItems);
             }
 
         }

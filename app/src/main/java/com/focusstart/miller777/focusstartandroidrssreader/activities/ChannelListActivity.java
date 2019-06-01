@@ -37,7 +37,6 @@ public class ChannelListActivity extends AppCompatActivity {
 //    Button btnReadFromDB;
 //    TextView label;
     String baseRssUrl;
-    //    String rssText;
     ChannelListActivity.DownloadServiceReceiver downloadServiceReceiver;
     DataBaseReceiver dataBaseReceiver;
     ChannelModel channel;
