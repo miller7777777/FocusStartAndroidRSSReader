@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.focusstart.miller777.focusstartandroidrssreader.apps.App;
+import com.focusstart.miller777.focusstartandroidrssreader.apps.Constants;
 import com.focusstart.miller777.focusstartandroidrssreader.model.ChannelModel;
+import com.focusstart.miller777.focusstartandroidrssreader.model.ItemListModel;
 import com.focusstart.miller777.focusstartandroidrssreader.model.ItemModel;
 
 import java.util.List;
@@ -63,16 +65,21 @@ public class DataBase {
 
         //////
         for (ItemModel news : newsOfChannel) {
-            Log.d(TAG, "News " + news.getTitle() + "/n"
-                                    + news.getDescription() + "/n"
-                                    + news.getLink() + "/n"
-                                    + news.getPubDate() + "/n"
-                                    + news.getChannelLink() + "/n"
-                                    + news.getDownloadDate() + "/n"
-                                    + news.getChannelRssLink() + "/n"
-                                    + "/n/n/n"
+            Log.d(TAG, "News " + "Title: " + news.getTitle() + "\n"
+                                    + "Description: " + news.getDescription() + "\n"
+                                    + "Link: " + news.getLink() + "\n"
+                                    + "PubDate: " + news.getPubDate() + "\n"
+                                    + "ChannelLink: " + news.getChannelLink() + "\n"
+                                    + "DownloadDate: " + news.getDownloadDate() + "\n"
+                                    + "ChannelRssLink: " + news.getChannelRssLink() + "\n"
+                                    + "\n\n\n"
             );
         }
         /////
+        ItemListModel newsListModel = new ItemListModel(newsOfChannel);
+        Intent writeNewsToDBIntent = new Intent(App.getContext(), DataBaseService.class);
+        writeNewsToDBIntent.putExtra("ACTION", Constants.ACTION_WRITE_NEWS_TO_DB);
+        writeNewsToDBIntent.putExtra(Constants.EXTRA_OUT_NEWS_SEND_KEY, newsListModel);
+        App.getContext().startService(writeNewsToDBIntent);
     }
 }

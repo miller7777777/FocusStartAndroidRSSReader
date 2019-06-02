@@ -9,8 +9,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.focusstart.miller777.focusstartandroidrssreader.apps.App;
+import com.focusstart.miller777.focusstartandroidrssreader.apps.Constants;
 import com.focusstart.miller777.focusstartandroidrssreader.model.ChannelListModel;
 import com.focusstart.miller777.focusstartandroidrssreader.model.ChannelModel;
+import com.focusstart.miller777.focusstartandroidrssreader.model.ItemListModel;
+import com.focusstart.miller777.focusstartandroidrssreader.model.ItemModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,11 +61,40 @@ public class DataBaseService extends IntentService {
                     
                 case (ACTION_DELETE_CHANNELS_FROM_DB_BY_LINK):
                     deleteChannelByLink(intent);
-
                     readFromDBAndSendIntent();
+                    break;
+                case (Constants.ACTION_WRITE_NEWS_TO_DB):
+                    writeNewsToDB(intent);
+                    break;
             }
 
         }
+    }
+
+    private void writeNewsToDB(Intent intent) {
+
+        ItemListModel itemListModel = (ItemListModel) intent.getSerializableExtra(Constants.EXTRA_OUT_NEWS_SEND_KEY);
+        List<ItemModel> items = itemListModel.getNewsItems();
+        Log.d(TAG, "Получили из интента: " + items.size());
+        Log.d(TAG, "item.get(0).title: " + items.get(0).getTitle());
+
+        DBChannelHelper dbChannelHelper = new DBChannelHelper();
+        SQLiteDatabase db = dbChannelHelper.getWritableDatabase();
+
+        for (ItemModel item : items) {
+
+            if(!checkDBContainsNewsWithLink(db, item.getLink())){
+                //пишем новость в базу
+            }
+        }
+
+
+
+    }
+
+    private boolean checkDBContainsNewsWithLink(SQLiteDatabase db, String link) {
+        //проверяем, есть ли новость с таким link в базе
+        return false;
     }
 
     private void readFromDBAndSendIntent() {

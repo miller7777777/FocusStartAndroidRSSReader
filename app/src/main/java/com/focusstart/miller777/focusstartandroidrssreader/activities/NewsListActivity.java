@@ -88,7 +88,7 @@ public class NewsListActivity extends AppCompatActivity {
             newsText = result;
 
             //парсим результат
-            RssParser parser = new RssParser(newsText);
+            RssParser parser = new RssParser(newsText, channelLink);
 
                 newsItems = parser.getRssItems();
 
@@ -109,7 +109,7 @@ public class NewsListActivity extends AppCompatActivity {
                 }
 
 
-//                db.writeNewsOfChannelToDB(newsItems);
+                db.writeNewsOfChannelToDB(newsItems);
             }
 
         }

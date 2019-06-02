@@ -102,6 +102,7 @@ public class RssParser {
 
                 } else if (eventType == XmlPullParser.END_TAG && xpp.getName().equalsIgnoreCase("item")) {
                     insideItem = false;
+                    itemModel.setChannelRssLink(baseRssUrl);
                     items.add(itemModel);
                 }
 
