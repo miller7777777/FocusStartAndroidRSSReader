@@ -22,6 +22,7 @@ import com.focusstart.miller777.focusstartandroidrssreader.R;
 import com.focusstart.miller777.focusstartandroidrssreader.adapters.ChannelListAdapter;
 import com.focusstart.miller777.focusstartandroidrssreader.model.ChannelListModel;
 import com.focusstart.miller777.focusstartandroidrssreader.model.ChannelModel;
+import com.focusstart.miller777.focusstartandroidrssreader.model.ItemModel;
 import com.focusstart.miller777.focusstartandroidrssreader.net.DownloadService;
 import com.focusstart.miller777.focusstartandroidrssreader.net.NetHelper;
 import com.focusstart.miller777.focusstartandroidrssreader.parsers.RssParser;
@@ -47,6 +48,8 @@ public class ChannelListActivity extends AppCompatActivity {
     public static final String TAG = ChannelListActivity.class.getSimpleName();
     public static final String ACTION_SEND_LIST_OF_CHANNELS = "com.focusstart.miller777.focusstartandroidrssreader.DAO.SEND_LIST_OF_CHANNELS";
     public static final String EXTRA_KEY_OUT_SEND = "EXTRA_OUT_SEND";
+    private static final String EXTRA_KEY_URL = "EXTRA_URL";
+
 
 
     @Override
@@ -158,17 +161,19 @@ public class ChannelListActivity extends AppCompatActivity {
         public String result;
         ChannelModel channel;
         List<ChannelModel> channels;
+        List<ItemModel> newsOfChannel;
         String rssText;
 
         @Override
         public void onReceive(Context context, Intent intent) {
             result = intent.getStringExtra(DownloadService.EXTRA_KEY_OUT);
+            baseRssUrl = intent.getStringExtra(DownloadService.EXTRA_KEY_URL);
 
             rssText = result;
             channels = new ArrayList<ChannelModel>();
 
             //парсим результат
-            RssParser parser = new RssParser(rssText);
+            RssParser parser = new RssParser(rssText, baseRssUrl);
             channel = parser.getChannel();
             channels.add(channel);
 

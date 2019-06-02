@@ -61,6 +61,7 @@ public class ChannelListAdapter extends RecyclerView.Adapter<ChannelListAdapter.
         TextView itemDescription;
         TextView itemDate;
         String itemLink;
+        String itemRssLink;
 
 
         public ChannelListViewHolder(View itemView) {
@@ -78,7 +79,7 @@ public class ChannelListAdapter extends RecyclerView.Adapter<ChannelListAdapter.
 
 
             Intent newsListActivityIntent = new Intent(context, NewsListActivity.class);
-            newsListActivityIntent.putExtra("CHANNEL_RSS_URL", itemLink);
+            newsListActivityIntent.putExtra("CHANNEL_RSS_URL", itemRssLink);
             Log.d(TAG, "itemLink = " + itemLink);
             context.startActivity(newsListActivityIntent);
         }
@@ -116,6 +117,7 @@ public class ChannelListAdapter extends RecyclerView.Adapter<ChannelListAdapter.
             itemDescription.setText(channel.getDescription());
             itemDate.setText(channel.getLastBuildDate());
             itemLink = channel.getLink();
+            itemRssLink = channel.getRssLink();
         }
 
 //        @Override

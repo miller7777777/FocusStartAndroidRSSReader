@@ -99,7 +99,7 @@ public class AdChannelActivity extends AppCompatActivity {
             channels = new ArrayList<ChannelModel>();
 
             //парсим результат
-            RssParser parser = new RssParser(rssText);
+            RssParser parser = new RssParser(rssText, baseRssUrl);
             channel = parser.getChannel();
             channels.add(channel);
 

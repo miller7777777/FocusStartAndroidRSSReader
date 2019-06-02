@@ -16,6 +16,7 @@ import java.util.List;
 
 public class RssParser {
     String rss;
+    String baseRssUrl;
     List<ItemModel> items;
     ChannelModel channel;
 
@@ -23,11 +24,22 @@ public class RssParser {
 
         this.rss = rss;
         items = new ArrayList<ItemModel>();
+        Log.d("TAG777", "Создан объект парсера");
+        Log.d("TAG777", "Строка передана в парсер: " + rss);
+    }
+
+    public RssParser(String rss, String baseRssUrl) {
+
+        this.rss = rss;
+        this.baseRssUrl = baseRssUrl;
+        items = new ArrayList<ItemModel>();
+        Log.d("TAG777", "Создан объект парсера");
+        Log.d("TAG777", "Строка передана в парсер: " + rss);
     }
 
     //Объект класса парсит строку и формирует список объектов ItemModel
 
-    public List getRssItems() {
+    public List<ItemModel> getRssItems() {
 
 
         try {
@@ -49,6 +61,7 @@ public class RssParser {
                     if (xpp.getName().equalsIgnoreCase("item")) {
 
                         itemModel = new ItemModel();
+                        itemModel.setChannelRssLink(baseRssUrl);
                         Log.d("TAG777", "Создан пустой item");
 
                         insideItem = true;
@@ -121,7 +134,7 @@ public class RssParser {
 
                     if (xpp.getName().equalsIgnoreCase("channel")) {
 
-                        channel = new ChannelModel("", "", "", "");
+                        channel = new ChannelModel("", "", "", "", baseRssUrl);
 
                         insideItem = true;
 

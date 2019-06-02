@@ -29,6 +29,8 @@ public class NewsParser {
 
     public List<ItemModel> getNewsItems() {
 
+
+
         return null;
     }
 }

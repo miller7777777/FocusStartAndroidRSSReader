@@ -8,12 +8,21 @@ public class ChannelModel implements Serializable {
     private String lastBuildDate;
     private String link;
     private String description;
+    private String rssLink;
 
     public ChannelModel(String title, String lastBuildDate, String link, String description) {
         this.title = title;
         this.lastBuildDate = lastBuildDate;
         this.link = link;
         this.description = description;
+    }
+
+    public ChannelModel(String title, String lastBuildDate, String link, String description, String rssLink) {
+        this.title = title;
+        this.lastBuildDate = lastBuildDate;
+        this.link = link;
+        this.description = description;
+        this.rssLink = rssLink;
     }
 
     public ChannelModel() {
@@ -50,6 +59,14 @@ public class ChannelModel implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getRssLink() {
+        return rssLink;
+    }
+
+    public void setRssLink(String rssLink) {
+        this.rssLink = rssLink;
     }
 
     @Override

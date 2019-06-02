@@ -69,6 +69,7 @@ public class DataBase {
                                     + news.getPubDate() + "/n"
                                     + news.getChannelLink() + "/n"
                                     + news.getDownloadDate() + "/n"
+                                    + news.getChannelRssLink() + "/n"
                                     + "/n/n/n"
             );
         }

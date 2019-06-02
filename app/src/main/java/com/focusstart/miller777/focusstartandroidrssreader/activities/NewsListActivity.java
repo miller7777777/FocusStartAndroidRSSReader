@@ -32,7 +32,7 @@ public class NewsListActivity extends AppCompatActivity {
     Button btnFetchRss;
     DownloadServiceReceiver receiver;
     String channelLink;
-    List newsItems;
+    List<ItemModel> newsItems;
     String rssText;
 
 
@@ -48,6 +48,7 @@ public class NewsListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.d("TAG777", "NewsListActivity: Кнопка нажата");
+                Log.d("TAG777", "NewsListActivity: ChannelLink = " + channelLink);
                 fetchData();
             }
         });
@@ -72,6 +73,7 @@ public class NewsListActivity extends AppCompatActivity {
 
         //запрашиваем из сети список ItemModel
         NetHelper netHelper = new NetHelper(channelLink);
+//        NetHelper netHelper = new NetHelper("https://news.yandex.ru/auto.rss");
         netHelper.processRss();
     }
 
@@ -88,12 +90,10 @@ public class NewsListActivity extends AppCompatActivity {
             newsText = result;
 
             //парсим результат
-            NewsParser parser = new NewsParser(newsText);
-            try {
-                newsItems = parser.getNewsItems();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            RssParser parser = new RssParser(newsText);
+
+                newsItems = parser.getRssItems();
+
             Log.d("TAG777", "NewsListActivity: onReceive(): rssItems.size() = " + newsItems.size());
             Toast.makeText(NewsListActivity.this, newsText, Toast.LENGTH_LONG).show(); //Для отладки
 
@@ -102,11 +102,16 @@ public class NewsListActivity extends AppCompatActivity {
                 Date date = new Date();
                 String downloadDate = date.toString();
 
+
+
+
                 for (ItemModel newsItem : newsItems) {
                     newsItem.setChannelLink(channelLink);
                     newsItem.setDownloadDate(downloadDate);
                 }
-                db.writeNewsOfChannelToDB(newsItems);
+
+
+//                db.writeNewsOfChannelToDB(newsItems);
             }
 
         }

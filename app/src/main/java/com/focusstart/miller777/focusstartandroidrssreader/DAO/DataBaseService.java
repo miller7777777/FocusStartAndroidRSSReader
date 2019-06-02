@@ -114,14 +114,16 @@ public class DataBaseService extends IntentService {
             int idColLink = cursor.getColumnIndex(ChannelContract.ChannelEntry.COLUMN_LINK);
             int idColDescription = cursor.getColumnIndex(ChannelContract.ChannelEntry.COLUMN_DESCRIPTION);
             int idColLastBuildDate = cursor.getColumnIndex(ChannelContract.ChannelEntry.COLUMN_LASTBUILDDATE);
+            int idColRsslink = cursor.getColumnIndex(ChannelContract.ChannelEntry.COLUMN_RSS_LINK);
 
             do {
                 String title = cursor.getString(idColTitle);
                 String link = cursor.getString(idColLink);
                 String description = cursor.getString(idColDescription);
                 String lastBuildDate = cursor.getString(idColLastBuildDate);
+                String rssLink = cursor.getString(idColRsslink);
 
-                ChannelModel channel = new ChannelModel(title, lastBuildDate, link, description);
+                ChannelModel channel = new ChannelModel(title, lastBuildDate, link, description, rssLink);
                 channelList.add(channel);
 
             } while (cursor.moveToNext());
@@ -152,6 +154,7 @@ public class DataBaseService extends IntentService {
             cv.put(ChannelContract.ChannelEntry.COLUMN_LINK, channel.getLink());
             cv.put(ChannelContract.ChannelEntry.COLUMN_DESCRIPTION, channel.getDescription());
             cv.put(ChannelContract.ChannelEntry.COLUMN_LASTBUILDDATE, channel.getLastBuildDate());
+            cv.put(ChannelContract.ChannelEntry.COLUMN_RSS_LINK, channel.getRssLink());
 
             db.insert(ChannelContract.ChannelEntry.TABLE_NAME, null, cv);
 
