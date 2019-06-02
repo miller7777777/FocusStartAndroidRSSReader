@@ -17,10 +17,7 @@ import com.focusstart.miller777.focusstartandroidrssreader.R;
 import com.focusstart.miller777.focusstartandroidrssreader.model.ItemModel;
 import com.focusstart.miller777.focusstartandroidrssreader.net.DownloadService;
 import com.focusstart.miller777.focusstartandroidrssreader.net.NetHelper;
-import com.focusstart.miller777.focusstartandroidrssreader.parsers.NewsParser;
 import com.focusstart.miller777.focusstartandroidrssreader.parsers.RssParser;
-
-import org.xml.sax.Parser;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -71,6 +68,7 @@ public class NewsListActivity extends AppCompatActivity {
     private void fetchData() {
         newsItems = new ArrayList<ItemModel>();
 
+        //Здесь надо первоначально заполнять из базы
         //запрашиваем из сети список ItemModel
         NetHelper netHelper = new NetHelper(channelLink);
 //        NetHelper netHelper = new NetHelper("https://news.yandex.ru/auto.rss");
