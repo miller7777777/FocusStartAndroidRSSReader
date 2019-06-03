@@ -2,7 +2,7 @@
 
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
                                     xmlns:app="http://schemas.android.com/apk/res-auto"
-                                    android:id="@+id/channel_list_item_card_view"
+                                    android:id="@+id/news_list_item_card_view"
                                     android:layout_width="match_parent"
                                     android:layout_height="152dp"
                                     android:layout_margin="4dp"
@@ -11,7 +11,7 @@
 
     <RelativeLayout
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/relative_layout"
+        android:id="@+id/news_relative_layout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/recycler_view_item_height"
         android:paddingStart="@dimen/recycler_view_start_end_padding"
@@ -19,7 +19,7 @@
 
 
         <TextView
-            android:id="@+id/channel_list_item_title"
+            android:id="@+id/news_list_item_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -32,10 +32,10 @@
 
 
         <TextView
-            android:id="@+id/channel_list_item_description"
+            android:id="@+id/news_list_item_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/channel_list_item_title"
+            android:layout_below="@id/news_list_item_title"
             android:layout_marginTop="12dp"
             android:ellipsize="end"
             android:gravity="center_vertical"
@@ -45,10 +45,10 @@
             tools:text="Разработка под Android – Пишем под самую популярную мобильную ОС"/>
 
         <TextView
-            android:id="@+id/channel_list_item_date"
+            android:id="@+id/news_list_item_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/channel_list_item_description"
+            android:layout_below="@id/news_list_item_description"
             android:layout_marginTop="8dp"
             android:ellipsize="end"
             android:gravity="center_vertical"

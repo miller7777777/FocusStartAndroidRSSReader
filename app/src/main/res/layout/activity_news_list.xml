@@ -9,13 +9,13 @@
     android:orientation="vertical"
     tools:context=".activities.NewsListActivity">
 
-    <Button
-        android:id="@+id/btn_fetchRss"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="10dip"
-        android:text="Fetch Rss"
-        />
+    <!--<Button-->
+        <!--android:id="@+id/btn_fetchRss"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginRight="10dip"-->
+        <!--android:text="Fetch Rss"-->
+        <!--/>-->
 
 
 
