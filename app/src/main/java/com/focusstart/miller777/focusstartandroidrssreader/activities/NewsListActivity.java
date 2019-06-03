@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import com.focusstart.miller777.focusstartandroidrssreader.DAO.DataBase;
 import com.focusstart.miller777.focusstartandroidrssreader.R;
+import com.focusstart.miller777.focusstartandroidrssreader.apps.Constants;
 import com.focusstart.miller777.focusstartandroidrssreader.model.ItemModel;
 import com.focusstart.miller777.focusstartandroidrssreader.net.DownloadService;
 import com.focusstart.miller777.focusstartandroidrssreader.net.NetHelper;
@@ -31,8 +33,10 @@ public class NewsListActivity extends AppCompatActivity {
     Button btnFetchRss;
     DownloadServiceReceiver receiver;
     String channelLink;
+    String channelTitle;
     List<ItemModel> newsItems;
     String rssText;
+    ActionBar actionBar;
 
 
     @Override
@@ -42,6 +46,11 @@ public class NewsListActivity extends AppCompatActivity {
 
         Intent activityIntent = getIntent();
         channelLink = activityIntent.getStringExtra("CHANNEL_RSS_URL");
+        channelTitle = activityIntent.getStringExtra(Constants.EXTRA_CHANNEL_TITLE_KEY);
+
+        actionBar = getSupportActionBar();
+        actionBar.setTitle(channelTitle);
+
         btnFetchRss = findViewById(R.id.btn_fetchRss);
         btnFetchRss.setOnClickListener(new View.OnClickListener() {
             @Override

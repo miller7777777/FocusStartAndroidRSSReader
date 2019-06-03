@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.focusstart.miller777.focusstartandroidrssreader.DAO.DataBase;
 import com.focusstart.miller777.focusstartandroidrssreader.activities.NewsListActivity;
 import com.focusstart.miller777.focusstartandroidrssreader.R;
+import com.focusstart.miller777.focusstartandroidrssreader.apps.Constants;
 import com.focusstart.miller777.focusstartandroidrssreader.model.ChannelModel;
 
 import java.util.List;
@@ -80,7 +81,9 @@ public class ChannelListAdapter extends RecyclerView.Adapter<ChannelListAdapter.
 
             Intent newsListActivityIntent = new Intent(context, NewsListActivity.class);
             newsListActivityIntent.putExtra("CHANNEL_RSS_URL", itemRssLink);
+            newsListActivityIntent.putExtra(Constants.EXTRA_CHANNEL_TITLE_KEY, itemTitle.getText());
             Log.d(TAG, "itemLink = " + itemLink);
+            Log.d(TAG, "title = " + itemTitle.getText());
             context.startActivity(newsListActivityIntent);
         }
 
