@@ -58,7 +58,7 @@ public class DataBaseService extends IntentService {
                 case (ACTION_READ_CHANNELS_FROM_DB):
                     readFromDBAndSendIntent();
                     break;
-                    
+
                 case (ACTION_DELETE_CHANNELS_FROM_DB_BY_LINK):
                     deleteChannelByLink(intent);
                     readFromDBAndSendIntent();
@@ -83,18 +83,54 @@ public class DataBaseService extends IntentService {
 
         for (ItemModel item : items) {
 
-            if(!checkDBContainsNewsWithLink(db, item.getLink())){
+            if (!checkDBContainsNewsWithLink(db, item.getLink())) {
                 //пишем новость в базу
+                db.beginTransaction();
+
+                ContentValues cv = new ContentValues();
+                cv.put(ChannelContract.ItemEntry.COLUMN_TITLE, item.getTitle());
+                cv.put(ChannelContract.ItemEntry.COLUMN_DESCRIPTION, item.getDescription());
+                cv.put(ChannelContract.ItemEntry.COLUMN_LINK, item.getLink());
+                cv.put(ChannelContract.ItemEntry.COLUMN_PUBDATE, item.getPubDate());
+                cv.put(ChannelContract.ItemEntry.COLUMN_DOWNLOAD_DATE, item.getDownloadDate());
+                cv.put(ChannelContract.ItemEntry.COLUMN_CHANNEL_LINK, item.getChannelLink());
+                cv.put(ChannelContract.ItemEntry.COLUMN_CHANNEL_RSS_LINK, item.getChannelRssLink());
+
+                db.insert(ChannelContract.ItemEntry.TABLE_NAME, null, cv);
+                db.setTransactionSuccessful();
+                db.endTransaction();
             }
         }
 
-
+        db.close();
+        dbChannelHelper.close();
 
     }
 
     private boolean checkDBContainsNewsWithLink(SQLiteDatabase db, String link) {
         //проверяем, есть ли новость с таким link в базе
-        return false;
+        boolean result = false;
+
+        Cursor c = db.query(ChannelContract.ItemEntry.TABLE_NAME, null, null, null, null, null, null);
+
+        int count = 0;
+
+        if (c.moveToFirst()) {
+            int linkColIndex = c.getColumnIndex(ChannelContract.ItemEntry.COLUMN_LINK);
+
+            do {
+                if (c.getString(linkColIndex).equalsIgnoreCase(link)) {
+                    count++;
+                }
+            } while (c.moveToNext());
+        }
+        c.close();
+
+        if (count > 0) {
+            result = true;
+        }
+
+        return result;
     }
 
     private void readFromDBAndSendIntent() {

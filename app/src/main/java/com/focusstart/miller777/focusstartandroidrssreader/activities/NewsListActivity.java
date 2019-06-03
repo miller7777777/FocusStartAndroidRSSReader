@@ -25,6 +25,8 @@ import java.util.List;
 
 public class NewsListActivity extends AppCompatActivity {
 
+    private static final String TAG = NewsListActivity.class.getSimpleName();
+
     RecyclerView NewsListRecyclerView;
     Button btnFetchRss;
     DownloadServiceReceiver receiver;
@@ -63,6 +65,7 @@ public class NewsListActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         unregisterReceiver(receiver);
+        Log.d(TAG, "onPause сработал");
     }
 
     private void fetchData() {
