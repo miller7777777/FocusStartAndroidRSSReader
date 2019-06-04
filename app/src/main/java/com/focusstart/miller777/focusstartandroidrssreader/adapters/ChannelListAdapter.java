@@ -81,7 +81,9 @@ public class ChannelListAdapter extends RecyclerView.Adapter<ChannelListAdapter.
 
             Intent newsListActivityIntent = new Intent(context, NewsListActivity.class);
             newsListActivityIntent.putExtra("CHANNEL_RSS_URL", itemRssLink);
+            newsListActivityIntent.putExtra("CHANNEL_URL", itemLink);
             newsListActivityIntent.putExtra(Constants.EXTRA_CHANNEL_TITLE_KEY, itemTitle.getText());
+            Log.d(TAG, "itemRssLink = " + itemRssLink);
             Log.d(TAG, "itemLink = " + itemLink);
             Log.d(TAG, "title = " + itemTitle.getText());
             context.startActivity(newsListActivityIntent);

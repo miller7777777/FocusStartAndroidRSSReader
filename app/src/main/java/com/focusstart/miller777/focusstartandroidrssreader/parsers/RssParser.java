@@ -12,11 +12,14 @@ import org.xmlpull.v1.XmlPullParserFactory;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class RssParser {
     String rss;
-    String baseRssUrl;
+    String channelUrl;
+    String channelRssUrl;
+
     List<ItemModel> items;
     ChannelModel channel;
 
@@ -28,19 +31,31 @@ public class RssParser {
         Log.d("TAG777", "Строка передана в парсер: " + rss);
     }
 
-    public RssParser(String rss, String baseRssUrl) {
+    public RssParser(String rss, String channelUrl) {
 
         this.rss = rss;
-        this.baseRssUrl = baseRssUrl;
+        this.channelUrl = channelUrl;
         items = new ArrayList<ItemModel>();
         Log.d("TAG777", "Создан объект парсера");
         Log.d("TAG777", "Строка передана в парсер: " + rss);
+        Log.d("TAG777", "Парсер: channelUrl " + channelUrl);
+    }
+
+    public RssParser(String rss, String channelUrl, String channelRssUrl) {
+
+        this.rss = rss;
+        this.channelUrl = channelUrl;
+        this.channelRssUrl = channelRssUrl;
+        items = new ArrayList<ItemModel>();
+
     }
 
     //Объект класса парсит строку и формирует список объектов ItemModel
 
     public List<ItemModel> getRssItems() {
 
+        Date date = new Date();
+        String downloadDate = date.toString();
 
         try {
             XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
@@ -61,7 +76,7 @@ public class RssParser {
                     if (xpp.getName().equalsIgnoreCase("item")) {
 
                         itemModel = new ItemModel();
-                        itemModel.setChannelRssLink(baseRssUrl);
+//                        itemModel.setChannelRssLink(channelUrl);
                         Log.d("TAG777", "Создан пустой item");
 
                         insideItem = true;
@@ -102,7 +117,9 @@ public class RssParser {
 
                 } else if (eventType == XmlPullParser.END_TAG && xpp.getName().equalsIgnoreCase("item")) {
                     insideItem = false;
-                    itemModel.setChannelRssLink(baseRssUrl);
+                    itemModel.setChannelLink(channelUrl);
+                    itemModel.setChannelRssLink(channelRssUrl);
+                    itemModel.setDownloadDate(downloadDate);
                     items.add(itemModel);
                 }
 
@@ -135,7 +152,7 @@ public class RssParser {
 
                     if (xpp.getName().equalsIgnoreCase("channel")) {
 
-                        channel = new ChannelModel("", "", "", "", baseRssUrl);
+                        channel = new ChannelModel("", "", "", "", channelUrl);
 
                         insideItem = true;
 

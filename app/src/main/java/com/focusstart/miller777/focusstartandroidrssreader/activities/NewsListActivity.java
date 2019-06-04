@@ -33,6 +33,7 @@ public class NewsListActivity extends AppCompatActivity {
 //    Button btnFetchRss;
     DownloadServiceReceiver receiver;
     String channelLink;
+    String channelRssLink;
     String channelTitle;
     List<ItemModel> newsItems;
     String rssText;
@@ -45,7 +46,8 @@ public class NewsListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_news_list);
 
         Intent activityIntent = getIntent();
-        channelLink = activityIntent.getStringExtra("CHANNEL_RSS_URL");
+        channelLink = activityIntent.getStringExtra("CHANNEL_URL");
+        channelRssLink = activityIntent.getStringExtra("CHANNEL_RSS_URL");
         channelTitle = activityIntent.getStringExtra(Constants.EXTRA_CHANNEL_TITLE_KEY);
 
         actionBar = getSupportActionBar();
@@ -90,7 +92,7 @@ public class NewsListActivity extends AppCompatActivity {
 
         //Здесь надо первоначально заполнять из базы
         //запрашиваем из сети список ItemModel
-        NetHelper netHelper = new NetHelper(channelLink);
+        NetHelper netHelper = new NetHelper(channelRssLink);
 //        NetHelper netHelper = new NetHelper("https://news.yandex.ru/auto.rss");
         netHelper.processRss();
     }
@@ -108,7 +110,8 @@ public class NewsListActivity extends AppCompatActivity {
             newsText = result;
 
             //парсим результат
-            RssParser parser = new RssParser(newsText, channelLink);
+            Log.d(TAG, "Перед вызовом парсера: channelLink = " + channelLink);
+            RssParser parser = new RssParser(newsText, channelLink, channelRssLink);
 
                 newsItems = parser.getRssItems();
 
@@ -117,16 +120,17 @@ public class NewsListActivity extends AppCompatActivity {
 
             if (newsItems != null && newsItems.size() > 0) {
                 DataBase db = new DataBase();
-                Date date = new Date();
-                String downloadDate = date.toString();
+//                Date date = new Date();
+//                String downloadDate = date.toString();
 
 
 
 
-                for (ItemModel newsItem : newsItems) {
-                    newsItem.setChannelLink(channelLink);
-                    newsItem.setDownloadDate(downloadDate);
-                }
+//                for (ItemModel newsItem : newsItems) {
+//                    newsItem.setChannelLink(channelLink);
+//                    newsItem.setChannelRssLink(channelRssLink);
+//                    newsItem.setDownloadDate(downloadDate);
+//                }
 
 
                 db.writeNewsOfChannelToDB(newsItems);
