@@ -47,7 +47,7 @@ public class DataBase {
     public void deleteChannelByLink(String itemLink) {
 
         Log.d(TAG, "Получили itemLink: " + itemLink);
-        deleteAllNewsAtChannelByChannelLink(itemLink);
+//        deleteAllNewsAtChannelByChannelLink(itemLink);
         //TODO: сделать реализацию удаления канала из таблицы каналов
         Intent deleteChannelsFromDBIntent = new Intent(App.getContext(), DataBaseService.class);
         deleteChannelsFromDBIntent.putExtra("ACTION", ACTION_DELETE_CHANNELS_FROM_DB_BY_LINK);

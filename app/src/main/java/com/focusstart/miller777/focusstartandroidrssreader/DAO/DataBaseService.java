@@ -152,6 +152,8 @@ public class DataBaseService extends IntentService {
         String channelLink = intent.getStringExtra("LINK");
         Log.d(TAG, "Получили линк канала: " + channelLink);
 
+        deleteAllNewsOfChannelByChannelLink(intent);
+
         DBChannelHelper dbChannelHelper = new DBChannelHelper();
         SQLiteDatabase db = dbChannelHelper.getWritableDatabase();
 
@@ -164,6 +166,25 @@ public class DataBaseService extends IntentService {
 
         int delCount = db.delete(ChannelContract.ChannelEntry.TABLE_NAME, SQL_COMMAND_DELETE_CHANNEL_BY_LINK, null);
         Log.d(TAG, "deleted rows count = " + delCount);
+
+        db.close();
+        dbChannelHelper.close();
+    }
+
+    private void deleteAllNewsOfChannelByChannelLink(Intent intent) {
+
+        String channelLink = intent.getStringExtra("LINK");
+
+        DBChannelHelper dbChannelHelper = new DBChannelHelper();
+        SQLiteDatabase db = dbChannelHelper.getWritableDatabase();
+
+        String SQL_COMMAND_DELETE_NEWS_BY_CHANNELLINK = ChannelContract.ItemEntry.COLUMN_CHANNEL_LINK + " = "
+                + "\'"
+                + channelLink
+                + "\'";
+
+        int delCount = db.delete(ChannelContract.ItemEntry.TABLE_NAME, SQL_COMMAND_DELETE_NEWS_BY_CHANNELLINK, null);
+        Log.d(TAG, "deleted news rows count = " + delCount);
 
         db.close();
         dbChannelHelper.close();
