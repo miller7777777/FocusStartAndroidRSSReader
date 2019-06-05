@@ -119,7 +119,22 @@ public class DataBaseService extends IntentService {
         dbChannelHelper.close();
         cursor.close();
 
+        sendNewsBroadcast(itemList);
+    }
+
+    private void sendNewsBroadcast(List<ItemModel> itemList) {
+
         ItemListModel itemListModel = new ItemListModel(itemList);
+
+        //Посылаем BroadCast
+        Intent readNewsIntent = new Intent();
+        readNewsIntent.setAction(Constants.ACTION_SEND_LIST_OF_NEWS);
+        readNewsIntent.addCategory(Intent.CATEGORY_DEFAULT);
+
+        readNewsIntent.putExtra(Constants.ACTION_SEND_NEWS_LIST_MODEL, itemListModel);
+        sendBroadcast(readNewsIntent);
+
+
     }
 
     private void writeNewsToDB(Intent intent) {

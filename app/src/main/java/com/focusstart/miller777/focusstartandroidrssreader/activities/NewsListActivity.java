@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.focusstart.miller777.focusstartandroidrssreader.DAO.DataBase;
 import com.focusstart.miller777.focusstartandroidrssreader.R;
 import com.focusstart.miller777.focusstartandroidrssreader.apps.Constants;
+import com.focusstart.miller777.focusstartandroidrssreader.model.ItemListModel;
 import com.focusstart.miller777.focusstartandroidrssreader.model.ItemModel;
 import com.focusstart.miller777.focusstartandroidrssreader.net.DownloadService;
 import com.focusstart.miller777.focusstartandroidrssreader.net.NetHelper;
@@ -30,8 +31,9 @@ public class NewsListActivity extends AppCompatActivity {
     private static final String TAG = NewsListActivity.class.getSimpleName();
 
     RecyclerView newsListRecyclerView;
-//    Button btnFetchRss;
+    //    Button btnFetchRss;
     DownloadServiceReceiver receiver;
+    DataBaseServiceReceiver dataBaseServiceReceiver;
     String channelLink;
     String channelRssLink;
     String channelTitle;
@@ -84,12 +86,19 @@ public class NewsListActivity extends AppCompatActivity {
         );
         intentFilter.addCategory(Intent.CATEGORY_DEFAULT);
         registerReceiver(receiver, intentFilter);
+
+        dataBaseServiceReceiver = new DataBaseServiceReceiver();
+
+        IntentFilter dataBaseIntentFilter = new IntentFilter(Constants.ACTION_SEND_LIST_OF_NEWS);
+        dataBaseIntentFilter.addCategory(Intent.CATEGORY_DEFAULT);
+        registerReceiver(dataBaseServiceReceiver, dataBaseIntentFilter);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         unregisterReceiver(receiver);
+        unregisterReceiver(dataBaseServiceReceiver);
         Log.d(TAG, "onPause сработал");
     }
 
@@ -119,28 +128,35 @@ public class NewsListActivity extends AppCompatActivity {
             Log.d(TAG, "Перед вызовом парсера: channelLink = " + channelLink);
             RssParser parser = new RssParser(newsText, channelLink, channelRssLink);
 
-                newsItems = parser.getRssItems();
+            newsItems = parser.getRssItems();
 
             Log.d("TAG777", "NewsListActivity: onReceive(): rssItems.size() = " + newsItems.size());
             Toast.makeText(NewsListActivity.this, newsText, Toast.LENGTH_LONG).show(); //Для отладки
 
             if (newsItems != null && newsItems.size() > 0) {
                 DataBase db = new DataBase();
-//                Date date = new Date();
-//                String downloadDate = date.toString();
-
-
-
-
-//                for (ItemModel newsItem : newsItems) {
-//                    newsItem.setChannelLink(channelLink);
-//                    newsItem.setChannelRssLink(channelRssLink);
-//                    newsItem.setDownloadDate(downloadDate);
-//                }
-
-
                 db.writeNewsOfChannelToDB(newsItems);
             }
+        }
+    }
+
+    private class DataBaseServiceReceiver extends BroadcastReceiver {
+
+        public ItemListModel itemListModel;
+        public List<ItemModel> newsItems;
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            itemListModel = (ItemListModel) intent.getSerializableExtra(Constants.ACTION_SEND_NEWS_LIST_MODEL);
+            if (itemListModel != null) {
+                newsItems = itemListModel.getNewsItems();
+                initView(newsListRecyclerView, newsItems);
+                Toast.makeText(NewsListActivity.this, "Получено " + newsItems.size() + " новостей", Toast.LENGTH_LONG).show(); //Для отладки
+                Log.d(TAG, "Получено " + newsItems.size() + " новостей");
+
+            }
+
 
         }
     }
