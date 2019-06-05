@@ -29,7 +29,7 @@ public class NewsListActivity extends AppCompatActivity {
 
     private static final String TAG = NewsListActivity.class.getSimpleName();
 
-    RecyclerView NewsListRecyclerView;
+    RecyclerView newsListRecyclerView;
 //    Button btnFetchRss;
     DownloadServiceReceiver receiver;
     String channelLink;
@@ -52,20 +52,26 @@ public class NewsListActivity extends AppCompatActivity {
 
         actionBar = getSupportActionBar();
         actionBar.setTitle(channelTitle);
+        newsItems = new ArrayList<ItemModel>();
+
+        readNewsFromDBByChannelLink(channelLink);
+
+        initView(newsListRecyclerView, newsItems);
+
+        newsListRecyclerView = findViewById(R.id.newsListRecyclerView);
 
         fetchData();
 
-//        btnFetchRss = findViewById(R.id.btn_fetchRss);
-//        btnFetchRss.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Log.d("TAG777", "NewsListActivity: Кнопка нажата");
-//                Log.d("TAG777", "NewsListActivity: ChannelLink = " + channelLink);
-//                fetchData();
-//            }
-//        });
 
+    }
 
+    private void initView(RecyclerView newsListRecyclerView, List<ItemModel> newsItems) {
+    }
+
+    private void readNewsFromDBByChannelLink(String channelLink) {
+
+        DataBase db = new DataBase();
+        db.readNewsOfChannelByChannelLink(channelLink);
     }
 
     @Override

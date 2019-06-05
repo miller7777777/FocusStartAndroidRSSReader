@@ -86,4 +86,12 @@ public class DataBase {
         writeNewsToDBIntent.putExtra(Constants.EXTRA_OUT_NEWS_SEND_KEY, newsListModel);
         App.getContext().startService(writeNewsToDBIntent);
     }
+
+    public void readNewsOfChannelByChannelLink(String channelLink) {
+
+        Intent readNewsFromDBIntent = new Intent(App.getContext(), DataBaseService.class);
+        readNewsFromDBIntent.putExtra("ACTION", Constants.ACTION_READ_NEWS_FROM_DB);
+        readNewsFromDBIntent.putExtra("CHANNELLINK", channelLink);
+        App.getContext().startService(readNewsFromDBIntent);
+    }
 }

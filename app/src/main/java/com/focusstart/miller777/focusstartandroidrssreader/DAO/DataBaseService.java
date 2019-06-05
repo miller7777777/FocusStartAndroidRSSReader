@@ -30,6 +30,7 @@ public class DataBaseService extends IntentService {
     private Context context;
     private final String TAG = DataBaseService.class.getSimpleName();
     List<ChannelModel> channelList;
+    List<ItemModel> itemList;
 
 
     public DataBaseService() {
@@ -63,20 +64,68 @@ public class DataBaseService extends IntentService {
                     deleteChannelByLink(intent);
                     readFromDBAndSendIntent();
                     break;
+
                 case (Constants.ACTION_WRITE_NEWS_TO_DB):
                     writeNewsToDB(intent);
+                    break;
+
+                case (Constants.ACTION_READ_NEWS_FROM_DB):
+                    readNewsFromDBAndSendBroadcastMessage(intent);
                     break;
             }
 
         }
     }
 
+    private void readNewsFromDBAndSendBroadcastMessage(Intent intent) {
+
+        String channellink = intent.getStringExtra("CHANNELLINK");
+        Log.d(TAG, "Получили из интента channelLink: " + channellink);
+
+        DBChannelHelper dbChannelHelper = new DBChannelHelper();
+        SQLiteDatabase db = dbChannelHelper.getWritableDatabase();
+
+        itemList = new ArrayList<ItemModel>();
+
+        String selection = ChannelContract.ItemEntry.COLUMN_CHANNEL_LINK + " = ?";
+        String[] selectionArgs = new String[] { channellink };
+        Cursor cursor = db.query(ChannelContract.ItemEntry.TABLE_NAME, null, selection, selectionArgs, null, null,
+                null);
+
+        if (cursor.moveToFirst()){
+            int idColTitle = cursor.getColumnIndex(ChannelContract.ItemEntry.COLUMN_TITLE);
+            int idColLink = cursor.getColumnIndex(ChannelContract.ItemEntry.COLUMN_LINK);
+            int idColDescription = cursor.getColumnIndex(ChannelContract.ItemEntry.COLUMN_DESCRIPTION);
+            int idColPubDate = cursor.getColumnIndex(ChannelContract.ItemEntry.COLUMN_PUBDATE);
+            int idColDownloadDate = cursor.getColumnIndex(ChannelContract.ItemEntry.COLUMN_DOWNLOAD_DATE);
+            int idColChannelRssLink = cursor.getColumnIndex(ChannelContract.ItemEntry.COLUMN_CHANNEL_RSS_LINK);
+            int idColChannelLink = cursor.getColumnIndex(ChannelContract.ItemEntry.COLUMN_CHANNEL_LINK);
+
+            do {
+                String title = cursor.getString(idColTitle);
+                String link = cursor.getString(idColLink);
+                String description = cursor.getString(idColDescription);
+                String pubDate = cursor.getString(idColPubDate);
+                String downloadDate = cursor.getString(idColDownloadDate);
+                String channelRssLink = cursor.getString(idColChannelRssLink);
+                String channelLink = cursor.getString(idColChannelLink);
+
+                ItemModel itemModel = new ItemModel(title, pubDate, link, description, downloadDate, channelLink, channelRssLink);
+                itemList.add(itemModel);
+
+            } while (cursor.moveToNext());
+        }
+        db.close();
+        dbChannelHelper.close();
+        cursor.close();
+
+        ItemListModel itemListModel = new ItemListModel(itemList);
+    }
+
     private void writeNewsToDB(Intent intent) {
 
         ItemListModel itemListModel = (ItemListModel) intent.getSerializableExtra(Constants.EXTRA_OUT_NEWS_SEND_KEY);
         List<ItemModel> items = itemListModel.getNewsItems();
-        Log.d(TAG, "Получили из интента: " + items.size());
-        Log.d(TAG, "item.get(0).title: " + items.get(0).getTitle());
 
         DBChannelHelper dbChannelHelper = new DBChannelHelper();
         SQLiteDatabase db = dbChannelHelper.getWritableDatabase();
@@ -150,7 +199,7 @@ public class DataBaseService extends IntentService {
     private void deleteChannelByLink(Intent intent) {
 
         String channelLink = intent.getStringExtra("LINK");
-        Log.d(TAG, "Получили линк канала: " + channelLink);
+//        Log.d(TAG, "Получили линк канала: " + channelLink);
 
         deleteAllNewsOfChannelByChannelLink(intent);
 
@@ -161,11 +210,11 @@ public class DataBaseService extends IntentService {
                 + "\'"
                 + channelLink
                 + "\'";
-        Log.d(TAG, "SQL_COMMAND_DELETE_CHANNEL_BY_LINK = " + SQL_COMMAND_DELETE_CHANNEL_BY_LINK);
+//        Log.d(TAG, "SQL_COMMAND_DELETE_CHANNEL_BY_LINK = " + SQL_COMMAND_DELETE_CHANNEL_BY_LINK);
 
 
         int delCount = db.delete(ChannelContract.ChannelEntry.TABLE_NAME, SQL_COMMAND_DELETE_CHANNEL_BY_LINK, null);
-        Log.d(TAG, "deleted rows count = " + delCount);
+//        Log.d(TAG, "deleted rows count = " + delCount);
 
         db.close();
         dbChannelHelper.close();
@@ -184,7 +233,7 @@ public class DataBaseService extends IntentService {
                 + "\'";
 
         int delCount = db.delete(ChannelContract.ItemEntry.TABLE_NAME, SQL_COMMAND_DELETE_NEWS_BY_CHANNELLINK, null);
-        Log.d(TAG, "deleted news rows count = " + delCount);
+//        Log.d(TAG, "deleted news rows count = " + delCount);
 
         db.close();
         dbChannelHelper.close();
