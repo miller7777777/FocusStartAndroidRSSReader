@@ -69,8 +69,8 @@ public class NewsListActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onPostResume() {
-        super.onPostResume();
+    protected void onResume() {
+        super.onResume();
         receiver = new NewsListActivity.DownloadServiceReceiver();
 
         IntentFilter intentFilter = new IntentFilter(

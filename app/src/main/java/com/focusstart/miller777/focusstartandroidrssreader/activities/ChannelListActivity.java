@@ -121,9 +121,17 @@ public class ChannelListActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onPostResume() {
-        super.onPostResume();
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(downloadServiceReceiver);
+        unregisterReceiver(dataBaseReceiver);
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        readFromDB();
+        initView(ChannelListRecyclerView, channels);
         downloadServiceReceiver = new DownloadServiceReceiver();
 
         IntentFilter intentFilter = new IntentFilter(
@@ -139,20 +147,6 @@ public class ChannelListActivity extends AppCompatActivity {
         );
         dataBaseSendIntentFilter.addCategory(Intent.CATEGORY_DEFAULT);
         registerReceiver(dataBaseReceiver, dataBaseSendIntentFilter);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        unregisterReceiver(downloadServiceReceiver);
-        unregisterReceiver(dataBaseReceiver);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        readFromDB();
-        initView(ChannelListRecyclerView, channels);
 
     }
 
