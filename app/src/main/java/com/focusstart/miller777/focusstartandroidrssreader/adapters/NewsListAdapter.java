@@ -1,6 +1,8 @@
 package com.focusstart.miller777.focusstartandroidrssreader.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -67,6 +69,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsLi
         }
 
         private void onClick() {
+            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(itemLink)));
         }
 
         private void bind(ItemModel itemModel){
