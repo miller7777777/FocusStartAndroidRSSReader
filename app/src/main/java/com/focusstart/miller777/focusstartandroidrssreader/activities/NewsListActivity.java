@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 import com.focusstart.miller777.focusstartandroidrssreader.DAO.DataBase;
 import com.focusstart.miller777.focusstartandroidrssreader.R;
+import com.focusstart.miller777.focusstartandroidrssreader.adapters.NewsListAdapter;
 import com.focusstart.miller777.focusstartandroidrssreader.apps.Constants;
 import com.focusstart.miller777.focusstartandroidrssreader.model.ItemListModel;
 import com.focusstart.miller777.focusstartandroidrssreader.model.ItemModel;
@@ -31,6 +33,7 @@ public class NewsListActivity extends AppCompatActivity {
     private static final String TAG = NewsListActivity.class.getSimpleName();
 
     RecyclerView newsListRecyclerView;
+    private NewsListAdapter newsListAdapter;
     //    Button btnFetchRss;
     DownloadServiceReceiver receiver;
     DataBaseServiceReceiver dataBaseServiceReceiver;
@@ -56,11 +59,11 @@ public class NewsListActivity extends AppCompatActivity {
         actionBar.setTitle(channelTitle);
         newsItems = new ArrayList<ItemModel>();
 
-        readNewsFromDBByChannelLink(channelLink);
-
-        initView(newsListRecyclerView, newsItems);
 
         newsListRecyclerView = findViewById(R.id.newsListRecyclerView);
+
+        readNewsFromDBByChannelLink(channelLink);
+        initView(newsListRecyclerView, newsItems);
 
         fetchData();
 
@@ -68,6 +71,11 @@ public class NewsListActivity extends AppCompatActivity {
     }
 
     private void initView(RecyclerView newsListRecyclerView, List<ItemModel> newsItems) {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        newsListRecyclerView.setLayoutManager(layoutManager);
+
+        newsListAdapter = new NewsListAdapter(this, newsItems);
+        newsListRecyclerView.setAdapter(newsListAdapter);
     }
 
     private void readNewsFromDBByChannelLink(String channelLink) {

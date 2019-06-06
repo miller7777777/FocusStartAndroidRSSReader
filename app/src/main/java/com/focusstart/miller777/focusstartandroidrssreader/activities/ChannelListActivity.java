@@ -33,10 +33,7 @@ import java.util.List;
 public class ChannelListActivity extends AppCompatActivity {
 
     RecyclerView ChannelListRecyclerView;
-    //    EditText etRSSUrl;
-//    Button btnSubscribe;
-//    Button btnReadFromDB;
-//    TextView label;
+
     String baseRssUrl;
     ChannelListActivity.DownloadServiceReceiver downloadServiceReceiver;
     DataBaseReceiver dataBaseReceiver;
