@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.focusstart.miller777.focusstartandroidrssreader.R;
+import com.focusstart.miller777.focusstartandroidrssreader.activities.ItemViewActivity;
 import com.focusstart.miller777.focusstartandroidrssreader.activities.NewsListActivity;
 import com.focusstart.miller777.focusstartandroidrssreader.model.ItemModel;
 
@@ -69,7 +70,12 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsLi
         }
 
         private void onClick() {
-            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(itemLink)));
+//            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(itemLink)));
+
+            Intent itemWebViewIntent = new Intent(context, ItemViewActivity.class);
+            itemWebViewIntent.setAction(Intent.ACTION_VIEW);
+            itemWebViewIntent.putExtra("LINK", itemLink);
+            context.startActivity(itemWebViewIntent);
         }
 
         private void bind(ItemModel itemModel){

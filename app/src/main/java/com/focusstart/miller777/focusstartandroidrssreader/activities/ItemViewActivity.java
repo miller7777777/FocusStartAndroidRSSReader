@@ -29,6 +29,8 @@ public class ItemViewActivity extends AppCompatActivity {
 
 
 
+
+
         webView = findViewById(R.id.item_web_view);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
@@ -37,7 +39,8 @@ public class ItemViewActivity extends AppCompatActivity {
 
         webView.setWebChromeClient(new WebChromeClient());
 
-        Uri data = getIntent().getData();
+//        Uri data = getIntent().getData();
+        Uri data = Uri.parse(getIntent().getStringExtra("LINK"));
         webView.loadUrl(data.toString());
         webView.saveWebArchive("test.mht");
 //        webView.loadUrl("test.web");
