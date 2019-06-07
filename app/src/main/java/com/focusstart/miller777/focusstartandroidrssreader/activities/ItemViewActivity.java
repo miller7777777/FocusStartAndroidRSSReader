@@ -42,7 +42,9 @@ public class ItemViewActivity extends AppCompatActivity {
 //        Uri data = getIntent().getData();
         Uri data = Uri.parse(getIntent().getStringExtra("LINK"));
         webView.loadUrl(data.toString());
-        webView.saveWebArchive("test.mht");
+        File sdcard = Environment.getExternalStorageDirectory();
+        String path = sdcard.getAbsolutePath() + File.separator ;
+        webView.saveWebArchive(path + "test.mht");
 //        webView.loadUrl("test.web");
 
 
