@@ -60,48 +60,6 @@ public class ChannelListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_channel_list);
 
-        ////
-
-
-
-        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-            externalStorageDir = Environment.getExternalStorageDirectory();
-            if (externalStorageDir != null) {
-                extStorageAppBasePath = new File(externalStorageDir.getAbsolutePath() +
-                        File.separator + "Android" + File.separator + "data" +
-                        File.separator + getPackageName());
-            }
-
-            if (extStorageAppBasePath != null) {
-                extStorageAppCachePath = new File(extStorageAppBasePath.getAbsolutePath() +
-                        File.separator + "cache");
-
-                boolean isCachePathAvailable = true;
-
-                if (!extStorageAppCachePath.exists()) {
-                    isCachePathAvailable = extStorageAppCachePath.mkdirs();
-                }
-
-                if (!isCachePathAvailable) {
-                    extStorageAppCachePath = null;
-                }
-
-
-            }
-        }
-        Log.d(TAG, "extStorageAppBasePath = " + extStorageAppBasePath);
-        Log.d(TAG, "externalStorageDir = " + externalStorageDir);
-        Log.d(TAG, "extStorageAppCachePath = " + extStorageAppCachePath);
-        Log.d(TAG, "Environment.MEDIA_MOUNTED = " + Environment.MEDIA_MOUNTED);
-        Log.d(TAG, "Environment.getExternalStorageState() = " + Environment.getExternalStorageState());
-
-
-        ////
-
-
-
-
-
 
 
         channels = new ArrayList<ChannelModel>();

@@ -87,6 +87,9 @@ public class NewsListActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        readNewsFromDBByChannelLink(channelLink);
+        initView(newsListRecyclerView, newsItems);
+
         receiver = new NewsListActivity.DownloadServiceReceiver();
 
         IntentFilter intentFilter = new IntentFilter(
@@ -145,6 +148,8 @@ public class NewsListActivity extends AppCompatActivity {
                 DataBase db = new DataBase();
                 db.writeNewsOfChannelToDB(newsItems);
             }
+            initView(newsListRecyclerView, newsItems);
+
         }
     }
 
