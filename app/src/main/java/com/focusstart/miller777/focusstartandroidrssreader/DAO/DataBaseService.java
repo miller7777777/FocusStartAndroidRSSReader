@@ -46,6 +46,9 @@ public class DataBaseService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+
+        Constants.databaseServiceOnProcess = true;
+
         if (intent != null) {
 
             String action = intent.getStringExtra("ACTION");
@@ -120,6 +123,7 @@ public class DataBaseService extends IntentService {
         cursor.close();
 
         sendNewsBroadcast(itemList);
+        Constants.databaseServiceOnProcess = false;
     }
 
     private void sendNewsBroadcast(List<ItemModel> itemList) {
@@ -133,6 +137,8 @@ public class DataBaseService extends IntentService {
 
         readNewsIntent.putExtra(Constants.ACTION_SEND_NEWS_LIST_MODEL, itemListModel);
         sendBroadcast(readNewsIntent);
+        Constants.databaseServiceOnProcess = false;
+
 
 
     }
@@ -168,6 +174,8 @@ public class DataBaseService extends IntentService {
 
         db.close();
         dbChannelHelper.close();
+        Constants.databaseServiceOnProcess = false;
+
 
     }
 
@@ -209,6 +217,8 @@ public class DataBaseService extends IntentService {
         ArrayList<ChannelModel> testList = (ArrayList<ChannelModel>) model.getChannels(); //? Зачем?
         readFromDBIntent.putExtra(EXTRA_KEY_OUT_SEND, model);
         sendBroadcast(readFromDBIntent);
+        Constants.databaseServiceOnProcess = false;
+
     }
 
     private void deleteChannelByLink(Intent intent) {
@@ -233,6 +243,8 @@ public class DataBaseService extends IntentService {
 
         db.close();
         dbChannelHelper.close();
+        Constants.databaseServiceOnProcess = false;
+
     }
 
     private void deleteAllNewsOfChannelByChannelLink(Intent intent) {
@@ -252,6 +264,8 @@ public class DataBaseService extends IntentService {
 
         db.close();
         dbChannelHelper.close();
+        Constants.databaseServiceOnProcess = false;
+
     }
 
     private List<ChannelModel> readChannelsFromDB() {
@@ -316,6 +330,8 @@ public class DataBaseService extends IntentService {
 
             db.close();
             dbChannelHelper.close();
+            Constants.databaseServiceOnProcess = false;
+
         }
     }
 

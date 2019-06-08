@@ -4,6 +4,8 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
 
+import com.focusstart.miller777.focusstartandroidrssreader.apps.Constants;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -32,6 +34,7 @@ public class DownloadService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
 
+        Constants.downloadServiceOnProcess = true;
         String url = intent.getStringExtra("baseUrl");
         getData(url);
     }
@@ -66,6 +69,7 @@ public class DownloadService extends IntentService {
 
             reader.close();
             c.disconnect();
+            Constants.downloadServiceOnProcess = false;
 
 
         } catch (ProtocolException e) {

@@ -11,4 +11,7 @@ public final class Constants {
     public static final String EXTRA_OUT_NEWS_SEND_KEY = "com.focusstart.miller777.focusstartandroidrssreader.OUT_NEWS_SEND_KEY";
     public static final String EXTRA_CHANNEL_TITLE_KEY = "com.focusstart.miller777.focusstartandroidrssreader.OUT_CHANNEL_TITLE_KEY";
 
+    public static Boolean downloadServiceOnProcess = false;
+    public static Boolean databaseServiceOnProcess = false;
+
 }
