@@ -17,6 +17,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activities.PrefActivity">
+        </activity>
         <activity android:name=".activities.ItemViewActivity">
         </activity>
         <activity android:name=".activities.AdChannelActivity">
