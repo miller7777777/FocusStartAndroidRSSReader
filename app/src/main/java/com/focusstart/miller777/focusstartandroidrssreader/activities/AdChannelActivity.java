@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -34,6 +35,8 @@ public class AdChannelActivity extends AppCompatActivity {
     ChannelModel channel;
     List<ChannelModel> channels;
     private ChannelListAdapter channelListAdapter;
+    ActionBar actionBar;
+
 
     public static final String ACTION_SEND_LIST_OF_CHANNELS = "com.focusstart.miller777.focusstartandroidrssreader.DAO.SEND_LIST_OF_CHANNELS";
     public static final String EXTRA_KEY_OUT_SEND = "EXTRA_OUT_SEND";
@@ -42,6 +45,10 @@ public class AdChannelActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ad_channel);
+
+        actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle(R.string.add_channel);
 
         channels = new ArrayList<ChannelModel>();
 
@@ -64,6 +71,12 @@ public class AdChannelActivity extends AppCompatActivity {
                 netHelper.processRss();
             }
         });
+    }
+
+    @Override
+    public boolean onSupportNavigateUp(){
+        onBackPressed();
+        return true;
     }
 
     @Override

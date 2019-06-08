@@ -80,7 +80,6 @@ public class ItemViewActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp(){
-//        finish();
         onBackPressed();
         return true;
     }

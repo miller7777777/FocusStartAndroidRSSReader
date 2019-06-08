@@ -56,6 +56,7 @@ public class NewsListActivity extends AppCompatActivity {
         channelTitle = activityIntent.getStringExtra(Constants.EXTRA_CHANNEL_TITLE_KEY);
 
         actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle(channelTitle);
         newsItems = new ArrayList<ItemModel>();
 
@@ -68,6 +69,12 @@ public class NewsListActivity extends AppCompatActivity {
         fetchData();
 
 
+    }
+
+    @Override
+    public boolean onSupportNavigateUp(){
+        onBackPressed();
+        return true;
     }
 
     private void initView(RecyclerView newsListRecyclerView, List<ItemModel> newsItems) {
