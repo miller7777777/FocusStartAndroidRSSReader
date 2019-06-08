@@ -27,8 +27,8 @@ public class RssParser {
 
         this.rss = rss;
         items = new ArrayList<ItemModel>();
-        Log.d("TAG777", "Создан объект парсера");
-        Log.d("TAG777", "Строка передана в парсер: " + rss);
+        Log.d("TAG7777", "Создан объект парсера");
+        Log.d("TAG7777", "Строка передана в парсер: " + rss);
     }
 
     public RssParser(String rss, String channelUrl) {
@@ -196,5 +196,8 @@ public class RssParser {
             e.printStackTrace();
         }
         return channel;
+    }
+
+    public void saveNewsData() {
     }
 }

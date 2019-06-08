@@ -1,18 +1,22 @@
 package com.focusstart.miller777.focusstartandroidrssreader.activities;
 
+import android.annotation.TargetApi;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.focusstart.miller777.focusstartandroidrssreader.R;
+import com.focusstart.miller777.focusstartandroidrssreader.parsers.RssParser;
 
 import java.io.File;
 
@@ -34,7 +38,7 @@ public class ItemViewActivity extends AppCompatActivity {
 
 
         webView = findViewById(R.id.item_web_view);
-        webView.setWebViewClient(new WebViewClient());
+        webView.setWebViewClient(new NewsWebClient());
         webView.setWebChromeClient(new WebChromeClient());
 ////        Uri data = getIntent().getData();
 
@@ -45,9 +49,13 @@ public class ItemViewActivity extends AppCompatActivity {
         webView.getSettings().setJavaScriptEnabled( true );
         webView.getSettings().setCacheMode( WebSettings.LOAD_DEFAULT ); // load online by default
 
-        Uri data = Uri.parse(getIntent().getStringExtra("LINK"));
+        String itemLink = getIntent().getStringExtra("LINK");
+        Uri data = Uri.parse(itemLink);
 
         Log.d(TAG, "isNetworkAvailable = " + isNetworkAvailable());
+        Log.d(TAG, "getApplicationContext().getCacheDir().getAbsolutePath() = " + getApplicationContext().getCacheDir().getAbsolutePath());
+
+//        webView.saveWebArchive("test.mht");
 
 
         if ( !isNetworkAvailable() ) { // loading offline
@@ -55,13 +63,42 @@ public class ItemViewActivity extends AppCompatActivity {
         }
 
         webView.loadUrl(data.toString());
+        //Вызываем парсер и сохраняем данные новости в БД, чтобы отображать в Off-line
+        RssParser parser = new RssParser(itemLink);
+        parser.saveNewsData();
 
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(webView.canGoBack()) {
+            webView.goBack();
+        } else {
+            super.onBackPressed();
+        }
     }
 
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService( CONNECTIVITY_SERVICE );
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    private class NewsWebClient extends WebViewClient {
+
+        @TargetApi(Build.VERSION_CODES.N)
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+            view.loadUrl(request.getUrl().toString());
+            return true;
+        }
+
+        // Для старых устройств
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            view.loadUrl(url);
+            return true;
+        }
     }
 }
