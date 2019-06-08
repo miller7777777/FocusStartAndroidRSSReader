@@ -22,6 +22,7 @@ import com.focusstart.miller777.focusstartandroidrssreader.DAO.DataBase;
 import com.focusstart.miller777.focusstartandroidrssreader.DAO.DataBaseService;
 import com.focusstart.miller777.focusstartandroidrssreader.R;
 import com.focusstart.miller777.focusstartandroidrssreader.adapters.ChannelListAdapter;
+import com.focusstart.miller777.focusstartandroidrssreader.apps.Constants;
 import com.focusstart.miller777.focusstartandroidrssreader.model.ChannelListModel;
 import com.focusstart.miller777.focusstartandroidrssreader.model.ChannelModel;
 import com.focusstart.miller777.focusstartandroidrssreader.model.ItemModel;
@@ -118,6 +119,24 @@ public class ChannelListActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, AdChannelActivity.class);
                 startActivity(intent);
 //                Toast.makeText(this, "Channel added!", Toast.LENGTH_LONG).show();
+                return true;
+            case R.id.action_exit:
+                Log.d(TAG, "Нажали Exit");
+                Log.d(TAG, "Нажали Exit: " + Constants.downloadServiceOnProcess);
+                Log.d(TAG, "Нажали Exit: " + Constants.databaseServiceOnProcess);
+
+                while (Constants.downloadServiceOnProcess || Constants.databaseServiceOnProcess){
+
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                finish();
+//                android.os.Process.killProcess(android.os.Process.myPid());
+                System.exit(0);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
