@@ -62,7 +62,7 @@ public class AdChannelActivity extends AppCompatActivity {
         btnSubscribe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                baseRssUrl = etRSSUrl.getText().toString();
+                baseRssUrl = etRSSUrl.getText().toString().trim();
 
                 //TODO: Проверка на валидность RSS ленты
 
@@ -80,8 +80,8 @@ public class AdChannelActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onPostResume() {
-        super.onPostResume();
+    protected void onResume() {
+        super.onResume();
         downloadServiceReceiver = new DownloadServiceReceiver();
 
         IntentFilter intentFilter = new IntentFilter(
