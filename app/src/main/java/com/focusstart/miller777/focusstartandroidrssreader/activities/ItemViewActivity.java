@@ -6,6 +6,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,6 +24,8 @@ import java.io.File;
 public class ItemViewActivity extends AppCompatActivity {
 
     private WebView webView;
+    ActionBar actionBar;
+    String itemTitle;
 
     private static final String TAG = ItemViewActivity.class.getSimpleName();
 
@@ -32,7 +35,9 @@ public class ItemViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_item_view);
         Log.d(TAG, "onCreate");
 
-
+        actionBar = getSupportActionBar();
+//        actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
 
 
@@ -50,10 +55,13 @@ public class ItemViewActivity extends AppCompatActivity {
         webView.getSettings().setCacheMode( WebSettings.LOAD_DEFAULT ); // load online by default
 
         String itemLink = getIntent().getStringExtra("LINK");
+        itemTitle = getIntent().getStringExtra("TITLE");
+        actionBar.setTitle(itemTitle);
         Uri data = Uri.parse(itemLink);
 
         Log.d(TAG, "isNetworkAvailable = " + isNetworkAvailable());
         Log.d(TAG, "getApplicationContext().getCacheDir().getAbsolutePath() = " + getApplicationContext().getCacheDir().getAbsolutePath());
+        Log.d(TAG, "Title = " + itemTitle);
 
 //        webView.saveWebArchive("test.mht");
 
@@ -68,6 +76,13 @@ public class ItemViewActivity extends AppCompatActivity {
         parser.saveNewsData();
 
 
+    }
+
+    @Override
+    public boolean onSupportNavigateUp(){
+//        finish();
+        onBackPressed();
+        return true;
     }
 
     @Override

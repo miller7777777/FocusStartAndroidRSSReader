@@ -75,6 +75,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsLi
             Intent itemWebViewIntent = new Intent(context, ItemViewActivity.class);
             itemWebViewIntent.setAction(Intent.ACTION_VIEW);
             itemWebViewIntent.putExtra("LINK", itemLink);
+            itemWebViewIntent.putExtra("TITLE", itemTitle.getText());
             context.startActivity(itemWebViewIntent);
         }
 
