@@ -4,6 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -36,6 +38,9 @@ public class AdChannelActivity extends AppCompatActivity {
     List<ChannelModel> channels;
     private ChannelListAdapter channelListAdapter;
     ActionBar actionBar;
+    private SharedPreferences sharedPreferences;
+    Boolean returnToChannelList;
+
 
 
     public static final String ACTION_SEND_LIST_OF_CHANNELS = "com.focusstart.miller777.focusstartandroidrssreader.DAO.SEND_LIST_OF_CHANNELS";
@@ -49,6 +54,9 @@ public class AdChannelActivity extends AppCompatActivity {
         actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle(R.string.add_channel);
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
 
         channels = new ArrayList<ChannelModel>();
 
@@ -89,6 +97,9 @@ public class AdChannelActivity extends AppCompatActivity {
         );
         intentFilter.addCategory(Intent.CATEGORY_DEFAULT);
         registerReceiver(downloadServiceReceiver, intentFilter);
+
+        returnToChannelList = sharedPreferences.getBoolean("return_to_channel_list", true);
+
     }
 
     @Override
@@ -122,7 +133,9 @@ public class AdChannelActivity extends AppCompatActivity {
 
 
 //            Toast.makeText(AdChannelActivity.this, channel.toString(), Toast.LENGTH_LONG).show(); //Для отладки
-            onBackPressed();
+            if (returnToChannelList){
+                onBackPressed();
+            }
         }
     }
 }
