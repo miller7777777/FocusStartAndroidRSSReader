@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.focusstart.miller777.focusstartandroidrssreader.DAO.DataBase;
 import com.focusstart.miller777.focusstartandroidrssreader.R;
 import com.focusstart.miller777.focusstartandroidrssreader.adapters.ChannelListAdapter;
+import com.focusstart.miller777.focusstartandroidrssreader.apps.Constants;
 import com.focusstart.miller777.focusstartandroidrssreader.model.ChannelModel;
 import com.focusstart.miller777.focusstartandroidrssreader.net.DownloadService;
 import com.focusstart.miller777.focusstartandroidrssreader.net.NetHelper;
@@ -72,6 +73,8 @@ public class AdChannelActivity extends AppCompatActivity {
             public void onClick(View view) {
                 baseRssUrl = etRSSUrl.getText().toString().trim();
 
+                btnSubscribe.setEnabled(false);
+
                 //TODO: Проверка на валидность RSS ленты
 
                 //Здесь получаем информацию о канале;
@@ -100,6 +103,8 @@ public class AdChannelActivity extends AppCompatActivity {
 
         returnToChannelList = sharedPreferences.getBoolean("return_to_channel_list", true);
 
+        btnSubscribe.setEnabled(!Constants.downloadServiceOnProcess);
+
     }
 
     @Override
@@ -117,6 +122,8 @@ public class AdChannelActivity extends AppCompatActivity {
 
         @Override
         public void onReceive(Context context, Intent intent) {
+
+            btnSubscribe.setEnabled(true);
             result = intent.getStringExtra(DownloadService.EXTRA_KEY_OUT);
 
             rssText = result;
