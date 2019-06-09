@@ -34,7 +34,7 @@ public class DBChannelHelper extends SQLiteOpenHelper {
                 + ChannelContract.ItemEntry.COLUMN_LINK + " TEXT, "
                 + ChannelContract.ItemEntry.COLUMN_DESCRIPTION + " TEXT, "
                 + ChannelContract.ItemEntry.COLUMN_PUBDATE + " TEXT, "
-                + ChannelContract.ItemEntry.COLUMN_DOWNLOAD_DATE + " TEXT, "
+                + ChannelContract.ItemEntry.COLUMN_DOWNLOAD_DATE + " INTEGER, "
                 + ChannelContract.ItemEntry.COLUMN_CHANNEL_RSS_LINK + " TEXT, "
                 + ChannelContract.ItemEntry.COLUMN_CHANNEL_LINK + " TEXT" + ");";
 
@@ -53,7 +53,7 @@ public class DBChannelHelper extends SQLiteOpenHelper {
                     + ChannelContract.ItemEntry.COLUMN_LINK + " TEXT, "
                     + ChannelContract.ItemEntry.COLUMN_DESCRIPTION + " TEXT, "
                     + ChannelContract.ItemEntry.COLUMN_PUBDATE + " TEXT, "
-                    + ChannelContract.ItemEntry.COLUMN_DOWNLOAD_DATE + " TEXT, "
+                    + ChannelContract.ItemEntry.COLUMN_DOWNLOAD_DATE + " INTEGER, "
                     + ChannelContract.ItemEntry.COLUMN_CHANNEL_LINK + " TEXT);";
 
             db.execSQL(SQL_CREATE_NEWS_TABLE);

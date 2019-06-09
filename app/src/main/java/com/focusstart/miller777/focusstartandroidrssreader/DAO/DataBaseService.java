@@ -109,7 +109,7 @@ public class DataBaseService extends IntentService {
                 String link = cursor.getString(idColLink);
                 String description = cursor.getString(idColDescription);
                 String pubDate = cursor.getString(idColPubDate);
-                String downloadDate = cursor.getString(idColDownloadDate);
+                long downloadDate = cursor.getLong(idColDownloadDate);
                 String channelRssLink = cursor.getString(idColChannelRssLink);
                 String channelLink = cursor.getString(idColChannelLink);
 

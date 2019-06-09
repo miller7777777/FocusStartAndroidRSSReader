@@ -56,7 +56,8 @@ public class RssParser {
 
 //        Date date = new Date();
         long date = System.currentTimeMillis();
-        String downloadDate = String.valueOf(date);
+//        String downloadDate = String.valueOf(date);
+        long downloadDate = System.currentTimeMillis();
 
         try {
             XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
