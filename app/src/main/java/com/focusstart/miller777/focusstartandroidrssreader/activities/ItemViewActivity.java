@@ -17,6 +17,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.focusstart.miller777.focusstartandroidrssreader.R;
+import com.focusstart.miller777.focusstartandroidrssreader.net.NetHelper;
 import com.focusstart.miller777.focusstartandroidrssreader.parsers.RssParser;
 
 import java.io.File;
@@ -59,14 +60,18 @@ public class ItemViewActivity extends AppCompatActivity {
         actionBar.setTitle(itemTitle);
         Uri data = Uri.parse(itemLink);
 
-        Log.d(TAG, "isNetworkAvailable = " + isNetworkAvailable());
         Log.d(TAG, "getApplicationContext().getCacheDir().getAbsolutePath() = " + getApplicationContext().getCacheDir().getAbsolutePath());
         Log.d(TAG, "Title = " + itemTitle);
 
 //        webView.saveWebArchive("test.mht");
 
+        NetHelper netHelper = new NetHelper();
+        Boolean isNetworkAvailable = netHelper.isNetworkAvailable();
 
-        if ( !isNetworkAvailable() ) { // loading offline
+        Log.d(TAG, "isNetworkAvailable = " + isNetworkAvailable);
+
+
+        if ( !isNetworkAvailable ) { // loading offline
             webView.getSettings().setCacheMode( WebSettings.LOAD_CACHE_ELSE_NETWORK);
         }
 
@@ -93,11 +98,11 @@ public class ItemViewActivity extends AppCompatActivity {
         }
     }
 
-    private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService( CONNECTIVITY_SERVICE );
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-    }
+//    private boolean isNetworkAvailable() {
+//        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService( CONNECTIVITY_SERVICE );
+//        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+//        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+//    }
 
     private class NewsWebClient extends WebViewClient {
 

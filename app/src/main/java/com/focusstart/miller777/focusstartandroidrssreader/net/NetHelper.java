@@ -1,8 +1,12 @@
 package com.focusstart.miller777.focusstartandroidrssreader.net;
 
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 import com.focusstart.miller777.focusstartandroidrssreader.apps.App;
+
+import static android.content.Context.CONNECTIVITY_SERVICE;
 
 
 public class NetHelper {
@@ -15,11 +19,21 @@ public class NetHelper {
         this.baseRssUrl = baseRssUrl;
     }
 
+    public NetHelper() {
+
+    }
+
 
     public void processRss() {
 
         Intent intentDownloadService = new Intent(App.getContext(), DownloadService.class);
         intentDownloadService.putExtra("baseUrl", baseRssUrl);
         App.getContext().startService(intentDownloadService);
+    }
+
+    public boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) App.getContext().getSystemService( CONNECTIVITY_SERVICE );
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }
