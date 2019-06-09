@@ -1,13 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <CheckBoxPreference
-        android:key="notif"
-        android:summary="Enable notifications"
-        android:title="Notifications">
-    </CheckBoxPreference>
+
     <EditTextPreference
-        android:key="address"
-        android:summary="Address for notifications"
-        android:title="Address">
+        android:key="cash_life"
+        android:summary="Cache retention period (days)"
+        android:title="Cash life time">
     </EditTextPreference>
+
+    <CheckBoxPreference
+        android:key="update_immediatelly"
+        android:summary="Update records immediately"
+        android:title="Update records">
+    </CheckBoxPreference>
+
+    <CheckBoxPreference
+        android:key="return_to_channel_list"
+        android:summary="Return automatically to the channel list after adding a channel"
+        android:title="Return to channel list">
+    </CheckBoxPreference>
+
+    <CheckBoxPreference
+        android:key="use_system_browser"
+        android:summary="Use the system browser to view news"
+        android:title="Use system browser">
+    </CheckBoxPreference>
+
 </PreferenceScreen>
