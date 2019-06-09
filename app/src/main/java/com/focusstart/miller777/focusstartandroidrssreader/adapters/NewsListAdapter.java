@@ -2,9 +2,12 @@ package com.focusstart.miller777.focusstartandroidrssreader.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,10 +24,14 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsLi
 
     private Context context;
     private List<ItemModel> newsItems;
+    private SharedPreferences sharedPreferences;
+    private static final String TAG = NewsListAdapter.class.getSimpleName();
+
 
     public NewsListAdapter(Context context, List<ItemModel> newsItems) {
         this.context = context;
         this.newsItems = newsItems;
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
 
@@ -58,7 +65,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsLi
         TextView itemDate;
         String itemLink;
 
-        public NewsListViewHolder( View itemView) {
+        public NewsListViewHolder(View itemView) {
 
             super(itemView);
 
@@ -70,16 +77,24 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsLi
         }
 
         private void onClick() {
-//            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(itemLink)));
 
-            Intent itemWebViewIntent = new Intent(context, ItemViewActivity.class);
-            itemWebViewIntent.setAction(Intent.ACTION_VIEW);
-            itemWebViewIntent.putExtra("LINK", itemLink);
-            itemWebViewIntent.putExtra("TITLE", itemTitle.getText());
-            context.startActivity(itemWebViewIntent);
+            Boolean useSystemBrowser = sharedPreferences.getBoolean("use_system_browser", false);
+            Log.d(TAG, "useSystemBrowser = " + useSystemBrowser);
+
+            if (useSystemBrowser) {
+                context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(itemLink)));
+            } else {
+                Intent itemWebViewIntent = new Intent(context, ItemViewActivity.class);
+                itemWebViewIntent.setAction(Intent.ACTION_VIEW);
+                itemWebViewIntent.putExtra("LINK", itemLink);
+                itemWebViewIntent.putExtra("TITLE", itemTitle.getText());
+                context.startActivity(itemWebViewIntent);
+            }
+
+
         }
 
-        private void bind(ItemModel itemModel){
+        private void bind(ItemModel itemModel) {
 
             itemTitle.setText(itemModel.getTitle());
             itemDescription.setText(itemModel.getDescription());
