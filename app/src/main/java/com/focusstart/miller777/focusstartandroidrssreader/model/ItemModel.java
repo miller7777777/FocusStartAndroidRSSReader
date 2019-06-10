@@ -41,7 +41,6 @@ public class ItemModel implements Serializable {
     }
 
     public ItemModel() {
-
     }
 
     public String getTitle() {
@@ -102,7 +101,6 @@ public class ItemModel implements Serializable {
 
     @Override
     public String toString() {
-
 
         String result = this.getTitle() + "  ( " + this.getPubDate() + " )";
 

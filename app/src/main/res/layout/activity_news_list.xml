@@ -9,23 +9,10 @@
     android:orientation="vertical"
     tools:context=".activities.NewsListActivity">
 
-    <!--<Button-->
-        <!--android:id="@+id/btn_fetchRss"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginRight="10dip"-->
-        <!--android:text="Fetch Rss"-->
-        <!--/>-->
-
-
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/newsListRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
     </android.support.v7.widget.RecyclerView>
-
-
 
 </LinearLayout>

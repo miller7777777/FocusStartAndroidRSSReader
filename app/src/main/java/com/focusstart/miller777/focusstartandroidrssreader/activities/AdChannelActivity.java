@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import com.focusstart.miller777.focusstartandroidrssreader.DAO.DataBase;
 import com.focusstart.miller777.focusstartandroidrssreader.R;
 import com.focusstart.miller777.focusstartandroidrssreader.adapters.ChannelListAdapter;
@@ -23,26 +22,23 @@ import com.focusstart.miller777.focusstartandroidrssreader.model.ChannelModel;
 import com.focusstart.miller777.focusstartandroidrssreader.net.DownloadService;
 import com.focusstart.miller777.focusstartandroidrssreader.net.NetHelper;
 import com.focusstart.miller777.focusstartandroidrssreader.parsers.RssParser;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class AdChannelActivity extends AppCompatActivity {
 
-    EditText etRSSUrl;
-    Button btnSubscribe;
-    TextView label;
-    String baseRssUrl;
-    String rssText;
-    DownloadServiceReceiver downloadServiceReceiver;
-    ChannelModel channel;
-    List<ChannelModel> channels;
+    private EditText etRSSUrl;
+    private Button btnSubscribe;
+    private TextView label;
+    private String baseRssUrl;
+    private String rssText;
+    private DownloadServiceReceiver downloadServiceReceiver;
+    private ChannelModel channel;
+    private List<ChannelModel> channels;
     private ChannelListAdapter channelListAdapter;
-    ActionBar actionBar;
+    private ActionBar actionBar;
     private SharedPreferences sharedPreferences;
-    Boolean returnToChannelList;
-
-
+    private Boolean returnToChannelList;
 
     public static final String ACTION_SEND_LIST_OF_CHANNELS = "com.focusstart.miller777.focusstartandroidrssreader.DAO.SEND_LIST_OF_CHANNELS";
     public static final String EXTRA_KEY_OUT_SEND = "EXTRA_OUT_SEND";
@@ -55,20 +51,13 @@ public class AdChannelActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Uri uri = intent.getData();
 
-
-
-//        Log.d("TAG7777", uri.toString());
-
         actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle(R.string.add_channel);
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-
         channels = new ArrayList<ChannelModel>();
-
-
 
         etRSSUrl = findViewById(R.id.et_rssURL);
         label = findViewById(R.id.channel_label);
@@ -76,7 +65,6 @@ public class AdChannelActivity extends AppCompatActivity {
         if (uri != null) {
             etRSSUrl.setText(uri.toString());
         }
-
 
         btnSubscribe = findViewById(R.id.btn_subscribe);
         btnSubscribe.setOnClickListener(new View.OnClickListener() {
@@ -127,16 +115,15 @@ public class AdChannelActivity extends AppCompatActivity {
     private class DownloadServiceReceiver extends BroadcastReceiver {
 
         public String result;
-        ChannelModel channel;
-        List<ChannelModel> channels;
-        String rssText;
+        public ChannelModel channel;
+        public List<ChannelModel> channels;
+        public String rssText;
 
         @Override
         public void onReceive(Context context, Intent intent) {
 
             btnSubscribe.setEnabled(true);
             result = intent.getStringExtra(DownloadService.EXTRA_KEY_OUT);
-
             rssText = result;
             channels = new ArrayList<ChannelModel>();
 
@@ -147,10 +134,7 @@ public class AdChannelActivity extends AppCompatActivity {
 
             DataBase dataBase = new DataBase();
             dataBase.writeToDB(channel);
-//            initView(ChannelListRecyclerView, channels);
 
-
-//            Toast.makeText(AdChannelActivity.this, channel.toString(), Toast.LENGTH_LONG).show(); //Для отладки
             if (returnToChannelList){
                 onBackPressed();
             }

@@ -17,7 +17,6 @@
         android:paddingStart="@dimen/recycler_view_start_end_padding"
         android:paddingEnd="@dimen/recycler_view_start_end_padding">
 
-
         <TextView
             android:id="@+id/channel_list_item_title"
             android:layout_width="match_parent"
@@ -29,7 +28,6 @@
             android:lines="1"
             android:requiresFadingEdge="horizontal"
             tools:text="Разработка под Android – Пишем под самую популярную мобильную ОС"/>
-
 
         <TextView
             android:id="@+id/channel_list_item_description"
@@ -55,7 +53,6 @@
             android:lines="1"
             android:requiresFadingEdge="horizontal"
             tools:text="13 May 2019 23:29:50 +0000"/>
-
 
     </RelativeLayout>
 

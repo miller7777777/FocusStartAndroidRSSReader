@@ -6,13 +6,11 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.focusstart.miller777.focusstartandroidrssreader.DAO.DataBase;
 import com.focusstart.miller777.focusstartandroidrssreader.activities.NewsListActivity;
 import com.focusstart.miller777.focusstartandroidrssreader.R;
@@ -50,7 +48,6 @@ public class ChannelListAdapter extends RecyclerView.Adapter<ChannelListAdapter.
         holder.bind(channels.get(position));
     }
 
-
     @Override
     public int getItemCount() {
         return channels.size();
@@ -58,11 +55,11 @@ public class ChannelListAdapter extends RecyclerView.Adapter<ChannelListAdapter.
 
     class ChannelListViewHolder extends RecyclerView.ViewHolder {
 
-        TextView itemTitle;
-        TextView itemDescription;
-        TextView itemDate;
-        String itemLink;
-        String itemRssLink;
+        private TextView itemTitle;
+        private TextView itemDescription;
+        private TextView itemDate;
+        private String itemLink;
+        private String itemRssLink;
 
 
         public ChannelListViewHolder(View itemView) {
@@ -78,14 +75,10 @@ public class ChannelListAdapter extends RecyclerView.Adapter<ChannelListAdapter.
 
         private void onClick() {
 
-
             Intent newsListActivityIntent = new Intent(context, NewsListActivity.class);
             newsListActivityIntent.putExtra("CHANNEL_RSS_URL", itemRssLink);
             newsListActivityIntent.putExtra("CHANNEL_URL", itemLink);
             newsListActivityIntent.putExtra(Constants.EXTRA_CHANNEL_TITLE_KEY, itemTitle.getText());
-            Log.d(TAG, "itemRssLink = " + itemRssLink);
-            Log.d(TAG, "itemLink = " + itemLink);
-            Log.d(TAG, "title = " + itemTitle.getText());
             context.startActivity(newsListActivityIntent);
         }
 
@@ -101,7 +94,6 @@ public class ChannelListAdapter extends RecyclerView.Adapter<ChannelListAdapter.
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     dialogInterface.cancel();
                                     Toast.makeText(context, "Deleted! " + itemTitle.getText(), Toast.LENGTH_LONG).show();
-
                                     deleteChannel(itemLink);
                                 }
                             });
@@ -111,7 +103,6 @@ public class ChannelListAdapter extends RecyclerView.Adapter<ChannelListAdapter.
         }
 
         private void deleteChannel(String itemLink) {
-            Log.d(TAG, "Удалить канал: " + itemLink);
             DataBase db = new DataBase();
             db.deleteChannelByLink(itemLink);
         }
@@ -124,13 +115,5 @@ public class ChannelListAdapter extends RecyclerView.Adapter<ChannelListAdapter.
             itemLink = channel.getLink();
             itemRssLink = channel.getRssLink();
         }
-
-//        @Override
-//        public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
-//            contextMenu.setHeaderTitle("Select The Action");
-//            contextMenu.add(0, view.getId(), 0, "Delete channel");
-//        }
-
-
     }
 }

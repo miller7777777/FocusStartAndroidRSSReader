@@ -30,8 +30,5 @@ public final class ChannelContract {
         public static final String COLUMN_DOWNLOAD_DATE = "downloadDate";
         public static final String COLUMN_CHANNEL_LINK = "channelLink";
         public static final String COLUMN_CHANNEL_RSS_LINK = "channelRssLink";
-
-
-
     }
 }

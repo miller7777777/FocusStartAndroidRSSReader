@@ -7,12 +7,6 @@
     tools:context=".activities.AdChannelActivity"
     android:orientation="vertical">
 
-    <!--Пока кнопка для добавления RSS здесь-->
-    <!--Потом будет вынесена куда-нибудь в SnackBar или NavigationDriver-->
-    <!--А поле ввода будет выводиться в новой активити-->
-
-
-    <!--TODO: Убрать TextView, вместо него обернуть EditText в TextInputLayout-->
     <TextView
         android:id="@+id/channel_label"
         android:layout_width="match_parent"
@@ -20,15 +14,12 @@
         android:text="Enter RSS URL:"
         />
 
-    <!--здесь пока захардкодим-->
-
     <EditText
         android:id="@+id/et_rssURL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:drawable/editbox_background"
         android:hint="@string/subscribe_invitation"
-        android:text="https://news.yandex.ru/internet.rss"
         />
 
     <Button

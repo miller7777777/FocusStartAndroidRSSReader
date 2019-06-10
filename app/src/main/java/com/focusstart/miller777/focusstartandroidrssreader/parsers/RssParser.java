@@ -1,14 +1,10 @@
 package com.focusstart.miller777.focusstartandroidrssreader.parsers;
 
-import android.util.Log;
-
 import com.focusstart.miller777.focusstartandroidrssreader.model.ChannelModel;
 import com.focusstart.miller777.focusstartandroidrssreader.model.ItemModel;
-
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
-
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -16,19 +12,16 @@ import java.util.Date;
 import java.util.List;
 
 public class RssParser {
-    String rss;
-    String channelUrl;
-    String channelRssUrl;
-
-    List<ItemModel> items;
-    ChannelModel channel;
+    private String rss;
+    private String channelUrl;
+    private String channelRssUrl;
+    private List<ItemModel> items;
+    private ChannelModel channel;
 
     public RssParser(String rss) {
 
         this.rss = rss;
         items = new ArrayList<ItemModel>();
-        Log.d("TAG7777", "Создан объект парсера");
-        Log.d("TAG7777", "Строка передана в парсер: " + rss);
     }
 
     public RssParser(String rss, String channelUrl) {
@@ -36,9 +29,6 @@ public class RssParser {
         this.rss = rss;
         this.channelUrl = channelUrl;
         items = new ArrayList<ItemModel>();
-        Log.d("TAG777", "Создан объект парсера");
-        Log.d("TAG777", "Строка передана в парсер: " + rss);
-        Log.d("TAG777", "Парсер: channelUrl " + channelUrl);
     }
 
     public RssParser(String rss, String channelUrl, String channelRssUrl) {
@@ -47,16 +37,13 @@ public class RssParser {
         this.channelUrl = channelUrl;
         this.channelRssUrl = channelRssUrl;
         items = new ArrayList<ItemModel>();
-
     }
 
     //Объект класса парсит строку и формирует список объектов ItemModel
 
     public List<ItemModel> getRssItems() {
 
-//        Date date = new Date();
         long date = System.currentTimeMillis();
-//        String downloadDate = String.valueOf(date);
         long downloadDate = System.currentTimeMillis();
 
         try {
@@ -74,13 +61,9 @@ public class RssParser {
             while (eventType != XmlPullParser.END_DOCUMENT) {
                 if (eventType == XmlPullParser.START_TAG) {
 
-
                     if (xpp.getName().equalsIgnoreCase("item")) {
 
                         itemModel = new ItemModel();
-//                        itemModel.setChannelRssLink(channelUrl);
-                        Log.d("TAG777", "Создан пустой item");
-
                         insideItem = true;
 
                     } else if (xpp.getName().equalsIgnoreCase("title")) {
@@ -89,29 +72,19 @@ public class RssParser {
 
                             String title = xpp.nextText();
                             itemModel.setTitle(title);
-                            Log.d("TAG777", "Title = " + title);
-
-
                         }
                     } else if (xpp.getName().equalsIgnoreCase("link")) {
                         if (insideItem) {
-
                             String link = xpp.nextText();
                             itemModel.setLink(link);
-                            Log.d("TAG777", "Link = " + link);
-
                         }
                     } else if (xpp.getName().equalsIgnoreCase("description")) {
                         if (insideItem) {
-
                             String description = xpp.nextText();
                             itemModel.setDescription(description);
-                            Log.d("TAG777", "Description = " + description);
-
                         }
                     } else if (xpp.getName().equalsIgnoreCase("pubDate")) {
                         if (insideItem) {
-
                             String pubDate = xpp.nextText();
                             itemModel.setPubDate(pubDate);
                         }
@@ -124,10 +97,8 @@ public class RssParser {
                     itemModel.setDownloadDate(downloadDate);
                     items.add(itemModel);
                 }
-
                 eventType = xpp.next();
             }
-
         } catch (XmlPullParserException | IOException e) {
             e.printStackTrace();
         }
@@ -145,17 +116,14 @@ public class RssParser {
 
             boolean insideItem = false;
 
-
             int eventType = xpp.getEventType();
 
             while (eventType != XmlPullParser.END_DOCUMENT) {
                 if (eventType == XmlPullParser.START_TAG) {
 
-
                     if (xpp.getName().equalsIgnoreCase("channel")) {
 
                         channel = new ChannelModel("", "", "", "", channelUrl);
-
                         insideItem = true;
 
                     } else if (xpp.getName().equalsIgnoreCase("title")) {
@@ -197,8 +165,5 @@ public class RssParser {
             e.printStackTrace();
         }
         return channel;
-    }
-
-    public void saveNewsData() {
     }
 }

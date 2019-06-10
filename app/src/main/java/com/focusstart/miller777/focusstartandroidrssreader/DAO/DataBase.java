@@ -2,8 +2,6 @@ package com.focusstart.miller777.focusstartandroidrssreader.DAO;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
-
 import com.focusstart.miller777.focusstartandroidrssreader.apps.App;
 import com.focusstart.miller777.focusstartandroidrssreader.apps.Constants;
 import com.focusstart.miller777.focusstartandroidrssreader.model.ChannelModel;
@@ -21,9 +19,7 @@ public class DataBase {
 
     private Context context;
     private ChannelModel channel;
-    public List<ItemModel> newsOfChannel;
-
-    public static final String TAG = DataBase.class.getSimpleName();
+    private List<ItemModel> newsOfChannel;
 
     public DataBase() {
         this.context = App.getContext();
@@ -46,40 +42,22 @@ public class DataBase {
 
     public void deleteChannelByLink(String itemLink) {
 
-        Log.d(TAG, "Получили itemLink: " + itemLink);
-//        deleteAllNewsAtChannelByChannelLink(itemLink);
-        //TODO: сделать реализацию удаления канала из таблицы каналов
         Intent deleteChannelsFromDBIntent = new Intent(App.getContext(), DataBaseService.class);
         deleteChannelsFromDBIntent.putExtra("ACTION", ACTION_DELETE_CHANNELS_FROM_DB_BY_LINK);
         deleteChannelsFromDBIntent.putExtra("LINK", itemLink);
         App.getContext().startService(deleteChannelsFromDBIntent);
-
     }
 
     private void deleteAllNewsAtChannelByChannelLink(String itemLink) {
-        //TODO: сделать реализацию удаления всех новостей канала из таблицы новостей
+
         Intent deleteNewsFromDBIntent = new Intent(App.getContext(), DataBaseService.class);
         deleteNewsFromDBIntent.putExtra("ACTION", Constants.ACTION_DELETE_NEWS_FROM_DB);
         deleteNewsFromDBIntent.putExtra("LINK", itemLink);
-
     }
 
     public void writeNewsOfChannelToDB(List<ItemModel> rssItems) {
         newsOfChannel = rssItems;
 
-        //////
-        for (ItemModel news : newsOfChannel) {
-            Log.d(TAG, "News " + "Title: " + news.getTitle() + "\n"
-                                    + "Description: " + news.getDescription() + "\n"
-                                    + "Link: " + news.getLink() + "\n"
-                                    + "PubDate: " + news.getPubDate() + "\n"
-                                    + "ChannelLink: " + news.getChannelLink() + "\n"
-                                    + "DownloadDate: " + news.getDownloadDate() + "\n"
-                                    + "ChannelRssLink: " + news.getChannelRssLink() + "\n"
-                                    + "\n\n\n"
-            );
-        }
-        /////
         ItemListModel newsListModel = new ItemListModel(newsOfChannel);
         Intent writeNewsToDBIntent = new Intent(App.getContext(), DataBaseService.class);
         writeNewsToDBIntent.putExtra("ACTION", Constants.ACTION_WRITE_NEWS_TO_DB);

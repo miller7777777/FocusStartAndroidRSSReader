@@ -2,10 +2,7 @@ package com.focusstart.miller777.focusstartandroidrssreader.net;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.util.Log;
-
 import com.focusstart.miller777.focusstartandroidrssreader.apps.Constants;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -19,8 +16,7 @@ public class DownloadService extends IntentService {
     public static final String ACTION_DOWNLOADSERVICE = "com.focusstart.miller777.focusstartandroidrssreader.net.RESPONCE";
     public static final String EXTRA_KEY_OUT = "EXTRA_OUT";
     public static final String EXTRA_KEY_URL = "EXTRA_URL";
-    String extraOut = "данные загружены из сети";
-
+    public String extraOut = "данные загружены из сети";
 
     public DownloadService() {
         super("DownloadService");
@@ -65,12 +61,10 @@ public class DownloadService extends IntentService {
             responseIntent.putExtra(EXTRA_KEY_URL, answer);
             responseIntent.putExtra(EXTRA_KEY_OUT, answer);
             sendBroadcast(responseIntent);
-            Log.d("TAG777", "DownloadService: кладем в intent: " + answer);
 
             reader.close();
             c.disconnect();
             Constants.downloadServiceOnProcess = false;
-
 
         } catch (ProtocolException e) {
             e.printStackTrace();

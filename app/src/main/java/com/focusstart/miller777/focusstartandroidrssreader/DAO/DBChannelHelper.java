@@ -3,7 +3,6 @@ package com.focusstart.miller777.focusstartandroidrssreader.DAO;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
 import com.focusstart.miller777.focusstartandroidrssreader.apps.App;
 
 public class DBChannelHelper extends SQLiteOpenHelper {
@@ -11,7 +10,6 @@ public class DBChannelHelper extends SQLiteOpenHelper {
     private Context context = App.getContext();
     private static final String DATABASE_NAME = "channels.db";
     private static final int DATABASE_VERSION = 2;
-
 
     public DBChannelHelper() {
         super(App.getContext(), DATABASE_NAME, null, DATABASE_VERSION);

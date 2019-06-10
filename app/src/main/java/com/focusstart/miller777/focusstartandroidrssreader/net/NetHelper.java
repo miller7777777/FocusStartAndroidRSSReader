@@ -1,11 +1,10 @@
 package com.focusstart.miller777.focusstartandroidrssreader.net;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-
 import com.focusstart.miller777.focusstartandroidrssreader.apps.App;
-
 import static android.content.Context.CONNECTIVITY_SERVICE;
 
 
@@ -13,6 +12,11 @@ public class NetHelper {
     //Объект класса загружает RSS ленту
 
     private String baseRssUrl;
+    private Context context;
+
+    public NetHelper(Context context) {
+        this.context = context;
+    }
 
     public NetHelper(String baseRssUrl) {
 
@@ -22,7 +26,6 @@ public class NetHelper {
     public NetHelper() {
 
     }
-
 
     public void processRss() {
 

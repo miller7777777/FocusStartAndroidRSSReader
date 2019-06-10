@@ -1,33 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/channel_list_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".activities.ChannelListActivity">
 
-
-    <!--<Button-->
-        <!--android:id="@+id/btn_read_from_db"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginRight="10dip"-->
-        <!--android:text="Read from DB"-->
-        <!--/>-->
-
-
-
-
     <android.support.v7.widget.RecyclerView
-          android:id="@+id/channelListRecyclerView"
+        android:id="@+id/channelListRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
     </android.support.v7.widget.RecyclerView>
-
 
 
 </LinearLayout>

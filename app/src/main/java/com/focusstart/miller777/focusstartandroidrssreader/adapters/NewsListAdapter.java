@@ -7,17 +7,14 @@ import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import com.focusstart.miller777.focusstartandroidrssreader.R;
 import com.focusstart.miller777.focusstartandroidrssreader.activities.ItemViewActivity;
 import com.focusstart.miller777.focusstartandroidrssreader.activities.NewsListActivity;
 import com.focusstart.miller777.focusstartandroidrssreader.model.ItemModel;
-
 import java.util.List;
 
 public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsListViewHolder> {
@@ -27,13 +24,11 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsLi
     private SharedPreferences sharedPreferences;
     private static final String TAG = NewsListAdapter.class.getSimpleName();
 
-
     public NewsListAdapter(Context context, List<ItemModel> newsItems) {
         this.context = context;
         this.newsItems = newsItems;
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
-
 
     @NonNull
     @Override
@@ -60,15 +55,14 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsLi
 
     class NewsListViewHolder extends RecyclerView.ViewHolder {
 
-        TextView itemTitle;
-        TextView itemDescription;
-        TextView itemDate;
-        String itemLink;
+        private TextView itemTitle;
+        private TextView itemDescription;
+        private TextView itemDate;
+        private String itemLink;
 
         public NewsListViewHolder(View itemView) {
 
             super(itemView);
-
             itemTitle = itemView.findViewById(R.id.news_list_item_title);
             itemDescription = itemView.findViewById(R.id.news_list_item_description);
             itemDate = itemView.findViewById(R.id.news_list_item_date);
@@ -79,7 +73,6 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsLi
         private void onClick() {
 
             Boolean useSystemBrowser = sharedPreferences.getBoolean("use_system_browser", false);
-            Log.d(TAG, "useSystemBrowser = " + useSystemBrowser);
 
             if (useSystemBrowser) {
                 context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(itemLink)));
@@ -90,8 +83,6 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsLi
                 itemWebViewIntent.putExtra("TITLE", itemTitle.getText());
                 context.startActivity(itemWebViewIntent);
             }
-
-
         }
 
         private void bind(ItemModel itemModel) {

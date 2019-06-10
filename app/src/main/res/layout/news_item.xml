@@ -8,7 +8,6 @@
                                     android:layout_margin="4dp"
                                     app:cardCornerRadius="4dp">
 
-
     <RelativeLayout
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/news_relative_layout"
@@ -16,7 +15,6 @@
         android:layout_height="@dimen/recycler_view_item_height"
         android:paddingStart="@dimen/recycler_view_start_end_padding"
         android:paddingEnd="@dimen/recycler_view_start_end_padding">
-
 
         <TextView
             android:id="@+id/news_list_item_title"
@@ -29,7 +27,6 @@
             android:lines="1"
             android:requiresFadingEdge="horizontal"
             tools:text="Разработка под Android – Пишем под самую популярную мобильную ОС"/>
-
 
         <TextView
             android:id="@+id/news_list_item_description"
@@ -55,7 +52,6 @@
             android:lines="1"
             android:requiresFadingEdge="horizontal"
             tools:text="13 May 2019 23:29:50 +0000"/>
-
 
     </RelativeLayout>
 

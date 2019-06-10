@@ -1,7 +1,7 @@
 package com.focusstart.miller777.focusstartandroidrssreader.apps;
 
 public final class Constants {
-    //Этот класс служит хранилищем стринговых констант - ключей;
+    //Этот класс служит хранилищем стринговых констант - ключей и флагов сервисов;
 
     public static final String ACTION_WRITE_NEWS_TO_DB = "com.focusstart.miller777.focusstartandroidrssreader.WRITE_NEWS_TO_DB";
     public static final String ACTION_READ_NEWS_FROM_DB = "com.focusstart.miller777.focusstartandroidrssreader.READ_NEWS_FROM_DB";

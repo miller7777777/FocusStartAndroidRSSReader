@@ -9,11 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
-
 import com.focusstart.miller777.focusstartandroidrssreader.DAO.DataBase;
 import com.focusstart.miller777.focusstartandroidrssreader.R;
 import com.focusstart.miller777.focusstartandroidrssreader.adapters.NewsListAdapter;
@@ -23,7 +20,6 @@ import com.focusstart.miller777.focusstartandroidrssreader.model.ItemModel;
 import com.focusstart.miller777.focusstartandroidrssreader.net.DownloadService;
 import com.focusstart.miller777.focusstartandroidrssreader.net.NetHelper;
 import com.focusstart.miller777.focusstartandroidrssreader.parsers.RssParser;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -32,17 +28,16 @@ public class NewsListActivity extends AppCompatActivity {
 
     private static final String TAG = NewsListActivity.class.getSimpleName();
 
-    RecyclerView newsListRecyclerView;
+    private RecyclerView newsListRecyclerView;
     private NewsListAdapter newsListAdapter;
-    //    Button btnFetchRss;
-    DownloadServiceReceiver receiver;
-    DataBaseServiceReceiver dataBaseServiceReceiver;
-    String channelLink;
-    String channelRssLink;
-    String channelTitle;
-    List<ItemModel> newsItems;
-    String rssText;
-    ActionBar actionBar;
+    private DownloadServiceReceiver receiver;
+    private DataBaseServiceReceiver dataBaseServiceReceiver;
+    private String channelLink;
+    private String channelRssLink;
+    private String channelTitle;
+    private List<ItemModel> newsItems;
+    private String rssText;
+    private ActionBar actionBar;
 
 
     @Override
@@ -60,19 +55,16 @@ public class NewsListActivity extends AppCompatActivity {
         actionBar.setTitle(channelTitle);
         newsItems = new ArrayList<ItemModel>();
 
-
         newsListRecyclerView = findViewById(R.id.newsListRecyclerView);
 
         readNewsFromDBByChannelLink(channelLink);
         initView(newsListRecyclerView, newsItems);
 
         fetchData();
-
-
     }
 
     @Override
-    public boolean onSupportNavigateUp(){
+    public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
     }
@@ -117,16 +109,12 @@ public class NewsListActivity extends AppCompatActivity {
         super.onPause();
         unregisterReceiver(receiver);
         unregisterReceiver(dataBaseServiceReceiver);
-        Log.d(TAG, "onPause сработал");
     }
 
     private void fetchData() {
         newsItems = new ArrayList<ItemModel>();
 
-        //Здесь надо первоначально заполнять из базы
-        //запрашиваем из сети список ItemModel
         NetHelper netHelper = new NetHelper(channelRssLink);
-//        NetHelper netHelper = new NetHelper("https://news.yandex.ru/auto.rss");
         netHelper.processRss();
     }
 
@@ -143,22 +131,17 @@ public class NewsListActivity extends AppCompatActivity {
             newsText = result;
 
             //парсим результат
-            Log.d(TAG, "Перед вызовом парсера: channelLink = " + channelLink);
             RssParser parser = new RssParser(newsText, channelLink, channelRssLink);
 
             newsItems = parser.getRssItems();
 
             initView(newsListRecyclerView, newsItems);
 
-            Log.d("TAG777", "NewsListActivity: onReceive(): rssItems.size() = " + newsItems.size());
-            Toast.makeText(NewsListActivity.this, newsText, Toast.LENGTH_LONG).show(); //Для отладки
-
             if (newsItems != null && newsItems.size() > 0) {
                 DataBase db = new DataBase();
                 db.writeNewsOfChannelToDB(newsItems);
             }
             initView(newsListRecyclerView, newsItems);
-
         }
     }
 
@@ -174,12 +157,7 @@ public class NewsListActivity extends AppCompatActivity {
             if (itemListModel != null) {
                 newsItems = itemListModel.getNewsItems();
                 initView(newsListRecyclerView, newsItems);
-                Toast.makeText(NewsListActivity.this, "Получено " + newsItems.size() + " новостей", Toast.LENGTH_LONG).show(); //Для отладки
-                Log.d(TAG, "Получено " + newsItems.size() + " новостей");
-
             }
-
-
         }
     }
 }

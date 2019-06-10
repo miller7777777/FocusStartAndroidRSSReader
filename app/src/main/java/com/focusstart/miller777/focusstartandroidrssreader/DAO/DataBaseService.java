@@ -6,15 +6,12 @@ import android.content.Intent;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
-
 import com.focusstart.miller777.focusstartandroidrssreader.apps.App;
 import com.focusstart.miller777.focusstartandroidrssreader.apps.Constants;
 import com.focusstart.miller777.focusstartandroidrssreader.model.ChannelListModel;
 import com.focusstart.miller777.focusstartandroidrssreader.model.ChannelModel;
 import com.focusstart.miller777.focusstartandroidrssreader.model.ItemListModel;
 import com.focusstart.miller777.focusstartandroidrssreader.model.ItemModel;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,17 +23,15 @@ public class DataBaseService extends IntentService {
     public static final String ACTION_DELETE_CHANNELS_FROM_DB_BY_LINK = "com.focusstart.miller777.focusstartandroidrssreader.DAO.deleteChannelsFromDBByLink";
     public static final String EXTRA_KEY_OUT = "EXTRA_OUT";
     public static final String EXTRA_KEY_OUT_SEND = "EXTRA_OUT_SEND";
-    String extraOut = "данные записаны в базу";
+    private String extraOut = "данные записаны в базу";
     private Context context;
     private final String TAG = DataBaseService.class.getSimpleName();
-    List<ChannelModel> channelList;
-    List<ItemModel> itemList;
-
+    private List<ChannelModel> channelList;
+    private List<ItemModel> itemList;
 
     public DataBaseService() {
         super("DataBaseService");
         this.context = App.getContext();
-
     }
 
     @Override
@@ -83,7 +78,6 @@ public class DataBaseService extends IntentService {
     private void readNewsFromDBAndSendBroadcastMessage(Intent intent) {
 
         String channellink = intent.getStringExtra("CHANNELLINK");
-        Log.d(TAG, "Получили из интента channelLink: " + channellink);
 
         DBChannelHelper dbChannelHelper = new DBChannelHelper();
         SQLiteDatabase db = dbChannelHelper.getWritableDatabase();
@@ -134,13 +128,9 @@ public class DataBaseService extends IntentService {
         Intent readNewsIntent = new Intent();
         readNewsIntent.setAction(Constants.ACTION_SEND_LIST_OF_NEWS);
         readNewsIntent.addCategory(Intent.CATEGORY_DEFAULT);
-
         readNewsIntent.putExtra(Constants.ACTION_SEND_NEWS_LIST_MODEL, itemListModel);
         sendBroadcast(readNewsIntent);
         Constants.databaseServiceOnProcess = false;
-
-
-
     }
 
     private void writeNewsToDB(Intent intent) {
@@ -175,8 +165,6 @@ public class DataBaseService extends IntentService {
         db.close();
         dbChannelHelper.close();
         Constants.databaseServiceOnProcess = false;
-
-
     }
 
     private boolean checkDBContainsNewsWithLink(SQLiteDatabase db, String link) {
@@ -218,13 +206,11 @@ public class DataBaseService extends IntentService {
         readFromDBIntent.putExtra(EXTRA_KEY_OUT_SEND, model);
         sendBroadcast(readFromDBIntent);
         Constants.databaseServiceOnProcess = false;
-
     }
 
     private void deleteChannelByLink(Intent intent) {
 
         String channelLink = intent.getStringExtra("LINK");
-//        Log.d(TAG, "Получили линк канала: " + channelLink);
 
         deleteAllNewsOfChannelByChannelLink(intent);
 
@@ -235,16 +221,12 @@ public class DataBaseService extends IntentService {
                 + "\'"
                 + channelLink
                 + "\'";
-//        Log.d(TAG, "SQL_COMMAND_DELETE_CHANNEL_BY_LINK = " + SQL_COMMAND_DELETE_CHANNEL_BY_LINK);
-
 
         int delCount = db.delete(ChannelContract.ChannelEntry.TABLE_NAME, SQL_COMMAND_DELETE_CHANNEL_BY_LINK, null);
-//        Log.d(TAG, "deleted rows count = " + delCount);
 
         db.close();
         dbChannelHelper.close();
         Constants.databaseServiceOnProcess = false;
-
     }
 
     private void deleteAllNewsOfChannelByChannelLink(Intent intent) {
@@ -260,12 +242,10 @@ public class DataBaseService extends IntentService {
                 + "\'";
 
         int delCount = db.delete(ChannelContract.ItemEntry.TABLE_NAME, SQL_COMMAND_DELETE_NEWS_BY_CHANNELLINK, null);
-//        Log.d(TAG, "deleted news rows count = " + delCount);
 
         db.close();
         dbChannelHelper.close();
         Constants.databaseServiceOnProcess = false;
-
     }
 
     private List<ChannelModel> readChannelsFromDB() {
