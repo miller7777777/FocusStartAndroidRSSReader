@@ -113,13 +113,13 @@ public class ChannelListActivity extends AppCompatActivity {
         switch (id) {
             case R.id.action_settings:
                 //Обработка настроек
-                Intent intent = new Intent(this, PrefActivity.class);
-                startActivity(intent);
+                Intent prefIntent = new Intent(this, PrefActivity.class);
+                startActivity(prefIntent);
                 return true;
             case R.id.action_add_channel:
                 //Запуск AdChannelActivity
-                Intent prefIntent = new Intent(this, AdChannelActivity.class);
-                startActivity(prefIntent);
+                Intent addChannelIntent = new Intent(this, AdChannelActivity.class);
+                startActivity(addChannelIntent);
 //                Toast.makeText(this, "Channel added!", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.action_exit:

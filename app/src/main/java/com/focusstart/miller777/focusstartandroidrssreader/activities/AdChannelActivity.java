@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -13,7 +14,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.focusstart.miller777.focusstartandroidrssreader.DAO.DataBase;
 import com.focusstart.miller777.focusstartandroidrssreader.R;
@@ -50,7 +50,14 @@ public class AdChannelActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ad_channel);
+        setContentView(R.layout.activity_add_channel);
+
+        Intent intent = getIntent();
+        Uri uri = intent.getData();
+
+
+
+//        Log.d("TAG7777", uri.toString());
 
         actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -65,6 +72,10 @@ public class AdChannelActivity extends AppCompatActivity {
 
         etRSSUrl = findViewById(R.id.et_rssURL);
         label = findViewById(R.id.channel_label);
+
+        if (uri != null) {
+            etRSSUrl.setText(uri.toString());
+        }
 
 
         btnSubscribe = findViewById(R.id.btn_subscribe);
